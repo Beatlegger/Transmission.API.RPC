@@ -28,4 +28,4 @@ C# implementation of the Transmission RPC API.
 | queue-move-up        |   | x |
 | queue-move-down      |   | x |
 | queue-move-bottom    |   | x |
-| free-space           | x |   |
+| free-space           |   | x |
