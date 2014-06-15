@@ -434,6 +434,28 @@ namespace Transsmission.API.RPC
             sendRequest(request);    
         }
 
+        /// <summary>
+        /// Get free space is available in a client-specified folder.
+        /// </summary>
+        /// <param name="path">The directory to query</param>
+        public TransmissionFreeSpace FreeSpace(string path)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("path", path);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "free-space",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            var response = sendRequest(request);
+            var result = deserializeArguments<TransmissionFreeSpace>(response.Arguments);
+            return result;
+        }
+
+
         #region Private
         private TransmissionTorrents torrentsGet(Dictionary<string, object> arguments)
         {

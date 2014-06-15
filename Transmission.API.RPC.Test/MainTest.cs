@@ -126,6 +126,13 @@ namespace Transmission.API.RPC.Test
             client.TorrentsQueueMoveBottom(new int[] { 41 });
         }
 
+        [TestMethod]
+        public void FreeSpace()
+        {
+            var result = client.FreeSpace("./");
+        }
+
+
         public string ConvertToBase64(Stream stream)
         {
             Byte[] inArray = new Byte[(int)stream.Length];

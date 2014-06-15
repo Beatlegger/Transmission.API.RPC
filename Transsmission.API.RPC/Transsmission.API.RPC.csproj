@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Entity\TransmissionFreeSpace.cs" />
     <Compile Include="Entity\TransmissionNewTorrent.cs" />
     <Compile Include="Entity\TransmissionSession.cs" />
     <Compile Include="Entity\TransmissionTorrent.cs" />
