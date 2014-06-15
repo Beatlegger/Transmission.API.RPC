@@ -4,6 +4,7 @@ using Transsmission.API.RPC;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Transsmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC.Test
 {
@@ -49,12 +50,18 @@ namespace Transmission.API.RPC.Test
         [TestMethod]
         public void AddTorrent()
         {
-            string filePath = "D:\\test.torrent";
-
+            var filePath = "D:\\test.torrent";
             var fstream = File.Open(filePath, FileMode.Open);
             var base64 = ConvertToBase64(fstream);
+            TransmissionNewTorrent newTorrent = new TransmissionNewTorrent
+            {
+                Metainfo = base64,
+                Paused = false,
+                //TODO: Add and check other arguments
+                //<...>
+            };
 
-            var result = client.AddTorrent(base64);
+            var result = client.AddTorrent(newTorrent);
         }
 
         [TestMethod]

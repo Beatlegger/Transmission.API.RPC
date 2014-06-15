@@ -19,7 +19,7 @@ namespace Transsmission.API.RPC
 
         public string SessionID;
 
-        //TODO Remove fields
+        //TODO: Remove fields
         #region Fields
         public string[] AllTorrentsFields = new string[]
         {
@@ -152,10 +152,13 @@ namespace Transsmission.API.RPC
         /// Simple method to add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
-        public TransmissionTorrent AddTorrent(string base64Content)
+        public TransmissionTorrent AddTorrent(TransmissionNewTorrent torrent)
         {
             var args = new Dictionary<string, object>();
-            args.Add("metainfo", base64Content);
+            args.Add("metainfo", torrent.Metainfo);
+            args.Add("paused", torrent.Paused);
+            //TODO: Add other arguments 
+            //<...>
 
             TransmissionRequest request = new TransmissionRequest
             {
