@@ -266,7 +266,7 @@ namespace Transsmission.API.RPC
         /// <summary>
         /// Start torrents (API: torrent-start)
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="ids">Torrents id</param>
         public void StartTorrents(int[] ids)
         {
             var requestArguments = new Dictionary<string, object>();
@@ -285,7 +285,7 @@ namespace Transsmission.API.RPC
         /// <summary>
         /// Start now torrents (API: torrent-start-now)
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="ids">Torrents id</param>
         public void StartNowTorrents(int[] ids)
         {
             var requestArguments = new Dictionary<string, object>();
@@ -304,7 +304,7 @@ namespace Transsmission.API.RPC
         /// <summary>
         /// Stop torrents (API: torrent-stop)
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="ids">Torrents id</param>
         public void StopTorrents(int[] ids)
         {
             var requestArguments = new Dictionary<string, object>();
@@ -323,7 +323,7 @@ namespace Transsmission.API.RPC
         /// <summary>
         /// Verify torrents (API: torrent-verify)
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="ids">Torrents id</param>
         public void VerifyTorrents(int[] ids)
         {
             var requestArguments = new Dictionary<string, object>();
@@ -337,6 +337,82 @@ namespace Transsmission.API.RPC
             };
 
             sendRequest(request);    
+        }
+
+        /// <summary>
+        /// Move torrents in queue on top (API: queue-move-top)
+        /// </summary>
+        /// <param name="ids">Torrents id</param>
+        public void TorrentsQueueMoveTop(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "queue-move-top",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
+        /// <summary>
+        /// Move up torrents in queue (API: queue-move-up)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void TorrentsQueueMoveUp(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "queue-move-up",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
+        /// <summary>
+        /// Move down torrents in queue (API: queue-move-down)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void TorrentsQueueMoveDown(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "queue-move-down",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
+        /// <summary>
+        /// Move torrents to bottom in queue  (API: queue-move-bottom)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void TorrentsQueueMoveBottom(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "queue-move-bottom",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
         }
 
         /// <summary>

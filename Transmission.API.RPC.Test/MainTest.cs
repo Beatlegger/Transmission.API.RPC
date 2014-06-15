@@ -102,6 +102,30 @@ namespace Transmission.API.RPC.Test
             client.TorrentsRemove(ids);
         }
 
+        [TestMethod]
+        public void TorrentsQueueMoveTop()
+        {
+            client.TorrentsQueueMoveTop(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void TorrentsQueueMoveUp()
+        {
+            client.TorrentsQueueMoveUp(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void TorrentsQueueMoveDown()
+        {
+            client.TorrentsQueueMoveDown(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void TorrentsQueueMoveBottom()
+        {
+            client.TorrentsQueueMoveBottom(new int[] { 41 });
+        }
+
         public string ConvertToBase64(Stream stream)
         {
             Byte[] inArray = new Byte[(int)stream.Length];
