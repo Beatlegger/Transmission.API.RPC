@@ -66,8 +66,11 @@ namespace Transsmission.API.RPC.Entity
         [JsonProperty("etaIdle")]
         public int ETAIdle;
 
-        //files                       | array (see below)           | n/a
-        //fileStats                   | array (see below)           | n/a
+        [JsonProperty("files")]
+        public TransmissionTorrentFiles[] Files;
+
+        [JsonProperty("fileStats")]
+        public TransmissionTorrentFileStats[] FileStats;
 
         [JsonProperty("hashString")]
         public string HashString;
@@ -111,12 +114,14 @@ namespace Transsmission.API.RPC.Entity
         [JsonProperty("peer-limit")]
         public int PeerLimit;
 
-        //peers                       | array (see below)           | n/a
+        [JsonProperty("peers")]
+        public TransmissionTorrentPeers[] Peers;
 
         [JsonProperty("peersConnected")]
         public int PeersConnected;
 
-        //peersFrom                   | object (see below)          | n/a
+        [JsonProperty("peersFrom")]
+        public TransmissionTorrentPeersFrom PeersFrom;
 
         [JsonProperty("peersSendingToUs")]
         public int PeersSendingToUs;
@@ -133,7 +138,8 @@ namespace Transsmission.API.RPC.Entity
         [JsonProperty("PieceSize")]
         public int PieceSize;
 
-        //priorities                  | array (see below)           | n/a
+        [JsonProperty("priorities")]
+        public int[] Priorities;
 
         [JsonProperty("queuePosition")]
         public int QueuePosition;
@@ -174,9 +180,11 @@ namespace Transsmission.API.RPC.Entity
         [JsonProperty("Status")]
         public int Status;
 
-        //trackers                    | array (see below)           | n/a
+        [JsonProperty("trackers")]
+        public TransmissionTorrentTrackers[] Trackers;
 
-        //trackerStats                | array (see below)           | n/a
+        [JsonProperty("trackerStats")]
+        TransmissionTorrentTrackerStats[] TrackerStats;
 
         [JsonProperty("totalSize")]
         public long TotalSize;
@@ -196,12 +204,205 @@ namespace Transsmission.API.RPC.Entity
         [JsonProperty("uploadRatio")]
         public double uploadRatio;
 
-        //wanted                      | array (see below)           | n/a
+        [JsonProperty("wanted")]
+        public bool[] Wanted;
 
-        //webseeds                    | array (see below)           | n/a
+        [JsonProperty("webseeds")]
+        public string[] Webseeds;
 
         [JsonProperty("webseedsSendingToUs")]
         public int WebseedsSendingToUs;
+    }
+
+    public class TransmissionTorrentFiles
+    {
+        [JsonProperty("bytesCompleted")]
+        public double BytesCompleted;
+
+        [JsonProperty("length")]
+        public double Length;
+
+        [JsonProperty("name")]
+        public string Name;
+    }
+
+    public class TransmissionTorrentFileStats
+    {
+        [JsonProperty("bytesCompleted")]
+        public double BytesCompleted;
+
+        [JsonProperty("wanted")]
+        public bool Wanted;
+
+        [JsonProperty("priority")]
+        public int Priority;
+    }
+
+    public class TransmissionTorrentPeers
+    {
+        [JsonProperty("address")]
+        public string Address;
+
+        [JsonProperty("clientName")]
+        public string ClientName;
+
+        [JsonProperty("clientIsChoked")]
+        public bool ClientIsChoked;
+
+        [JsonProperty("clientIsInterested")]
+        public bool ClientIsInterested;
+
+        [JsonProperty("flagStr")]
+        public string FlagStr;
+
+        [JsonProperty("isDownloadingFrom")]
+        public bool IsDownloadingFrom;
+
+        [JsonProperty("isEncrypted")]
+        public bool IsEncrypted;
+
+        [JsonProperty("isUploadingTo")]
+        public bool IsUploadingTo;
+
+        [JsonProperty("isUTP")]
+        public bool IsUTP;
+
+        [JsonProperty("peerIsChoked")]
+        public bool PeerIsChoked;
+
+        [JsonProperty("peerIsInterested")]
+        public bool PeerIsInterested;
+
+        [JsonProperty("port")]
+        public int Port;
+
+        [JsonProperty("progress")]
+        public double Progress;
+
+        [JsonProperty("rateToClient")]
+        public int RateToClient;
+
+        [JsonProperty("rateToPeer")]
+        public int RateToPeer;
+    }
+
+    public class TransmissionTorrentPeersFrom
+    {
+        [JsonProperty("fromDht")]
+        public int FromDHT;
+
+        [JsonProperty("fromIncoming")]
+        public int FromIncoming;
+
+        [JsonProperty("fromLpd")]
+        public int FromLPD;
+
+        [JsonProperty("fromLtep")]
+        public int FromLTEP;
+
+        [JsonProperty("fromPex")]
+        public int FromPEX;
+
+        [JsonProperty("fromTracker")]
+        public int FromTracker;
+    }
+
+    public class TransmissionTorrentTrackers
+    {
+
+        [JsonProperty("announce")]
+        public string announce;
+
+        [JsonProperty("id")]
+        public int ID;
+
+        [JsonProperty("scrape")]
+        public string Scrape;
+
+        [JsonProperty("tier")]
+        public int Tier;
+    }
+
+    public class TransmissionTorrentTrackerStats
+    {
+
+        [JsonProperty("announce")]
+        public string announce;
+
+        [JsonProperty("announceState")]
+        public int AnnounceState;
+
+        [JsonProperty("downloadCount")]
+        public int DownloadCount;
+
+        [JsonProperty("hasAnnounced")]
+        public bool HasAnnounced;
+
+        [JsonProperty("hasScraped")]
+        public bool HasScraped;
+
+        [JsonProperty("host")]
+        public string Host;
+
+        [JsonProperty("isBackup")]
+        public bool IsBackup;
+
+        [JsonProperty("lastAnnouncePeerCount")]
+        public int LastAnnouncePeerCount;
+
+        [JsonProperty("id")]
+        public int ID;
+
+        [JsonProperty("lastAnnounceResult")]
+        public string LastAnnounceResult;
+
+        [JsonProperty("lastAnnounceSucceeded")]
+        public bool LastAnnounceSucceeded;
+
+        [JsonProperty("lastAnnounceStartTime")]
+        public int LastAnnounceStartTime;
+
+        [JsonProperty("lastScrapeResult")]
+        public string LastScrapeResult;
+
+        [JsonProperty("lastAnnounceTimedOut")]
+        public bool LastAnnounceTimedOut;
+
+        [JsonProperty("lastAnnounceTime")]
+        public int LastAnnounceTime;
+
+        [JsonProperty("lastScrapeSucceeded")]
+        public bool LastScrapeSucceeded;
+
+        [JsonProperty("lastScrapeStartTime")]
+        public int LastScrapeStartTime;
+
+        [JsonProperty("lastScrapeTimedOut")]
+        public bool LastScrapeTimedOut;
+
+        [JsonProperty("lastScrapeTime")]
+        public int LastScrapeTime;
+
+        [JsonProperty("scrape")]
+        public string Scrape;
+
+        [JsonProperty("tier")]
+        public int Tier;
+
+        [JsonProperty("leecherCount")]
+        public int LeecherCount;
+
+        [JsonProperty("nextAnnounceTime")]
+        public int NextAnnounceTime;
+
+        [JsonProperty("nextScrapeTime")]
+        public int NextScrapeTime;
+
+        [JsonProperty("scrapeState")]
+        public int ScrapeState;
+
+        [JsonProperty("seederCount")]
+        public int SeederCount;
     }
 
     //TODO: Separate "remove" and "active" torrents in "torrentsGet"
