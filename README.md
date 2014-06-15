@@ -24,8 +24,8 @@ C# implementation of the Transmission RPC API.
 | blocklist-update     | x |   |
 | port-test            |   | x |
 | session-close        | x |   |
-| queue-move-top       | x |   |
-| queue-move-up        | x |   |
-| queue-move-down      | x |   |
-| queue-move-bottom    | x |   |
+| queue-move-top       |   | x |
+| queue-move-up        |   | x |
+| queue-move-down      |   | x |
+| queue-move-bottom    |   | x |
 | free-space           | x |   |
