@@ -242,7 +242,6 @@ namespace Transsmission.API.RPC
             return torrentsGet(requestArguments);
         }
 
-
         /// <summary>
         /// Remove torrents
         /// </summary>
@@ -262,6 +261,101 @@ namespace Transsmission.API.RPC
             };
 
             sendRequest(request);
+        }
+
+        /// <summary>
+        /// Start torrents (API: torrent-start)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void StartTorrents(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-start",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);    
+        }
+
+        /// <summary>
+        /// Start now torrents (API: torrent-start-now)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void StartNowTorrents(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-start-now",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);      
+        }
+
+        /// <summary>
+        /// Stop torrents (API: torrent-stop)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void StopTorrents(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-stop",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);      
+        }
+
+        /// <summary>
+        /// Verify torrents (API: torrent-verify)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void VerifyTorrents(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-verify",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);    
+        }
+
+        /// <summary>
+        /// Reannounce torrent (API: torrent-reannounce)
+        /// </summary>
+        /// <param name="ids"></param>
+        public void ReannounceTorrents(int[] ids)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-reannounce",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);    
         }
 
         #region Private

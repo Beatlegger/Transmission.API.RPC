@@ -65,6 +65,36 @@ namespace Transmission.API.RPC.Test
         }
 
         [TestMethod]
+        public void StartTorrent()
+        {
+            client.StartTorrents(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void StopTorrent()
+        {
+            client.StopTorrents(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void StartNow()
+        {
+            client.StartNowTorrents(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void ReannounceTorrents()
+        {
+            client.ReannounceTorrents(new int[] { 41 });
+        }
+
+        [TestMethod]
+        public void VerifyTorrents()
+        {
+            client.VerifyTorrents(new int[] { 41 });
+        }
+
+        [TestMethod]
         public void RemoveTorrent()
         {
             var ids = new int[]{40};
