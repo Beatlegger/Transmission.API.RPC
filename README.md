@@ -20,7 +20,7 @@ C# implementation of the Transmission RPC API.
 | torrent-rename-path  | x |   |
 | session-set          | x |   |
 | session-get          |   | x |
-| session-stats        | x |   |
+| session-stats        |   | x |
 | blocklist-update     | x |   |
 | port-test            |   | x |
 | session-close        |   | x |
