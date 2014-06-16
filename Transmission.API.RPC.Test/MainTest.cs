@@ -132,6 +132,12 @@ namespace Transmission.API.RPC.Test
             var result = client.FreeSpace("./");
         }
 
+        [TestMethod]
+        public void SessionStat()
+        {
+            var result = client.GetSessionStat();
+        }
+
 
         public string ConvertToBase64(Stream stream)
         {

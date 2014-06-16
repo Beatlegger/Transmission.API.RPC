@@ -120,14 +120,14 @@ namespace Transsmission.API.RPC
         /// Close current session (API: session-close)
         /// </summary>
         public void CloseSession()
-        { 
+        {
             TransmissionRequest request = new TransmissionRequest()
             {
                 Method = "session-close",
                 Tag = 0,
             };
 
-            sendRequest(request);        
+            sendRequest(request);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Transsmission.API.RPC
                 Tag = 0,
             };
 
-            sendRequest(request);    
+            sendRequest(request);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace Transsmission.API.RPC
                 Tag = 0,
             };
 
-            sendRequest(request);      
+            sendRequest(request);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Transsmission.API.RPC
                 Tag = 0,
             };
 
-            sendRequest(request);      
+            sendRequest(request);
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Transsmission.API.RPC
                 Tag = 0,
             };
 
-            sendRequest(request);    
+            sendRequest(request);
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace Transsmission.API.RPC
                 Tag = 0,
             };
 
-            sendRequest(request);    
+            sendRequest(request);
         }
 
         /// <summary>
@@ -455,6 +455,18 @@ namespace Transsmission.API.RPC
             return result;
         }
 
+        public TransmissionSessionStat GetSessionStat()
+        {
+            TransmissionRequest request = new TransmissionRequest()
+           {
+               Method = "session-stats",
+               Tag = 0,
+           };
+
+            var response = sendRequest(request);
+            var result = deserializeArguments<TransmissionSessionStat>(response.Arguments);
+            return result;
+        }
 
         #region Private
         private TransmissionTorrents torrentsGet(Dictionary<string, object> arguments)

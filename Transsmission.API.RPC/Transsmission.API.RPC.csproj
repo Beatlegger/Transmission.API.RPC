@@ -47,6 +47,7 @@
     <Compile Include="Entity\TransmissionFreeSpace.cs" />
     <Compile Include="Entity\TransmissionNewTorrent.cs" />
     <Compile Include="Entity\TransmissionSession.cs" />
+    <Compile Include="Entity\TransmissionSessionStat.cs" />
     <Compile Include="Entity\TransmissionTorrent.cs" />
     <Compile Include="Entity\TransmissionUnits.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
