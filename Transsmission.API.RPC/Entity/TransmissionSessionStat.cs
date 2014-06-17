@@ -10,42 +10,42 @@ namespace Transsmission.API.RPC.Entity
     public class TransmissionSessionStat
     {
         [JsonProperty("activeTorrentCount")]
-        public int ActiveTorrentCount;
+        public int ActiveTorrentCount { get; set; }
 
         [JsonProperty("downloadSpeed")]
-        public int downloadSpeed;
+        public int downloadSpeed{ get; set; }
 
         [JsonProperty("pausedTorrentCount")]
-        public int pausedTorrentCount;
+        public int pausedTorrentCount{ get; set; }
 
         [JsonProperty("torrentCount")]
-        public int torrentCount;
+        public int torrentCount{ get; set; }
 
         [JsonProperty("uploadSpeed")]
-        public int uploadSpeed;
+        public int uploadSpeed{ get; set; }
    
         [JsonProperty("cumulative-stats")]
-        public TransmissionCommonStats CumulativeStats;
+        public TransmissionCommonStats CumulativeStats{ get; set; }
  
         [JsonProperty("current-stats")]
-        public TransmissionCommonStats CurrentStats;
+        public TransmissionCommonStats CurrentStats{ get; set; }
     }
 
     public class TransmissionCommonStats
     {
         [JsonProperty("uploadedBytes")]
-        public double uploadedBytes;
+        public double uploadedBytes{ get; set; }
         
         [JsonProperty("downloadedBytes")]
-        public double DownloadedBytes;
+        public double DownloadedBytes{ get; set; }
 
         [JsonProperty("filesAdded")]
-        public int FilesAdded;
+        public int FilesAdded{ get; set; }
 
         [JsonProperty("SessionCount")]
-        public int SessionCount;
+        public int SessionCount{ get; set; }
 
         [JsonProperty("SecondsActive")]
-        public int SecondsActive;
+        public int SecondsActive{ get; set; }
     }
 }

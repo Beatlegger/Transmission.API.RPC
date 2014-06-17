@@ -10,9 +10,9 @@ namespace Transsmission.API.RPC.Entity
     public class TransmissionFreeSpace
     {
         [JsonProperty("path")]
-        public string Path;
+        public string Path{ get; set; }
 
         [JsonProperty("size-bytes")]
-        public long SizeBytes;
+        public long SizeBytes{ get; set; }
     }
 }

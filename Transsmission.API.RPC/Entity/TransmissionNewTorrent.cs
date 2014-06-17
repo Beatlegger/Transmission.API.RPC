@@ -16,72 +16,72 @@ namespace Transsmission.API.RPC.Entity
         /// Pointer to a string of one or more cookies.
         /// </summary>
         [JsonProperty("cookies")]
-        public string Cookies;
+        public string Cookies{ get; set; }
 
         /// <summary>
         /// Path to download the torrent to
         /// </summary>
         [JsonProperty("download-dir")]
-        public string DownloadDirectory;
+        public string DownloadDirectory{ get; set; }
 
         /// <summary>
         /// filename or URL of the .torrent file
         /// </summary>
         [JsonProperty("filename")]
-        public string Filename;
+        public string Filename{ get; set; }
 
         /// <summary>
         /// base64-encoded .torrent content
         /// </summary>
         [JsonProperty("metainfo")]
-        public string Metainfo;
+        public string Metainfo{ get; set; }
 
         /// <summary>
         /// if true, don't start the torrent
         /// </summary>
         [JsonProperty("paused")]
-        public bool Paused;
+        public bool Paused{ get; set; }
 
         /// <summary>
         /// maximum number of peers
         /// </summary>
         [JsonProperty("peer-limit")]
-        public int PeerLimit;
+        public int PeerLimit{ get; set; }
 
         /// <summary>
         /// Torrent's bandwidth priority
         /// </summary>
         [JsonProperty("bandwidthPriority")]
-        public int BandwidthPriority;
+        public int BandwidthPriority{ get; set; }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
         [JsonProperty("files-wanted")]
-        public string[] FilesWanted;
+        public string[] FilesWanted{ get; set; }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
         [JsonProperty("files-unwanted")]
-        public string[] FilesUnwanted;
+        public string[] FilesUnwanted{ get; set; }
 
         /// <summary>
         /// Indices of high-priority file(s)
         /// </summary>
         [JsonProperty("priority-high")]
-        public string[] PriorityHigh;
+        public string[] PriorityHigh{ get; set; }
 
         /// <summary>
         /// Indices of low-priority file(s)
         /// </summary>
         [JsonProperty("priority-low")]
-        public string[] PriorityLow;
+        public string[] PriorityLow{ get; set; }
 
         /// <summary>
         /// Indices of normal-priority file(s)
         /// </summary>
         [JsonProperty("priority-normal")]
-        public string[] PriorityNormal;
+        public string[] PriorityNormal{ get; set; }
     }
 }
