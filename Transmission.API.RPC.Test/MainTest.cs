@@ -162,6 +162,12 @@ namespace Transmission.API.RPC.Test
             var size = client.BlocklistUpdate();
         }
 
+        [TestMethod]
+        public void RenameTorrentPath()
+        {
+            client.RenameTorrentPath(1, "/home/lucky13", "download");
+        }
+
         public string ConvertToBase64(Stream stream)
         {
             Byte[] inArray = new Byte[(int)stream.Length];

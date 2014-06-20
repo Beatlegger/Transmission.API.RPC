@@ -472,6 +472,29 @@ namespace Transsmission.API.RPC
         }
 
         /// <summary>
+        /// [UNTESTED!] Rename a file or directory in a torrent (API: torrent-rename-path)
+        /// </summary>
+        /// <param name="ids">The torrent whose path will be renamed</param>
+        /// <param name="path">The path to the file or folder that will be renamed</param>
+        /// <param name="name">The file or folder's new name</param>
+        public void RenameTorrentPath(int id, string path, string name)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", new int[] { id });
+            requestArguments.Add("path", path);
+            requestArguments.Add("name", name);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-rename-path",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
+        /// <summary>
         /// Reannounce torrent (API: torrent-reannounce)
         /// </summary>
         /// <param name="ids"></param>
