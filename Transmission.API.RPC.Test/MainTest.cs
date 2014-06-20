@@ -12,7 +12,7 @@ namespace Transmission.API.RPC.Test
     public class MainTest
     {
         const string SESSION_ID = "eyCd0F1Yxc1ljG4GbROe3542HH6PneD3NjcqmXtnKT6E5Y6b";
-        const string HOST = "http://192.168.1.103:9091/transmission/rpc";
+        const string HOST = "http://192.168.1.50:9091/transmission/rpc";
 
         public Client client = new Client();
 
@@ -30,15 +30,11 @@ namespace Transmission.API.RPC.Test
         }
 
         [TestMethod]
-        public void GetActiveTorrents()
-        {         
-            var activeTorrents = client.GetActiveTorrents(client.AllTorrentsFields);
-        }
-
-        [TestMethod]
-        public void GetAllTorrents()
+        public void GetTorrents()
         {
-            var allTorrents = client.GetAllTorrents(client.AllTorrentsFields);
+            var manyTorrent = client.GetTorrents(client.AllTorrentsFields, new int[] { 1, 2 });
+            var allTorrents = client.GetTorrents(client.AllTorrentsFields);
+            var manyFields = client.GetTorrents(new string[] { "id", "error" });
         }
 
         [TestMethod]

@@ -225,42 +225,27 @@ namespace Transsmission.API.RPC
         /// Get fields of torrents from ids (API: torrent-get)
         /// </summary>
         /// <param name="fields">Fields of torrents</param>
-        /// <param name="ids">IDs of torrents</param>
+        /// <param name="ids">IDs of torrents (null or empty for get all torrents)</param>
         /// <returns>Torrents info</returns>
-        public TransmissionTorrents GetTorrents(string[] fields, int[] ids)
+        public TransmissionTorrents GetTorrents(string[] fields, int[] ids = null)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
-            requestArguments.Add("fields", fields);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("fields", fields);
 
-            return torrentsGet(requestArguments);
-        }
+            if (ids != null && ids.Length > 0)
+                arguments.Add("ids", ids);
 
-        /// <summary>
-        /// Get fields of recently active torrents (API: torrent-get)
-        /// </summary>
-        /// <param name="fields">Fields of torrents</param>
-        /// <returns>Recently active torrents info</returns>
-        public TransmissionTorrents GetActiveTorrents(string[] fields)
-        {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", "recently-active");
-            requestArguments.Add("fields", fields);
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-get",
+                Arguments = arguments,
+                Tag = 0,
+            };
 
-            return torrentsGet(requestArguments);
-        }
+            var response = sendRequest(request);
+            var result = deserializeArguments<TransmissionTorrents>(response.Arguments);
 
-        /// <summary>
-        /// Get fields of all torrents (API: torrent-get)
-        /// </summary>
-        /// <param name="fields">torrent fields</param>
-        /// <returns>All torrents info</returns>
-        public TransmissionTorrents GetAllTorrents(string[] fields)
-        {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("fields", fields);
-
-            return torrentsGet(requestArguments);
+            return result;
         }
 
         /// <summary>
@@ -454,7 +439,7 @@ namespace Transsmission.API.RPC
         /// <param name="ids">Torrent ids</param>
         /// <param name="location">The new torrent location</param>
         /// <param name="move">Move from previous location</param>
-        public void SetLocationTorrents(int [] ids, string location, bool move)
+        public void SetLocationTorrents(int[] ids, string location, bool move)
         {
             var requestArguments = new Dictionary<string, object>();
             requestArguments.Add("ids", ids);
@@ -562,20 +547,6 @@ namespace Transsmission.API.RPC
         }
 
         #region Private
-        private TransmissionTorrents torrentsGet(Dictionary<string, object> arguments)
-        {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-get",
-                Arguments = arguments,
-                Tag = 0,
-            };
-
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionTorrents>(response.Arguments);
-
-            return result;
-        }
 
         private T deserializeArguments<T>(Dictionary<string, object> arguments)
         {
