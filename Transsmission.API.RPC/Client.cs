@@ -249,18 +249,6 @@ namespace Transsmission.API.RPC
         }
 
         /// <summary>
-        /// Get full information of all torrents (API: torrent-get)
-        /// </summary>
-        /// <returns>Full information of all torrents </returns>
-        public TransmissionTorrents GetAllTorrents()
-        {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("fields", AllTorrentsFields);
-
-            return torrentsGet(requestArguments);
-        }
-
-        /// <summary>
         /// Remove torrents
         /// </summary>
         /// <param name="ids">Torrents id</param>
