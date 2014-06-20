@@ -12,9 +12,9 @@ C# implementation of the Transmission RPC API.
 | torrent-stop         |   | x |
 | torrent-verify       |   | x |
 | torrent-reannounce   |   | x |
-| torrent-set          | x |   |
+| torrent-set          | x | x |
 | torrent-get          |   | x |
-| torrent-add          |   | x |
+| torrent-add          | x | x |
 | torrent-remove       |   | x |
 | torrent-set-location | x |   |
 | torrent-rename-path  | x |   |
