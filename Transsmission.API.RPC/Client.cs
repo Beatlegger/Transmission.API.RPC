@@ -491,6 +491,33 @@ namespace Transsmission.API.RPC
         }
 
         /// <summary>
+        /// Update blocklist (API: blocklist-update)
+        /// </summary>
+        public int BlocklistUpdate()
+        {
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "blocklist-update",
+                Tag = 0,
+            };
+
+            var response = sendRequest(request);
+
+            var result = 0;
+
+            if (response.Result != "success")
+                throw new Exception(response.Result);
+            else
+            {
+                var jObject = deserializeArguments<JObject>(response.Arguments);
+                result = (int)jObject.GetValue("blocklist-size");
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Get free space is available in a client-specified folder.
         /// </summary>
         /// <param name="path">The directory to query</param>

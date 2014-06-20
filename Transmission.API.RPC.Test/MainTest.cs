@@ -153,7 +153,13 @@ namespace Transmission.API.RPC.Test
         [TestMethod]
         public void TorrentsSetLocation()
         {
-            client.SetLocationTorrents(new int[] { 1 }, "/home/lucky13/Загрузки", false);
+            client.SetLocationTorrents(new int[] { 1 }, "/home/download/", false);
+        }
+
+        [TestMethod]
+        public void BlocklistUpdate()
+        {
+            var size = client.BlocklistUpdate();
         }
 
         public string ConvertToBase64(Stream stream)
