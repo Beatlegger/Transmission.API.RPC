@@ -94,7 +94,7 @@ namespace Transsmission.API.RPC.Entity
         public bool IsStalled { get; set; }
 
         [JsonProperty("leftUntilDone")]
-        public int LeftUntilDone { get; set; }
+        public long LeftUntilDone { get; set; }
 
         [JsonProperty("MagnetLink")]
         public string MagnetLink { get; set; }

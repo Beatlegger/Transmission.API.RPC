@@ -161,7 +161,7 @@ namespace Transsmission.API.RPC
         }
 
         /// <summary>
-        /// Simple method to add torrent (API: torrent-add)
+        /// [UNIMPLEMENTED! Use metainfo and pause only!] Simple method to add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
         public TransmissionTorrent AddTorrent(TransmissionNewTorrent torrent)
@@ -198,6 +198,27 @@ namespace Transsmission.API.RPC
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// [UNIMPLEMENTED] Set torrent params (API: torrent-set)
+        /// </summary>
+        /// <param name="torrentSet">New torrent params</param>
+        public void SetTorrents(TransmissionTorrentsSet torrentSet)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", torrentSet.IDs);
+            requestArguments.Add("location", torrentSet.Location);
+            //<...>
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-set",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
         }
 
         /// <summary>

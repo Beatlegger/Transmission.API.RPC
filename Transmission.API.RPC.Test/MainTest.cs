@@ -12,7 +12,7 @@ namespace Transmission.API.RPC.Test
     public class MainTest
     {
         const string SESSION_ID = "eyCd0F1Yxc1ljG4GbROe3542HH6PneD3NjcqmXtnKT6E5Y6b";
-        const string HOST = "http://192.168.1.50:9091/transmission/rpc";
+        const string HOST = "http://192.168.1.103:9091/transmission/rpc";
 
         public Client client = new Client();
 
@@ -138,6 +138,17 @@ namespace Transmission.API.RPC.Test
             var result = client.GetSessionStat();
         }
 
+        [TestMethod]
+        public void TorrentsSet()
+        {
+            var arguments = new TransmissionTorrentsSet()
+            {
+                IDs = new int[]{ 1 },
+                Location = "/home/lucky13/Загрузки",
+            };
+
+            client.SetTorrents(arguments);
+        }
 
         public string ConvertToBase64(Stream stream)
         {
