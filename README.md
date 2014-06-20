@@ -21,7 +21,7 @@ C# implementation of the Transmission RPC API.
 | session-set          | x |   |
 | session-get          |   | x |
 | session-stats        |   | x |
-| blocklist-update     | x |   |
+| blocklist-update     |   | x |
 | port-test            |   | x |
 | session-close        |   | x |
 | queue-move-top       |   | x |
