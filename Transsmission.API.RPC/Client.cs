@@ -449,6 +449,29 @@ namespace Transsmission.API.RPC
         }
 
         /// <summary>
+        /// Set new location for torrents files (API: torrent-set-location)
+        /// </summary>
+        /// <param name="ids">Torrent ids</param>
+        /// <param name="location">The new torrent location</param>
+        /// <param name="move">Move from previous location</param>
+        public void SetLocationTorrents(int [] ids, string location, bool move)
+        {
+            var requestArguments = new Dictionary<string, object>();
+            requestArguments.Add("ids", ids);
+            requestArguments.Add("location", location);
+            requestArguments.Add("move", move);
+
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "torrent-set-location",
+                Arguments = requestArguments,
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
+        /// <summary>
         /// Reannounce torrent (API: torrent-reannounce)
         /// </summary>
         /// <param name="ids"></param>

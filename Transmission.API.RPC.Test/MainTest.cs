@@ -150,6 +150,12 @@ namespace Transmission.API.RPC.Test
             client.SetTorrents(arguments);
         }
 
+        [TestMethod]
+        public void TorrentsSetLocation()
+        {
+            client.SetLocationTorrents(new int[] { 1 }, "/home/lucky13/Загрузки", false);
+        }
+
         public string ConvertToBase64(Stream stream)
         {
             Byte[] inArray = new Byte[(int)stream.Length];
