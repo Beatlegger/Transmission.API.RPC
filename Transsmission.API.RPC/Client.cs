@@ -93,11 +93,6 @@ namespace Transsmission.API.RPC
         };
         #endregion
 
-        public Client()
-        {
-
-        }
-
         /// <summary>
         /// Get current session (API: session-get)
         /// </summary>
@@ -113,6 +108,23 @@ namespace Transsmission.API.RPC
             var response = sendRequest(request);
             var result = deserializeArguments<TransmissionSession>(response.Arguments);
 
+            return result;
+        }
+
+        /// <summary>
+        /// Get session stat
+        /// </summary>
+        /// <returns>Session stats</returns>
+        public TransmissionSessionStat GetSessionStat()
+        {
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "session-stats",
+                Tag = 0,
+            };
+
+            var response = sendRequest(request);
+            var result = deserializeArguments<TransmissionSessionStat>(response.Arguments);
             return result;
         }
 
@@ -194,7 +206,7 @@ namespace Transsmission.API.RPC
         /// <param name="fields">Fields of torrents</param>
         /// <param name="ids">IDs of torrents</param>
         /// <returns>Torrents info</returns>
-        public TransmissionTorrents TorrentsGet(string[] fields, int[] ids)
+        public TransmissionTorrents GetTorrents(string[] fields, int[] ids)
         {
             var requestArguments = new Dictionary<string, object>();
             requestArguments.Add("ids", ids);
@@ -208,7 +220,7 @@ namespace Transsmission.API.RPC
         /// </summary>
         /// <param name="fields">Fields of torrents</param>
         /// <returns>Recently active torrents info</returns>
-        public TransmissionTorrents TorrentsGetActive(string[] fields)
+        public TransmissionTorrents GetActiveTorrents(string[] fields)
         {
             var requestArguments = new Dictionary<string, object>();
             requestArguments.Add("ids", "recently-active");
@@ -222,7 +234,7 @@ namespace Transsmission.API.RPC
         /// </summary>
         /// <param name="fields">torrent fields</param>
         /// <returns>All torrents info</returns>
-        public TransmissionTorrents TorrentsGetAll(string[] fields)
+        public TransmissionTorrents GetAllTorrents(string[] fields)
         {
             var requestArguments = new Dictionary<string, object>();
             requestArguments.Add("fields", fields);
@@ -234,7 +246,7 @@ namespace Transsmission.API.RPC
         /// Get full information of all torrents (API: torrent-get)
         /// </summary>
         /// <returns>Full information of all torrents </returns>
-        public TransmissionTorrents TorrentsGetAll()
+        public TransmissionTorrents GetAllTorrents()
         {
             var requestArguments = new Dictionary<string, object>();
             requestArguments.Add("fields", AllTorrentsFields);
@@ -247,7 +259,7 @@ namespace Transsmission.API.RPC
         /// </summary>
         /// <param name="ids">Torrents id</param>
         /// <param name="deleteLocalData">Remove local data</param>
-        public void TorrentsRemove(int[] ids, bool deleteLocalData = false)
+        public void RemoveTorrents(int[] ids, bool deleteLocalData = false)
         {
             Dictionary<string, object> args = new Dictionary<string, object>();
             args.Add("ids", ids);
@@ -452,19 +464,6 @@ namespace Transsmission.API.RPC
 
             var response = sendRequest(request);
             var result = deserializeArguments<TransmissionFreeSpace>(response.Arguments);
-            return result;
-        }
-
-        public TransmissionSessionStat GetSessionStat()
-        {
-            TransmissionRequest request = new TransmissionRequest()
-           {
-               Method = "session-stats",
-               Tag = 0,
-           };
-
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionSessionStat>(response.Arguments);
             return result;
         }
 

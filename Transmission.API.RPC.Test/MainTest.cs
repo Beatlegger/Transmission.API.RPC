@@ -32,13 +32,13 @@ namespace Transmission.API.RPC.Test
         [TestMethod]
         public void GetActiveTorrents()
         {         
-            var activeTorrents = client.TorrentsGetActive(client.AllTorrentsFields);
+            var activeTorrents = client.GetActiveTorrents(client.AllTorrentsFields);
         }
 
         [TestMethod]
         public void GetAllTorrents()
         {
-            var allTorrents = client.TorrentsGetAll(client.AllTorrentsFields);
+            var allTorrents = client.GetAllTorrents(client.AllTorrentsFields);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace Transmission.API.RPC.Test
         {
             var ids = new int[]{40};
 
-            client.TorrentsRemove(ids);
+            client.RemoveTorrents(ids);
         }
 
         [TestMethod]
