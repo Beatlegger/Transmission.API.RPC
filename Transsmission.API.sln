@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4FC6A5A0-7A2
 		Lib\Newtonsoft.Json.dll = Lib\Newtonsoft.Json.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.Demo", "Transmission.API.Demo\Transmission.API.Demo.csproj", "{9700B310-701C-4EAE-B55D-0F9070B21561}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9700B310-701C-4EAE-B55D-0F9070B21561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9700B310-701C-4EAE-B55D-0F9070B21561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9700B310-701C-4EAE-B55D-0F9070B21561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9700B310-701C-4EAE-B55D-0F9070B21561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
