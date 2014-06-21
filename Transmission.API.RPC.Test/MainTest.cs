@@ -32,9 +32,24 @@ namespace Transmission.API.RPC.Test
         [TestMethod]
         public void GetTorrents()
         {
-            var manyTorrent = client.GetTorrents(client.AllTorrentsFields, new int[] { 1, 2 });
-            var allTorrents = client.GetTorrents(client.AllTorrentsFields);
-            var manyFields = client.GetTorrents(new string[] { "id", "error" });
+            var someFields = new string[]
+            {
+                TransmisiionTorrentFields.ID,
+                TransmisiionTorrentFields.ERROR,
+                TransmisiionTorrentFields.ERROR_STRING
+            };
+
+            var someIDs = new int[]
+            {
+                1, 
+                2
+            };
+
+            var someTorrents = client.GetTorrents(TransmisiionTorrentFields.ALL_FIELDS, someIDs);
+            var allTorrents = client.GetTorrents(TransmisiionTorrentFields.ALL_FIELDS);
+
+            var someTorrentsFields = client.GetTorrents(someFields);
+            var someTorrentsFieldsWithID = client.GetTorrents(someFields, someIDs);
         }
 
         [TestMethod]
@@ -49,6 +64,7 @@ namespace Transmission.API.RPC.Test
             var filePath = "D:\\test.torrent";
             var fstream = File.Open(filePath, FileMode.Open);
             var base64 = ConvertToBase64(fstream);
+
             TransmissionNewTorrent newTorrent = new TransmissionNewTorrent
             {
                 Metainfo = base64,

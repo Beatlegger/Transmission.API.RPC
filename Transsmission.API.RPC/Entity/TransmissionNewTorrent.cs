@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transsmission.API.RPC.Common;
 
 namespace Transsmission.API.RPC.Entity
 {
     /// <summary>
     /// Information about the torrent file, that will be added
     /// </summary>
-    public class TransmissionNewTorrent
+    public class TransmissionNewTorrent : TransmissionArgument
     {
         /// <summary>
         /// Pointer to a string of one or more cookies.

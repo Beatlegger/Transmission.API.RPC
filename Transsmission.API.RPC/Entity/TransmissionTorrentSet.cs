@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transsmission.API.RPC.Common;
 
 namespace Transsmission.API.RPC.Entity
 {
-    public class TransmissionTorrentsSet
+    public class TransmissionTorrentsSet : TransmissionArgument
     {
         /// <summary>
         /// This torrent's bandwidth tr_priority_t
