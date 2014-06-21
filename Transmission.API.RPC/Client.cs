@@ -92,6 +92,9 @@ namespace Transmission.API.RPC
         /// <returns>Torrent info (ID, Name and HashString)</returns>
         public TransmissionTorrent AddTorrent(TransmissionNewTorrent torrent)
         {
+            if (String.IsNullOrWhiteSpace(torrent.Metainfo) && String.IsNullOrWhiteSpace(torrent.Filename))
+                throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
+
             TransmissionRequest request = new TransmissionRequest
             {
                 Method = "torrent-add",
@@ -486,6 +489,9 @@ namespace Transmission.API.RPC
                         var reader = new StreamReader(responseStream, Encoding.UTF8);
                         var responseString = reader.ReadToEnd();
                         result = JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
+
+                        if (result.Result != "success")
+                            throw new Exception(result.Result);
                     }
                 }
             }
@@ -497,10 +503,6 @@ namespace Transmission.API.RPC
                     SessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
                     result = sendRequest(data);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
 
             return result;
