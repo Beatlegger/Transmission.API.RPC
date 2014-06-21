@@ -101,9 +101,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Transsmission.API.RPC\Transsmission.API.RPC.csproj">
+    <ProjectReference Include="..\Transsmission.API.RPC\Transmission.API.RPC.csproj">
       <Project>{3d33f97f-993a-4c48-acde-43f18ea7341e}</Project>
-      <Name>Transsmission.API.RPC</Name>
+      <Name>Transmission.API.RPC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
