@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Transsmission.API.RPC.Entity;
+using Transmission.API.RPC.Entity;
 using Newtonsoft.Json.Linq;
 
-namespace Transsmission.API.RPC
+namespace Transmission.API.RPC
 {
     public class Client
     {

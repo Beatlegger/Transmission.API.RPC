@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC", "Transsmission.API.RPC\Transmission.API.RPC.csproj", "{3D33F97F-993A-4C48-ACDE-43F18EA7341E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC.Test", "Transmission.API.RPC.Test\Transmission.API.RPC.Test.csproj", "{837B8757-9D06-4807-9048-AE2DC364A7BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4FC6A5A0-7A29-4429-9C05-BBADB3A74884}"
@@ -12,16 +10,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4FC6A5A0-7A2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.Demo", "Transmission.API.Demo\Transmission.API.Demo.csproj", "{9700B310-701C-4EAE-B55D-0F9070B21561}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC", "Transmission.API.RPC\Transmission.API.RPC.csproj", "{3D33F97F-993A-4C48-ACDE-43F18EA7341E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{837B8757-9D06-4807-9048-AE2DC364A7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,6 +26,10 @@ Global
 		{9700B310-701C-4EAE-B55D-0F9070B21561}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9700B310-701C-4EAE-B55D-0F9070B21561}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9700B310-701C-4EAE-B55D-0F9070B21561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D33F97F-993A-4C48-ACDE-43F18EA7341E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

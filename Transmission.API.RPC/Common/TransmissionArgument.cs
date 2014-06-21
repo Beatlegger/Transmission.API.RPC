@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Transsmission.API.RPC.Common
+namespace Transmission.API.RPC.Common
 {
     /// <summary>
     /// 

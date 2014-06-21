@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Transsmission.API.RPC;
-using Transsmission.API.RPC.Entity;
+using Transmission.API.RPC;
+using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.Demo
 {

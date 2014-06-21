@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Transsmission.API.RPC.Entity
+namespace Transmission.API.RPC.Entity
 {
     public sealed class TransmisiionTorrentFields
     {

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Transsmission.API.RPC.Entity
+namespace Transmission.API.RPC.Entity
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class TransmissionSession

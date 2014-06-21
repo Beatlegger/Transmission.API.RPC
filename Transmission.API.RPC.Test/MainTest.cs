@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Transsmission.API.RPC;
+using Transmission.API.RPC;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Transsmission.API.RPC.Entity;
+using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC.Test
 {

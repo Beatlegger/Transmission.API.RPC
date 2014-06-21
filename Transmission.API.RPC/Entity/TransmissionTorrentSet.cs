@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Transsmission.API.RPC.Common;
+using Transmission.API.RPC.Common;
 
-namespace Transsmission.API.RPC.Entity
+namespace Transmission.API.RPC.Entity
 {
     public class TransmissionTorrentsSet : TransmissionArgument
     {
