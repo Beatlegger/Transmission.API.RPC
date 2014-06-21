@@ -87,21 +87,15 @@ namespace Transmission.API.RPC
         }
 
         /// <summary>
-        /// [UNIMPLEMENTED! Use metainfo and pause only!] Simple method to add torrent (API: torrent-add)
+        /// Add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
         public TransmissionTorrent AddTorrent(TransmissionNewTorrent torrent)
         {
-            var args = new Dictionary<string, object>();
-            args.Add("metainfo", torrent.Metainfo);
-            args.Add("paused", torrent.Paused);
-            //TODO: Add other arguments 
-            //<...>
-
             TransmissionRequest request = new TransmissionRequest
             {
                 Method = "torrent-add",
-                Arguments = args,
+                Arguments = torrent.ToArguments(),
                 Tag = 0,
             };
 
@@ -115,13 +109,9 @@ namespace Transmission.API.RPC
             JToken value = null;
 
             if (jObject.TryGetValue("torrent-duplicate", out value))
-            {
                 result = JsonConvert.DeserializeObject<TransmissionTorrent>(value.ToString());
-            }
             else if (jObject.TryGetValue("torrent-added", out value))
-            {
                 result = JsonConvert.DeserializeObject<TransmissionTorrent>(value.ToString());
-            }
 
             return result;
         }

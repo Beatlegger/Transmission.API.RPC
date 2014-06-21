@@ -52,12 +52,18 @@
   <ItemGroup>
     <Compile Include="MainTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AddTorrent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Transmission.API.RPC\Transmission.API.RPC.csproj">
       <Project>{3d33f97f-993a-4c48-acde-43f18ea7341e}</Project>
       <Name>Transmission.API.RPC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\ubuntu-10.04.4-server-amd64.iso.torrent">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

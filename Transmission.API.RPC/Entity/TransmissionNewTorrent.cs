@@ -47,13 +47,13 @@ namespace Transmission.API.RPC.Entity
         /// maximum number of peers
         /// </summary>
         [JsonProperty("peer-limit")]
-        public int PeerLimit{ get; set; }
+        public int? PeerLimit{ get; set; }
 
         /// <summary>
         /// Torrent's bandwidth priority
         /// </summary>
         [JsonProperty("bandwidthPriority")]
-        public int BandwidthPriority{ get; set; }
+        public int? BandwidthPriority{ get; set; }
 
         /// <summary>
         /// Indices of file(s) to download
