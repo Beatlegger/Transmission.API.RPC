@@ -14,7 +14,7 @@ C# implementation of the Transmission RPC API.
 | torrent-reannounce   |   | x |
 | torrent-set          | x | x [UNTESTED] |
 | torrent-get          |   | x |
-| torrent-add          | x | x [Only base64 content] |
+| torrent-add          |   | x |
 | torrent-remove       |   | x |
 | torrent-set-location |   | x |
 | torrent-rename-path  | x | x [UNTESTED] |
