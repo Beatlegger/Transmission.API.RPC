@@ -125,15 +125,10 @@ namespace Transmission.API.RPC
         /// <param name="torrentSet">New torrent params</param>
         public void SetTorrents(TransmissionTorrentsSet torrentSet)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", torrentSet.IDs);
-            requestArguments.Add("location", torrentSet.Location);
-            //<...>
-
             TransmissionRequest request = new TransmissionRequest()
             {
                 Method = "torrent-set",
-                Arguments = requestArguments,
+                Arguments = torrentSet.ToArguments(),
                 Tag = 0,
             };
 

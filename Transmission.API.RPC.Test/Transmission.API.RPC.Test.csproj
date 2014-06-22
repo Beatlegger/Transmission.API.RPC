@@ -53,6 +53,7 @@
     <Compile Include="MainTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AddTorrent.cs" />
+    <Compile Include="SetTorrent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Transmission.API.RPC\Transmission.API.RPC.csproj">
