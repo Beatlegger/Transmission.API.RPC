@@ -12,12 +12,12 @@ C# implementation of the Transmission RPC API.
 | torrent-stop         |   | x |
 | torrent-verify       |   | x |
 | torrent-reannounce   |   | x |
-| torrent-set          | x | x [UNTESTED] |
+| torrent-set          |   | [UNTESTED] |
 | torrent-get          |   | x |
 | torrent-add          |   | x |
 | torrent-remove       |   | x |
 | torrent-set-location |   | x |
-| torrent-rename-path  | x | x [UNTESTED] |
+| torrent-rename-path  |   | [UNTESTED] |
 | session-set          |   | x |
 | session-get          |   | x |
 | session-stats        |   | x |
