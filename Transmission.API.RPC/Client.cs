@@ -37,6 +37,18 @@ namespace Transmission.API.RPC
             return result;
         }
 
+        public void SetSession(TransmissionSessionSet sessionSet)
+        {
+            TransmissionRequest request = new TransmissionRequest()
+            {
+                Method = "session-set",
+                Arguments = sessionSet.ToArguments(),
+                Tag = 0,
+            };
+
+            sendRequest(request);
+        }
+
         /// <summary>
         /// Get session stat
         /// </summary>

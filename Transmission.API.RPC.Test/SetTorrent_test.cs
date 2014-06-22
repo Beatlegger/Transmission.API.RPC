@@ -5,7 +5,7 @@ using Transmission.API.RPC.Entity;
 namespace Transmission.API.RPC.Test
 {
     [TestClass]
-    public class SetTorrent
+    public class SetTorrent_test
     {
         const string SESSION_ID = "eyCd0F1Yxc1ljG4GbROe3542HH6PneD3NjcqmXtnKT6E5Y6b";
         const string HOST = "http://192.168.1.5:9091/transmission/rpc";
@@ -63,7 +63,7 @@ namespace Transmission.API.RPC.Test
         }
 
         [TestMethod]
-        public void Set()
+        public void SetTorrent()
         {
             var setTorrents = new TransmissionTorrentsSet
             {
