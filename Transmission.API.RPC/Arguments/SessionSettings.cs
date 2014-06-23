@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Transmission.API.RPC.Common;
+using Transmission.API.RPC.Entity;
 
-namespace Transmission.API.RPC.Entity
+namespace Transmission.API.RPC.Arguments
 {
-    public class TransmissionSessionSet : TransmissionArgument
+    public class SessionSettings : RequestArguments
     {
         /// <summary>
         /// Max global download speed (KBps)
@@ -257,7 +258,7 @@ namespace Transmission.API.RPC.Entity
         public bool? TrashOriginalTorrentFiles { get; set; }
 
         [JsonProperty("units")]
-        public TransmissionUnits Units { get; set; }
+        public Units Units { get; set; }
 
         /// <summary>
         /// True means allow utp

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Entity
 {
-    public class TransmissionSessionStat
+    public class Statistic
     {
         [JsonProperty("activeTorrentCount")]
         public int ActiveTorrentCount { get; set; }
@@ -25,13 +25,13 @@ namespace Transmission.API.RPC.Entity
         public int uploadSpeed{ get; set; }
    
         [JsonProperty("cumulative-stats")]
-        public TransmissionCommonStats CumulativeStats{ get; set; }
+        public CommonStatistic CumulativeStats { get; set; }
  
         [JsonProperty("current-stats")]
-        public TransmissionCommonStats CurrentStats{ get; set; }
+        public CommonStatistic CurrentStats { get; set; }
     }
 
-    public class TransmissionCommonStats
+    public class CommonStatistic
     {
         [JsonProperty("uploadedBytes")]
         public double uploadedBytes{ get; set; }

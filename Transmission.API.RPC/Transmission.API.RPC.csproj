@@ -44,16 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="Common\TransmissionArgument.cs" />
-    <Compile Include="Entity\TransmisiionTorrentFields.cs" />
-    <Compile Include="Entity\TransmissionFreeSpace.cs" />
-    <Compile Include="Entity\TransmissionNewTorrent.cs" />
-    <Compile Include="Entity\TransmissionSession.cs" />
-    <Compile Include="Entity\TransmissionSessionSet.cs" />
-    <Compile Include="Entity\TransmissionSessionStat.cs" />
-    <Compile Include="Entity\TransmissionTorrent.cs" />
-    <Compile Include="Entity\TransmissionTorrentSet.cs" />
-    <Compile Include="Entity\TransmissionUnits.cs" />
+    <Compile Include="Common\RequestArguments.cs" />
+    <Compile Include="Arguments\TorrentFields.cs" />
+    <Compile Include="Arguments\NewTorrent.cs" />
+    <Compile Include="Common\RequestResponse.cs" />
+    <Compile Include="Entity\SessionInfo.cs" />
+    <Compile Include="Arguments\SessionSettings.cs" />
+    <Compile Include="Entity\Statistic.cs" />
+    <Compile Include="Entity\TorrentInformation.cs" />
+    <Compile Include="Arguments\TorrentSettings.cs" />
+    <Compile Include="Entity\Units.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

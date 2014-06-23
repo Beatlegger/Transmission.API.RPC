@@ -10,141 +10,130 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Transmission.API.RPC.Entity;
 using Newtonsoft.Json.Linq;
+using Transmission.API.RPC.Common;
+using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC
 {
     public class Client
     {
-        public string Host;
-
-        public string SessionID;
-
-        /// <summary>
-        /// Get current session (API: session-get)
-        /// </summary>
-        /// <returns>Session info</returns>
-        public TransmissionSession GetSession()
+        public string Host
         {
-            TransmissionRequest request = new TransmissionRequest()
+            get
             {
-                Method = "session-get",
-                Tag = 0,
-            };
+                return _host;
+            }
+        }
+        private string _host;
 
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionSession>(response.Arguments);
+        public string SessionID
+        {
+            get
+            {
+                return _sessionID;
+            }
+        }
+        private string _sessionID;
 
-            return result;
+        public int CurrentTag
+        {
+            get
+            {
+                return _currentTag;
+            }
+        }
+        int _currentTag = 0;
+
+        public Client(string host, string sessionID = null)
+        {
+            this._host = host;
+            this._sessionID = sessionID;
         }
 
-        public void SetSession(TransmissionSessionSet sessionSet)
-        {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "session-set",
-                Arguments = sessionSet.ToArguments(),
-                Tag = 0,
-            };
-
-            sendRequest(request);
-        }
-
-        /// <summary>
-        /// Get session stat
-        /// </summary>
-        /// <returns>Session stats</returns>
-        public TransmissionSessionStat GetSessionStat()
-        {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "session-stats",
-                Tag = 0,
-            };
-
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionSessionStat>(response.Arguments);
-            return result;
-        }
+        #region Session methods
 
         /// <summary>
         /// Close current session (API: session-close)
         /// </summary>
         public void CloseSession()
         {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "session-close",
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("session-close", null);
+            var response = SendRequest(request);
         }
 
         /// <summary>
-        /// See if your incoming peer port is accessible from the outside world (API: port-test)
+        /// Set information to current session (API: session-set)
         /// </summary>
-        /// <returns>Accessible state</returns>
-        public bool CheckPort()
+        /// <param name="settings">New session settings</param>
+        public void SetSessionSettings(SessionSettings settings)
         {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "port-test",
-                Tag = 0,
-            };
-
-            var response = sendRequest(request);
-
-            var jObject = deserializeArguments<JObject>(response.Arguments);
-            return (bool)jObject.GetValue("port-is-open"); ;
+            var request = new TransmissionRequest("session-close", settings.ToDictionary());
+            var response = SendRequest(request);
         }
+
+        /// <summary>
+        /// Get session stat
+        /// </summary>
+        /// <returns>Session stat</returns>
+        public Statistic GetSessionStatistic()
+        {
+            var request = new TransmissionRequest("session-stats", null);
+            var response = SendRequest(request);
+            var result = response.Deserialize<Statistic>();
+            return result;
+        }
+
+        /// <summary>
+        /// Get information of current session (API: session-get)
+        /// </summary>
+        /// <returns>Session information</returns>
+        public SessionInformation GetSessionInformation()
+        {
+            var request = new TransmissionRequest("session-get", null);
+            var response = SendRequest(request);
+            var result = response.Deserialize<SessionInformation>();
+            return result;
+        }
+
+        #endregion
+
+        #region Torrents methods
 
         /// <summary>
         /// Add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
-        public TransmissionTorrent AddTorrent(TransmissionNewTorrent torrent)
+        public TorrentInformation AddTorrent(NewTorrent torrent)
         {
             if (String.IsNullOrWhiteSpace(torrent.Metainfo) && String.IsNullOrWhiteSpace(torrent.Filename))
                 throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
 
-            TransmissionRequest request = new TransmissionRequest
-            {
-                Method = "torrent-add",
-                Arguments = torrent.ToArguments(),
-                Tag = 0,
-            };
-
-            var response = sendRequest(request);
-            var jObject = deserializeArguments<JObject>(response.Arguments);
+            var request = new TransmissionRequest("torrent-add", torrent.ToDictionary());
+            var response = SendRequest(request);
+            var jObject = response.Deserialize<JObject>();
 
             if (jObject == null || jObject.First == null)
                 return null;
 
-            TransmissionTorrent result = null;
+            TorrentInformation result = null;
             JToken value = null;
 
             if (jObject.TryGetValue("torrent-duplicate", out value))
-                result = JsonConvert.DeserializeObject<TransmissionTorrent>(value.ToString());
+                result = JsonConvert.DeserializeObject<TorrentInformation>(value.ToString());
             else if (jObject.TryGetValue("torrent-added", out value))
-                result = JsonConvert.DeserializeObject<TransmissionTorrent>(value.ToString());
+                result = JsonConvert.DeserializeObject<TorrentInformation>(value.ToString());
 
             return result;
         }
 
         /// <summary>
-        /// [UNIMPLEMENTED] Set torrent params (API: torrent-set)
+        /// [UNTESTED] Set torrent params (API: torrent-set)
         /// </summary>
         /// <param name="torrentSet">New torrent params</param>
-        public void SetTorrents(TransmissionTorrentsSet torrentSet)
+        public void SetTorrents(TorrentSettings settings)
         {
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-set",
-                Arguments = torrentSet.ToArguments(),
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-set", settings.ToDictionary());
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -161,15 +150,10 @@ namespace Transmission.API.RPC
             if (ids != null && ids.Length > 0)
                 arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-get",
-                Arguments = arguments,
-                Tag = 0,
-            };
+            var request = new TransmissionRequest("torrent-get", arguments);
 
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionTorrents>(response.Arguments);
+            var response = SendRequest(request);
+            var result = response.Deserialize<TransmissionTorrents>();
 
             return result;
         }
@@ -179,20 +163,15 @@ namespace Transmission.API.RPC
         /// </summary>
         /// <param name="ids">Torrents id</param>
         /// <param name="deleteLocalData">Remove local data</param>
-        public void RemoveTorrents(int[] ids, bool deleteLocalData = false)
+        public void RemoveTorrents(int[] ids, bool deleteData = false)
         {
-            Dictionary<string, object> args = new Dictionary<string, object>();
-            args.Add("ids", ids);
-            args.Add("delete-local-data", deleteLocalData);
+            var arguments = new Dictionary<string, object>();
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-remove",
-                Arguments = args,
-                Tag = 0,
-            };
+            arguments.Add("ids", ids);
+            arguments.Add("delete-local-data", deleteData);
 
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-remove", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -201,17 +180,11 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void StartTorrents(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
-
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-start",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
+            
+            var request = new TransmissionRequest("torrent-start", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -220,17 +193,11 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void StartNowTorrents(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-start-now",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-start-now", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -239,17 +206,11 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void StopTorrents(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-stop",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-stop", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -258,17 +219,11 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void VerifyTorrents(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-verify",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-verify", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -277,17 +232,11 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void TorrentsQueueMoveTop(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "queue-move-top",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("queue-move-top", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -296,17 +245,11 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentsQueueMoveUp(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "queue-move-up",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("queue-move-up", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -315,17 +258,11 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentsQueueMoveDown(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "queue-move-down",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("queue-move-down", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -334,17 +271,11 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentsQueueMoveBottom(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "queue-move-bottom",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("queue-move-bottom", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -355,42 +286,30 @@ namespace Transmission.API.RPC
         /// <param name="move">Move from previous location</param>
         public void SetLocationTorrents(int[] ids, string location, bool move)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
-            requestArguments.Add("location", location);
-            requestArguments.Add("move", move);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
+            arguments.Add("location", location);
+            arguments.Add("move", move);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-set-location",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-set-location",arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
-        /// [UNTESTED!] Rename a file or directory in a torrent (API: torrent-rename-path)
+        /// Rename a file or directory in a torrent (API: torrent-rename-path)
         /// </summary>
         /// <param name="ids">The torrent whose path will be renamed</param>
         /// <param name="path">The path to the file or folder that will be renamed</param>
         /// <param name="name">The file or folder's new name</param>
         public void RenameTorrentPath(int id, string path, string name)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", new int[] { id });
-            requestArguments.Add("path", path);
-            requestArguments.Add("name", name);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", new int[] { id });
+            arguments.Add("path", path);
+            arguments.Add("name", name);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-rename-path",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
-
-            sendRequest(request);
+            var request = new TransmissionRequest("torrent-rename-path", arguments);
+            var response = SendRequest(request);
         }
 
         /// <summary>
@@ -399,43 +318,42 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void ReannounceTorrents(int[] ids)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("ids", ids);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("ids", ids);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "torrent-reannounce",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
+            var request = new TransmissionRequest("torrent-reannounce", arguments);
+            var response = SendRequest(request);
+        }
 
-            sendRequest(request);
+        #endregion
+
+        #region System
+
+        /// <summary>
+        /// See if your incoming peer port is accessible from the outside world (API: port-test)
+        /// </summary>
+        /// <returns>Accessible state</returns>
+        public bool CheckPort()
+        {
+            var request = new TransmissionRequest("port-test", null);
+            var response = SendRequest(request);
+
+            var data = response.Deserialize<JObject>();
+            var result = (bool)data.GetValue("port-is-open");
+            return result;
         }
 
         /// <summary>
         /// Update blocklist (API: blocklist-update)
         /// </summary>
+        /// <returns>Blocklist size</returns>
         public int BlocklistUpdate()
         {
+            var request = new TransmissionRequest("blocklist-update", null);
+            var response = SendRequest(request);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "blocklist-update",
-                Tag = 0,
-            };
-
-            var response = sendRequest(request);
-
-            var result = 0;
-
-            if (response.Result != "success")
-                throw new Exception(response.Result);
-            else
-            {
-                var jObject = deserializeArguments<JObject>(response.Arguments);
-                result = (int)jObject.GetValue("blocklist-size");
-            }
-
+            var data = response.Deserialize<JObject>();
+            var result = (int)data.GetValue("blocklist-size");
             return result;
         }
 
@@ -443,38 +361,31 @@ namespace Transmission.API.RPC
         /// Get free space is available in a client-specified folder.
         /// </summary>
         /// <param name="path">The directory to query</param>
-        public TransmissionFreeSpace FreeSpace(string path)
+        public long FreeSpace(string path)
         {
-            var requestArguments = new Dictionary<string, object>();
-            requestArguments.Add("path", path);
+            var arguments = new Dictionary<string, object>();
+            arguments.Add("path", path);
 
-            TransmissionRequest request = new TransmissionRequest()
-            {
-                Method = "free-space",
-                Arguments = requestArguments,
-                Tag = 0,
-            };
+            TransmissionRequest request = new TransmissionRequest("free-space", arguments);
+            var response = SendRequest(request);
 
-            var response = sendRequest(request);
-            var result = deserializeArguments<TransmissionFreeSpace>(response.Arguments);
+            var data = response.Deserialize<JObject>();
+            var result = (long)data.GetValue("size-bytes");
             return result;
         }
 
+        #endregion
+
         #region Private
 
-        private T deserializeArguments<T>(Dictionary<string, object> arguments)
-        {
-            var argumentsString = JsonConvert.SerializeObject(arguments);
-            return JsonConvert.DeserializeObject<T>(argumentsString);
-        }
-
-        private TransmissionResponse sendRequest(TransmissionRequest data)
+        public TransmissionResponse SendRequest(TransmissionRequest request)
         {
             TransmissionResponse result = new TransmissionResponse();
 
             try
             {
-                byte[] byteArray = Encoding.UTF8.GetBytes(data.ToString());
+
+                byte[] byteArray = Encoding.UTF8.GetBytes(request.ToString());
 
                 //Prepare http web request
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
@@ -507,8 +418,12 @@ namespace Transmission.API.RPC
                 if (ex.Response != null && ex.Response.Headers.HasKeys())
                 {
                     //If session id expiried, try get session id and send request
-                    SessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
-                    result = sendRequest(data);
+                    _sessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+
+                    if (_sessionID == null)
+                        throw new Exception("Session ID Error");
+
+                    result = SendRequest(request);
                 }
             }
 
@@ -517,49 +432,4 @@ namespace Transmission.API.RPC
 
         #endregion
     }
-
-    //    Requests support three keys:
-    //   (1) A required "method" string telling the name of the method to invoke
-    //   (2) An optional "arguments" object of key/value pairs
-    //   (3) An optional "tag" number used by clients to track responses.
-    //       If provided by a request, the response MUST include the same tag.
-    public class TransmissionRequest
-    {
-        [JsonProperty("method")]
-        public string Method;
-
-        [JsonProperty("arguments")]
-        public Dictionary<string, object> Arguments;
-
-        [JsonProperty("tag")]
-        public int Tag;
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-    }
-
-    //   Reponses support three keys:
-    //   (1) A required "result" string whose value MUST be "success" on success,
-    //       or an error string on failure.
-    //   (2) An optional "arguments" object of key/value pairs
-    //   (3) An optional "tag" number as described in 2.1.
-    public class TransmissionResponse
-    {
-        [JsonProperty("result")]
-        public string Result;
-
-        [JsonProperty("arguments")]
-        public Dictionary<string, object> Arguments;
-
-        [JsonProperty("tag")]
-        public int Tag;
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-    }
-
 }

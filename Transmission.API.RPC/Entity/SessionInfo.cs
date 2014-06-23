@@ -5,10 +5,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC.Entity
 {
-    public class TransmissionSession : TransmissionSessionSet
+    public class SessionInformation : SessionSettings
     {
         /// <summary>
         /// Number of rules in the blocklist

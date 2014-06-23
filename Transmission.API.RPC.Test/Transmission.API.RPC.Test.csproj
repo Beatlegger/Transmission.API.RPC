@@ -50,11 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MainTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AddTorrent.cs" />
-    <Compile Include="SetTorrent_test.cs" />
-    <Compile Include="SetSession_test.cs" />
+    <Compile Include="MethodsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Transmission.API.RPC\Transmission.API.RPC.csproj">

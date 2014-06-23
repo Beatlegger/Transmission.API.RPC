@@ -11,7 +11,7 @@ namespace Transmission.API.RPC.Entity
     /// <summary>
     /// Information about the torrent file, that will be added
     /// </summary>
-    public class TransmissionNewTorrent : TransmissionArgument
+    public class NewTorrent : RequestArguments
     {
         /// <summary>
         /// Pointer to a string of one or more cookies.

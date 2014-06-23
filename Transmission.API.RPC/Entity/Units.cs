@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Entity
 {
-    public class TransmissionUnits
+    public class Units
     {
         [JsonProperty("speed-units")]
         public string[] SpeedUnits { get; set; }

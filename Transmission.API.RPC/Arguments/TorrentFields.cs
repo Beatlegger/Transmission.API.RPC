@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Entity
 {
-    public sealed class TransmisiionTorrentFields
+    public sealed class TorrentFields
     {
-        private TransmisiionTorrentFields() { }
+        private TorrentFields() { }
 
         /// <summary>
         /// activityDate

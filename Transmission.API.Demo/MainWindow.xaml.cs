@@ -30,7 +30,7 @@ namespace Transmission.API.Demo
 
             _client.Host = "http://192.168.1.50:9091/transmission/rpc";
 
-            var allTorrents = _client.GetTorrents(TransmisiionTorrentFields.ALL_FIELDS);
+            var allTorrents = _client.GetTorrents(TorrentFields.ALL_FIELDS);
             lvTorrents.ItemsSource = allTorrents.Torrents;
         }
     }

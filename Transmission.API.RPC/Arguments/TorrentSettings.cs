@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Transmission.API.RPC.Common;
 
-namespace Transmission.API.RPC.Entity
+namespace Transmission.API.RPC.Arguments
 {
-    public class TransmissionTorrentsSet : TransmissionArgument
+    public class TorrentSettings : RequestArguments
     {
         /// <summary>
         /// This torrent's bandwidth tr_priority_t

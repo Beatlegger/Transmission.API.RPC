@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Transmission.API.RPC.Common
 {
     /// <summary>
-    /// 
+    /// Absract class for arguments
     /// </summary>
-    public class TransmissionArgument
+    public abstract class RequestArguments
     {
-        public Dictionary<string, object> ToArguments()
+        public Dictionary<string, object> ToDictionary()
         {
             var result = new Dictionary<string, object>();
 
