@@ -44,10 +44,26 @@ namespace Transmission.API.RPC
         }
         int _currentTag = 0;
 
+        private string _authorization;
+        private bool _needAuthorization;
+
         public Client(string host, string sessionID = null)
         {
             this._host = host;
             this._sessionID = sessionID;
+        }
+
+        public void SetAuth(string login, string password)
+        {
+            if (String.IsNullOrWhiteSpace(login) ||
+                String.IsNullOrWhiteSpace(password))
+                return;
+
+            var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
+            var encoded = Convert.ToBase64String(authBytes);
+
+            this._needAuthorization = true;
+            this._authorization = "Basic " + encoded;
         }
 
         #region Session methods
@@ -182,7 +198,7 @@ namespace Transmission.API.RPC
         {
             var arguments = new Dictionary<string, object>();
             arguments.Add("ids", ids);
-            
+
             var request = new TransmissionRequest("torrent-start", arguments);
             var response = SendRequest(request);
         }
@@ -291,7 +307,7 @@ namespace Transmission.API.RPC
             arguments.Add("location", location);
             arguments.Add("move", move);
 
-            var request = new TransmissionRequest("torrent-set-location",arguments);
+            var request = new TransmissionRequest("torrent-set-location", arguments);
             var response = SendRequest(request);
         }
 
@@ -376,11 +392,11 @@ namespace Transmission.API.RPC
 
         #endregion
 
-        #region Private
-
         public TransmissionResponse SendRequest(TransmissionRequest request)
         {
             TransmissionResponse result = new TransmissionResponse();
+
+            request.Tag = ++_currentTag;
 
             try
             {
@@ -389,10 +405,14 @@ namespace Transmission.API.RPC
 
                 //Prepare http web request
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
+
                 webRequest.ContentType = "application/json-rpc";
                 webRequest.Headers.Add("X-Transmission-Session-Id:" + SessionID);
                 webRequest.Method = "POST";
                 webRequest.ContentLength = byteArray.Length;
+
+                if(_needAuthorization)
+                    webRequest.Headers.Add("Authorization", _authorization);
 
                 using (Stream dataStream = webRequest.GetRequestStream())
                 {
@@ -415,21 +435,25 @@ namespace Transmission.API.RPC
             }
             catch (WebException ex)
             {
-                if (ex.Response != null && ex.Response.Headers.HasKeys())
+                if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Conflict)
                 {
-                    //If session id expiried, try get session id and send request
-                    _sessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+                    if (ex.Response.Headers.HasKeys())
+                    {
+                        //If session id expiried, try get session id and send request
+                        _sessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
 
-                    if (_sessionID == null)
-                        throw new Exception("Session ID Error");
+                        if (_sessionID == null)
+                            throw new Exception("Session ID Error");
 
-                    result = SendRequest(request);
+                        result = SendRequest(request);
+                    }
                 }
+                else
+                    throw ex;             
             }
 
             return result;
         }
 
-        #endregion
     }
 }
