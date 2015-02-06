@@ -29,3 +29,18 @@ C# implementation of the Transmission RPC API.
 | queue-move-down      |   | x |
 | queue-move-bottom    |   | x |
 | free-space           |   | x |
+
+How to use
+-------------
+
+```C#
+//Create Transsmission.API.RPC.Client and set host url property (optional set session id property).
+Client client = new Client();
+client.Host = "http://host:port/transmission/rpc";
+client.SessionID = "some_session_id";
+
+//After initialization, the client can call methods:
+var sessionInfo = client.GetSession();
+var allTorrents = client.TorrentsGetAll(client.AllTorrentsFields);
+//<...>
+```
