@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Transmission.API.RPC.Entity;
+using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC.Test
 {
@@ -13,6 +14,8 @@ namespace Transmission.API.RPC.Test
         const string SESSION_ID = "";
 
         Client client = new Client(HOST, SESSION_ID);
+
+        #region Torrent Test
 
         [TestMethod]
         public void AddTorrent()
@@ -45,7 +48,49 @@ namespace Transmission.API.RPC.Test
         [TestMethod]
         public void RemoveTorrent()
         {
-            client.RemoveTorrents(new int[] { 41 }); 
+            client.RemoveTorrents(new int[] { 41 });
         }
+
+        #endregion
+
+        #region Session Test
+
+		[TestMethod]
+		public void SessionGetTest()
+		{
+			var info = client.GetSessionInformation();
+			Assert.IsNotNull(info);
+			Assert.IsNotNull(info.Version);
+		}
+
+		[TestMethod]
+        public void ChangeSessionTest()
+        {
+            //Get current session information
+            var sessionInformation = client.GetSessionInformation();
+
+			//Save old speed limit up
+			var oldSpeedLimit = sessionInformation.SpeedLimitUp;
+
+            //Set new speed limit
+			sessionInformation.SpeedLimitUp = 200;
+
+            //Set new session settings
+			client.SetSessionSettings(sessionInformation);
+
+            //Get new session information
+            var newSessionInformation = client.GetSessionInformation();
+
+			//Check new speed limit
+			Assert.AreEqual(newSessionInformation.SpeedLimitUp, 200);
+            
+			//Restore speed limit
+            newSessionInformation.SpeedLimitUp = oldSpeedLimit;
+
+            //Set new session settinhs
+            client.SetSessionSettings(newSessionInformation);
+        }
+
+        #endregion
     }
 }
