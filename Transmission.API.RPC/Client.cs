@@ -17,46 +17,34 @@ namespace Transmission.API.RPC
 {
     public class Client
     {
-        public string Host
-        {
-            get
-            {
-                return _host;
-            }
-        }
-        private string _host;
-
-        public string SessionID
-        {
-            get
-            {
-                return _sessionID;
-            }
-        }
-        private string _sessionID;
-
-        public int CurrentTag
-        {
-            get
-            {
-                return _currentTag;
-            }
-        }
-        int _currentTag = 0;
-
+		public string Host
+		{
+			get;
+			private set;
+		}
+		public string SessionID
+		{
+			get;
+			private set;
+		}
+		public int CurrentTag
+		{
+			get;
+			private set;
+		}
+  
         private string _authorization;
         private bool _needAuthorization;
 
         public Client(string host, string sessionID = null)
         {
-            this._host = host;
-            this._sessionID = sessionID;
+            this.Host = host;
+            this.SessionID = sessionID;
         }
 
         public void SetAuth(string login, string password)
         {
-            if (String.IsNullOrWhiteSpace(login) ||
-                String.IsNullOrWhiteSpace(password))
+            if (String.IsNullOrWhiteSpace(login) || String.IsNullOrWhiteSpace(password))
                 return;
 
             var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
@@ -392,11 +380,11 @@ namespace Transmission.API.RPC
 
         #endregion
 
-        public TransmissionResponse SendRequest(TransmissionRequest request)
+        private TransmissionResponse SendRequest(TransmissionRequest request)
         {
             TransmissionResponse result = new TransmissionResponse();
 
-            request.Tag = ++_currentTag;
+            request.Tag = ++CurrentTag;
 
             try
             {
@@ -440,9 +428,9 @@ namespace Transmission.API.RPC
                     if (ex.Response.Headers.HasKeys())
                     {
                         //If session id expiried, try get session id and send request
-                        _sessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+                        SessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
 
-                        if (_sessionID == null)
+                        if (SessionID == null)
                             throw new Exception("Session ID Error");
 
                         result = SendRequest(request);

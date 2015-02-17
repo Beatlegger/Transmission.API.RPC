@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Collections;
+using System.Linq;
 using Transmission.API.RPC.Entity;
 using Transmission.API.RPC.Arguments;
 
@@ -18,7 +20,7 @@ namespace Transmission.API.RPC.Test
         #region Torrent Test
 
         [TestMethod]
-        public void AddTorrent()
+        public void AddGetAndRemoveTorrent()
         {
             if (!File.Exists(FILE_PATH))
                 throw new Exception("Torrent file not found");
@@ -36,19 +38,20 @@ namespace Transmission.API.RPC.Test
             };
 
             var torrentInfo = client.AddTorrent(torrent);
-        }
 
-        [TestMethod]
-        public void GetTorrent()
-        {
-            var allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
-            var oneTorrent = client.GetTorrents(TorrentFields.ALL_FIELDS, new int[] { 42 });
-        }
+			var allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
 
-        [TestMethod]
-        public void RemoveTorrent()
-        {
-            client.RemoveTorrents(new int[] { 41 });
+			Assert.IsNotNull(allTorrents);
+			Assert.IsNotNull(allTorrents.Torrents);
+			Assert.IsTrue(allTorrents.Torrents.Any(t => t.ID == torrentInfo.ID));
+
+			client.RemoveTorrents(new int[] { torrentInfo.ID });
+
+			allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
+
+			Assert.IsNotNull(allTorrents);
+			Assert.IsNotNull(allTorrents.Torrents);
+			Assert.IsFalse(allTorrents.Torrents.Any(t => t.ID == torrentInfo.ID));
         }
 
         #endregion
@@ -63,7 +66,8 @@ namespace Transmission.API.RPC.Test
 			Assert.IsNotNull(info.Version);
 		}
 
-		[TestMethod]
+		/* WARNING! THIS METHOD CAN CORRUPT SETTINGS. */
+		/*[TestMethod]
         public void ChangeSessionTest()
         {
             //Get current session information
@@ -89,7 +93,7 @@ namespace Transmission.API.RPC.Test
 
             //Set new session settinhs
             client.SetSessionSettings(newSessionInformation);
-        }
+        }*/
 
         #endregion
     }

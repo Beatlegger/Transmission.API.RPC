@@ -9,7 +9,7 @@ using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC.Arguments
 {
-    public class SessionSettings : RequestArguments
+    public class SessionSettings : ArgumentsBase
     {
         /// <summary>
         /// Max global download speed (KBps)

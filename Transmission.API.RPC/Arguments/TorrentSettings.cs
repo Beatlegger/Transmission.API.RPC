@@ -8,7 +8,7 @@ using Transmission.API.RPC.Common;
 
 namespace Transmission.API.RPC.Arguments
 {
-    public class TorrentSettings : RequestArguments
+    public class TorrentSettings : ArgumentsBase
     {
         /// <summary>
         /// This torrent's bandwidth tr_priority_t

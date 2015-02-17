@@ -44,10 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
-    <Compile Include="Common\RequestArguments.cs" />
+    <Compile Include="Common\ArgumentsBase.cs" />
     <Compile Include="Arguments\TorrentFields.cs" />
     <Compile Include="Arguments\NewTorrent.cs" />
-    <Compile Include="Common\RequestResponse.cs" />
+    <Compile Include="Common\CommunicateBase.cs" />
+    <Compile Include="Common\TransmissionRequest.cs" />
+    <Compile Include="Common\TransmissionResponse.cs" />
     <Compile Include="Entity\SessionInfo.cs" />
     <Compile Include="Arguments\SessionSettings.cs" />
     <Compile Include="Entity\Statistic.cs" />

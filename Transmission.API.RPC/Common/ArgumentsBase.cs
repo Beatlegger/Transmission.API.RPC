@@ -10,7 +10,7 @@ namespace Transmission.API.RPC.Common
     /// <summary>
     /// Absract class for arguments
     /// </summary>
-    public abstract class RequestArguments
+    public abstract class ArgumentsBase
     {
         public Dictionary<string, object> ToDictionary()
         {

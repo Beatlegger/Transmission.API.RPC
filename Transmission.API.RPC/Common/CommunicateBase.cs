@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Common
 {
-    public abstract class TransmissionRequestResponse
+    public abstract class CommunicateBase
     {
         /// <summary>
         /// Data
@@ -39,40 +39,5 @@ namespace Transmission.API.RPC.Common
             var argumentsString = JsonConvert.SerializeObject(this.Arguments);
             return JsonConvert.DeserializeObject<T>(argumentsString);
         }
-    }
-
-    /// <summary>
-    /// Transmission request 
-    /// </summary>
-    public class TransmissionRequest : TransmissionRequestResponse
-    {
-        /// <summary>
-        /// Name of the method to invoke
-        /// </summary>
-        [JsonProperty("method")]
-        public string Method;
-
-        public TransmissionRequest(string method, Dictionary<string, object> arguments)
-        {
-            this.Method = method;
-            this.Arguments = arguments;
-        }
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
-        }
-    }
-
-    /// <summary>
-    /// Transmission response 
-    /// </summary>
-    public class TransmissionResponse : TransmissionRequestResponse
-    {
-        /// <summary>
-        /// Contains "success" on success, or an error string on failure.
-        /// </summary>
-        [JsonProperty("result")]
-        public string Result;
     }
 }
