@@ -111,7 +111,7 @@ namespace Transmission.API.RPC
         /// Add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
-        public TorrentInformation AddTorrent(NewTorrent torrent)
+		public NewTorrentInformation AddTorrent(NewTorrent torrent)
         {
             if (String.IsNullOrWhiteSpace(torrent.Metainfo) && String.IsNullOrWhiteSpace(torrent.Filename))
                 throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
@@ -123,19 +123,19 @@ namespace Transmission.API.RPC
             if (jObject == null || jObject.First == null)
                 return null;
 
-            TorrentInformation result = null;
+            NewTorrentInformation result = null;
             JToken value = null;
 
             if (jObject.TryGetValue("torrent-duplicate", out value))
-                result = JsonConvert.DeserializeObject<TorrentInformation>(value.ToString());
+                result = JsonConvert.DeserializeObject<NewTorrentInformation>(value.ToString());
             else if (jObject.TryGetValue("torrent-added", out value))
-                result = JsonConvert.DeserializeObject<TorrentInformation>(value.ToString());
+                result = JsonConvert.DeserializeObject<NewTorrentInformation>(value.ToString());
 
             return result;
         }
 
         /// <summary>
-        /// [UNTESTED] Set torrent params (API: torrent-set)
+        /// Set torrent params (API: torrent-set)
         /// </summary>
         /// <param name="torrentSet">New torrent params</param>
         public void SetTorrents(TorrentSettings settings)

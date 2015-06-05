@@ -20,7 +20,7 @@ namespace Transmission.API.RPC.Test
         #region Torrent Test
 
         [TestMethod]
-        public void AddGetAndRemoveTorrent()
+        public void AddGetSetAndRemoveTorrent()
         {
             if (!File.Exists(FILE_PATH))
                 throw new Exception("Torrent file not found");
@@ -37,21 +37,37 @@ namespace Transmission.API.RPC.Test
                 Paused = true
             };
 
-            var torrentInfo = client.AddTorrent(torrent);
+            var newTorrentInfo = client.AddTorrent(torrent);
 
 			var allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
 
 			Assert.IsNotNull(allTorrents);
 			Assert.IsNotNull(allTorrents.Torrents);
-			Assert.IsTrue(allTorrents.Torrents.Any(t => t.ID == torrentInfo.ID));
+			Assert.IsTrue(allTorrents.Torrents.Any(t => t.ID == newTorrentInfo.ID));
 
-			client.RemoveTorrents(new int[] { torrentInfo.ID });
+			var torrentInfo = allTorrents.Torrents.First(t => t.ID == newTorrentInfo.ID);
+
+			TorrentSettings settings = new TorrentSettings()
+			{
+				IDs = new int[]
+				{
+					newTorrentInfo.ID
+				},
+				TrackerRemove = new int[] 
+				{ 
+					torrentInfo.Trackers[0].ID
+				}
+			};
+
+			client.SetTorrents(settings);
+
+			client.RemoveTorrents(new int[] { newTorrentInfo.ID });
 
 			allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
 
 			Assert.IsNotNull(allTorrents);
 			Assert.IsNotNull(allTorrents.Torrents);
-			Assert.IsFalse(allTorrents.Torrents.Any(t => t.ID == torrentInfo.ID));
+			Assert.IsFalse(allTorrents.Torrents.Any(t => t.ID == newTorrentInfo.ID));
         }
 
         #endregion

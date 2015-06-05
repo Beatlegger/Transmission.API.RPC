@@ -180,7 +180,7 @@ namespace Transmission.API.RPC.Entity
         [JsonProperty("Status")]
         public int Status { get; set; }
 
-        [JsonProperty("trackers")]
+		[JsonProperty("trackers")]
         public TransmissionTorrentTrackers[] Trackers { get; set; }
 
         [JsonProperty("trackerStats")]
@@ -309,7 +309,6 @@ namespace Transmission.API.RPC.Entity
 
     public class TransmissionTorrentTrackers
     {
-
         [JsonProperty("announce")]
         public string announce{ get; set; }
 

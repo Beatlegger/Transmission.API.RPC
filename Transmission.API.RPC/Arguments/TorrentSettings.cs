@@ -99,11 +99,17 @@ namespace Transmission.API.RPC.Arguments
         //"files-unwanted"      | array      indices of file(s) to not download
         //public [] FilesUnwanted;
 
-        //"trackerAdd"          | array      strings of announce URLs to add
-        //public [] TrackerAdd;
+		/// <summary>
+		/// Strings of announce URLs to add
+		/// </summary>
+		[JsonProperty("trackerAdd")]
+		public string[] TrackerAdd { get; set; }
 
-        //"trackerRemove"       | array      ids of trackers to remove
-        //public [] trackerRemove;
+		/// <summary>
+		/// Ids of trackers to remove
+		/// </summary>
+		[JsonProperty("trackerRemove")]
+		public int[] TrackerRemove { get; set; }
 
         //"trackerReplace"      | array      pairs of <trackerId/new announce URLs>
         //public [] trackerReplace;
