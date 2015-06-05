@@ -34,12 +34,10 @@ How to use
 -------------
 
 ```C#
-//Create Transsmission.API.RPC.Client and set host url property (optional set session id property).
+//Create Transsmission.API.RPC.Client (set host, optional session id,optional login and optional pass).
 Client client = new Client("HOST", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
-client.Host = "http://host:port/transmission/rpc";
-client.SessionID = "some_session_id";
 
-//After initialization, the client can call methods:
+//After initialization, client can call methods:
 var sessionInfo = client.GetSessionInformation();
 var allTorrents = client.TorrentsGetAll(TorrentFields.ALL_FIELDS);
 //<...>
