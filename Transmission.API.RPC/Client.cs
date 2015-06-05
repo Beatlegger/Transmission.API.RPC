@@ -36,22 +36,26 @@ namespace Transmission.API.RPC
         private string _authorization;
         private bool _needAuthorization;
 
-        public Client(string host, string sessionID = null)
+		/// <summary>
+		/// Initialize client
+		/// </summary>
+		/// <param name="host">Host adresse</param>
+		/// <param name="sessionID">Session ID</param>
+		/// <param name="login">Login</param>
+		/// <param name="password">Password</param>
+		public Client(string host, string sessionID = null, string login = null, string password = null)
         {
             this.Host = host;
             this.SessionID = sessionID;
-        }
 
-        public void SetAuth(string login, string password)
-        {
-            if (String.IsNullOrWhiteSpace(login) || String.IsNullOrWhiteSpace(password))
-                return;
+			if (!String.IsNullOrWhiteSpace(login))
+			{
+				var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
+				var encoded = Convert.ToBase64String(authBytes);
 
-            var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
-            var encoded = Convert.ToBase64String(authBytes);
-
-            this._needAuthorization = true;
-            this._authorization = "Basic " + encoded;
+				this._authorization = "Basic " + encoded;
+				this._needAuthorization = true;
+			}
         }
 
         #region Session methods
@@ -71,7 +75,7 @@ namespace Transmission.API.RPC
         /// <param name="settings">New session settings</param>
         public void SetSessionSettings(SessionSettings settings)
         {
-            var request = new TransmissionRequest("session-close", settings.ToDictionary());
+            var request = new TransmissionRequest("session-set", settings.ToDictionary());
             var response = SendRequest(request);
         }
 
@@ -370,7 +374,7 @@ namespace Transmission.API.RPC
             var arguments = new Dictionary<string, object>();
             arguments.Add("path", path);
 
-            TransmissionRequest request = new TransmissionRequest("free-space", arguments);
+            var request = new TransmissionRequest("free-space", arguments);
             var response = SendRequest(request);
 
             var data = response.Deserialize<JObject>();
@@ -389,7 +393,7 @@ namespace Transmission.API.RPC
             try
             {
 
-                byte[] byteArray = Encoding.UTF8.GetBytes(request.ToString());
+                byte[] byteArray = Encoding.UTF8.GetBytes(request.ToJson());
 
                 //Prepare http web request
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);

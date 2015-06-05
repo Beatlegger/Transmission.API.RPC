@@ -12,7 +12,7 @@ namespace Transmission.API.RPC.Test
     public class MethodsTest
     {
         const string FILE_PATH = "./Data/ubuntu-10.04.4-server-amd64.iso.torrent";
-        const string HOST = "http://192.168.1.50:9091/transmission/rpc";
+        const string HOST = "http://192.168.1.2:9091/transmission/rpc";
         const string SESSION_ID = "";
 
         Client client = new Client(HOST, SESSION_ID);
@@ -65,9 +65,8 @@ namespace Transmission.API.RPC.Test
 			Assert.IsNotNull(info);
 			Assert.IsNotNull(info.Version);
 		}
-
-		/* WARNING! THIS METHOD CAN CORRUPT SETTINGS. */
-		/*[TestMethod]
+		
+		[TestMethod]
         public void ChangeSessionTest()
         {
             //Get current session information
@@ -93,7 +92,7 @@ namespace Transmission.API.RPC.Test
 
             //Set new session settinhs
             client.SetSessionSettings(newSessionInformation);
-        }*/
+        }
 
         #endregion
     }

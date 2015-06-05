@@ -23,10 +23,5 @@ namespace Transmission.API.RPC.Common
 			this.Method = method;
 			this.Arguments = arguments;
 		}
-
-		public override string ToString()
-		{
-			return JsonConvert.SerializeObject(this, Formatting.Indented);
-		}
 	}
 }

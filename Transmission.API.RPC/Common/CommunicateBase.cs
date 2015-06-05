@@ -25,7 +25,7 @@ namespace Transmission.API.RPC.Common
         /// Convert to JSON string
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
+        public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
