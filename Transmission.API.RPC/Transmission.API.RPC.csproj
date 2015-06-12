@@ -50,11 +50,12 @@
     <Compile Include="Common\CommunicateBase.cs" />
     <Compile Include="Common\TransmissionRequest.cs" />
     <Compile Include="Common\TransmissionResponse.cs" />
-    <Compile Include="Entity\NewTorrentInformation.cs" />
+    <Compile Include="Entity\NewTorrentInfo.cs" />
+    <Compile Include="Entity\RenameTorrentInfo.cs" />
     <Compile Include="Entity\SessionInfo.cs" />
     <Compile Include="Arguments\SessionSettings.cs" />
     <Compile Include="Entity\Statistic.cs" />
-    <Compile Include="Entity\TorrentInformation.cs" />
+    <Compile Include="Entity\TorrentInfo.cs" />
     <Compile Include="Arguments\TorrentSettings.cs" />
     <Compile Include="Entity\Units.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

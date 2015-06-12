@@ -20,7 +20,7 @@ namespace Transmission.API.RPC.Test
         #region Torrent Test
 
         [TestMethod]
-        public void AddGetSetAndRemoveTorrent()
+        public void AddTorrent_Test()
         {
             if (!File.Exists(FILE_PATH))
                 throw new Exception("Torrent file not found");
@@ -34,41 +34,76 @@ namespace Transmission.API.RPC.Test
             var torrent = new NewTorrent
             {
                 Metainfo = encodedData,
-                Paused = true
+                Paused = false
             };
 
             var newTorrentInfo = client.AddTorrent(torrent);
 
-			var allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
+			Assert.IsNotNull(newTorrentInfo);
+			Assert.IsTrue(newTorrentInfo.ID != 0);
+        }
 
-			Assert.IsNotNull(allTorrents);
-			Assert.IsNotNull(allTorrents.Torrents);
-			Assert.IsTrue(allTorrents.Torrents.Any(t => t.ID == newTorrentInfo.ID));
+		[TestMethod]
+		public void GetTorrentInfo_Test()
+		{
+			var torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS);
 
-			var torrentInfo = allTorrents.Torrents.First(t => t.ID == newTorrentInfo.ID);
+			Assert.IsNotNull(torrentsInfo);
+			Assert.IsNotNull(torrentsInfo.Torrents);
+			Assert.IsTrue(torrentsInfo.Torrents.Any());
+		}
+
+		[TestMethod]
+		public void SetTorrentSettings_Test()
+		{
+			var torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS);
+			var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+			Assert.IsNotNull(torrentInfo, "Torrent not found");
+
+			var trackerInfo = torrentInfo.Trackers.FirstOrDefault();
+			Assert.IsNotNull(trackerInfo, "Tracker not found");
 
 			TorrentSettings settings = new TorrentSettings()
 			{
-				IDs = new int[]
-				{
-					newTorrentInfo.ID
-				},
-				TrackerRemove = new int[] 
-				{ 
-					torrentInfo.Trackers[0].ID
-				}
+				IDs = new int[] { torrentInfo.ID },
+				TrackerRemove = new int[] { trackerInfo.ID }
 			};
 
 			client.SetTorrents(settings);
 
-			client.RemoveTorrents(new int[] { newTorrentInfo.ID });
+			torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS, torrentInfo.ID);
+			torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
 
-			allTorrents = client.GetTorrents(TorrentFields.ALL_FIELDS);
+			trackerInfo = torrentInfo.Trackers.FirstOrDefault(t=>t.ID == trackerInfo.ID);
+			Assert.IsNull(trackerInfo);
+		}
 
-			Assert.IsNotNull(allTorrents);
-			Assert.IsNotNull(allTorrents.Torrents);
-			Assert.IsFalse(allTorrents.Torrents.Any(t => t.ID == newTorrentInfo.ID));
-        }
+		[TestMethod]
+		public void RenamePathTorrent_Test()
+		{
+			var torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS);
+			var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+			Assert.IsNotNull(torrentInfo, "Torrent not found");
+
+			var result = client.RenameTorrentPath(torrentInfo.ID, torrentInfo.Files[0].Name, "test_" + torrentInfo.Files[0].Name);
+
+			Assert.IsNotNull(result, "Torrent not found");
+			Assert.IsTrue(result.ID != 0);
+		}
+
+		[TestMethod]
+		public void RemoveTorrent_Test()
+		{
+			var torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS);
+			var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+			Assert.IsNotNull(torrentInfo, "Torrent not found");
+
+			client.RemoveTorrents(new int[] { torrentInfo.ID });
+
+			torrentsInfo = client.GetTorrents(TorrentFields.ALL_FIELDS);
+
+			Assert.IsFalse(torrentsInfo.Torrents.Any(t => t.ID == torrentInfo.ID));
+		}
 
         #endregion
 

@@ -10,7 +10,7 @@ namespace Transmission.API.RPC.Entity
     /// <summary>
     /// Torrent information
     /// </summary>
-    public class TorrentInformation
+    public class TorrentInfo
     {
         /// <summary>
         /// The torrent's unique Id.
@@ -414,12 +414,12 @@ namespace Transmission.API.RPC.Entity
         /// Array of torrents
         /// </summary>
         [JsonProperty("torrents")]
-        public TorrentInformation[] Torrents{ get; set; }
+        public TorrentInfo[] Torrents{ get; set; }
 
         /// <summary>
         /// Array of torrent-id numbers of recently-removed torrents
         /// </summary>
         [JsonProperty("removed")]
-        public TorrentInformation[] Removed{ get; set; }
+        public TorrentInfo[] Removed{ get; set; }
     }
 }

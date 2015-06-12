@@ -10,7 +10,7 @@ namespace Transmission.API.RPC.Entity
 	/// <summary>
 	/// Information of added torrent
 	/// </summary>
-	public class NewTorrentInformation
+	public class NewTorrentInfo
 	{
 		/// <summary>
 		/// Torrent ID

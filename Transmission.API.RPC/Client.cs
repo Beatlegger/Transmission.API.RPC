@@ -95,11 +95,11 @@ namespace Transmission.API.RPC
         /// Get information of current session (API: session-get)
         /// </summary>
         /// <returns>Session information</returns>
-        public SessionInformation GetSessionInformation()
+        public SessionInfo GetSessionInformation()
         {
             var request = new TransmissionRequest("session-get", null);
             var response = SendRequest(request);
-            var result = response.Deserialize<SessionInformation>();
+            var result = response.Deserialize<SessionInfo>();
             return result;
         }
 
@@ -111,7 +111,7 @@ namespace Transmission.API.RPC
         /// Add torrent (API: torrent-add)
         /// </summary>
         /// <returns>Torrent info (ID, Name and HashString)</returns>
-		public NewTorrentInformation AddTorrent(NewTorrent torrent)
+		public NewTorrentInfo AddTorrent(NewTorrent torrent)
         {
             if (String.IsNullOrWhiteSpace(torrent.Metainfo) && String.IsNullOrWhiteSpace(torrent.Filename))
                 throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
@@ -123,13 +123,13 @@ namespace Transmission.API.RPC
             if (jObject == null || jObject.First == null)
                 return null;
 
-            NewTorrentInformation result = null;
+            NewTorrentInfo result = null;
             JToken value = null;
 
             if (jObject.TryGetValue("torrent-duplicate", out value))
-                result = JsonConvert.DeserializeObject<NewTorrentInformation>(value.ToString());
+                result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
             else if (jObject.TryGetValue("torrent-added", out value))
-                result = JsonConvert.DeserializeObject<NewTorrentInformation>(value.ToString());
+                result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
 
             return result;
         }
@@ -150,7 +150,7 @@ namespace Transmission.API.RPC
         /// <param name="fields">Fields of torrents</param>
         /// <param name="ids">IDs of torrents (null or empty for get all torrents)</param>
         /// <returns>Torrents info</returns>
-        public TransmissionTorrents GetTorrents(string[] fields, int[] ids = null)
+        public TransmissionTorrents GetTorrents(string[] fields, params int[] ids)
         {
             var arguments = new Dictionary<string, object>();
             arguments.Add("fields", fields);
@@ -309,7 +309,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">The torrent whose path will be renamed</param>
         /// <param name="path">The path to the file or folder that will be renamed</param>
         /// <param name="name">The file or folder's new name</param>
-        public void RenameTorrentPath(int id, string path, string name)
+		public RenameTorrentInfo RenameTorrentPath(int id, string path, string name)
         {
             var arguments = new Dictionary<string, object>();
             arguments.Add("ids", new int[] { id });
@@ -318,6 +318,10 @@ namespace Transmission.API.RPC
 
             var request = new TransmissionRequest("torrent-rename-path", arguments);
             var response = SendRequest(request);
+
+			var result = response.Deserialize<RenameTorrentInfo>();
+
+			return result;
         }
 
         /// <summary>

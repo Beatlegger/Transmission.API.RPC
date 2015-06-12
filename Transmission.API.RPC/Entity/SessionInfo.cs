@@ -9,7 +9,7 @@ using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC.Entity
 {
-    public class SessionInformation : SessionSettings
+    public class SessionInfo : SessionSettings
     {
         /// <summary>
         /// Number of rules in the blocklist
