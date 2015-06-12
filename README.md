@@ -12,7 +12,7 @@ C# implementation of the Transmission RPC API.
 | torrent-stop         |   | x |
 | torrent-verify       |   | x |
 | torrent-reannounce   |   | x |
-| torrent-set          |   | [UNTESTED] |
+| torrent-set          |   | x |
 | torrent-get          |   | x |
 | torrent-add          |   | x |
 | torrent-remove       |   | x |
@@ -34,13 +34,11 @@ How to use
 -------------
 
 ```C#
-//Create Transsmission.API.RPC.Client and set host url property (optional set session id property).
-Client client = new Client();
-client.Host = "http://host:port/transmission/rpc";
-client.SessionID = "some_session_id";
+//Create Transsmission.API.RPC.Client (set host, optional session id,optional login and optional pass).
+Client client = new Client("HOST", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
 
-//After initialization, the client can call methods:
-var sessionInfo = client.GetSession();
-var allTorrents = client.TorrentsGetAll(client.AllTorrentsFields);
+//After initialization, client can call methods:
+var sessionInfo = client.GetSessionInformation();
+var allTorrents = client.TorrentsGetAll(TorrentFields.ALL_FIELDS);
 //<...>
 ```
