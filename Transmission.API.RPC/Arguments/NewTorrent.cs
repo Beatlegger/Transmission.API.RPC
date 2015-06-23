@@ -26,7 +26,7 @@ namespace Transmission.API.RPC.Entity
         public string DownloadDirectory{ get; set; }
 
         /// <summary>
-        /// filename or URL of the .torrent file
+		/// filename (relative to the server) or URL of the .torrent file (Priority than the metadata)
         /// </summary>
         [JsonProperty("filename")]
         public string Filename{ get; set; }

@@ -12,7 +12,7 @@ namespace Transmission.API.RPC.Test
     public class MethodsTest
     {
         const string FILE_PATH = "./Data/ubuntu-10.04.4-server-amd64.iso.torrent";
-        const string HOST = "http://192.168.1.2:9091/transmission/rpc";
+        const string HOST = "http://192.168.1.50:9091/transmission/rpc";
         const string SESSION_ID = "";
 
         Client client = new Client(HOST, SESSION_ID);
@@ -29,10 +29,14 @@ namespace Transmission.API.RPC.Test
             byte[] filebytes = new byte[fstream.Length];
             fstream.Read(filebytes, 0, Convert.ToInt32(fstream.Length));
             
-            string encodedData = Convert.ToBase64String(filebytes, Base64FormattingOptions.InsertLineBreaks);
+			string encodedData = Convert.ToBase64String(filebytes);
+
+			//The path relative to the server (priority than the metadata)
+			//string filename = "/DataVolume/shares/Public/Transmission/torrents/ubuntu-10.04.4-server-amd64.iso.torrent";
 
             var torrent = new NewTorrent
             {
+				//Filename = filename,
                 Metainfo = encodedData,
                 Paused = false
             };
