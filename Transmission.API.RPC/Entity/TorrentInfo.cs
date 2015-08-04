@@ -37,7 +37,7 @@ namespace Transmission.API.RPC.Entity
         public int DateCreated { get; set; }
 
         [JsonProperty("desiredAvailable")]
-        public int DesiredAvailable { get; set; }
+        public long DesiredAvailable { get; set; }
 
         [JsonProperty("doneDate")]
         public int DoneDate { get; set; }
