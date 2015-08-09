@@ -324,18 +324,19 @@ namespace Transmission.API.RPC
 			return result;
         }
 
-        /// <summary>
-        /// Reannounce torrent (API: torrent-reannounce)
-        /// </summary>
-        /// <param name="ids"></param>
-        public void ReannounceTorrents(int[] ids)
-        {
-            var arguments = new Dictionary<string, object>();
-            arguments.Add("ids", ids);
+        //method name not recognized
+        ///// <summary>
+        ///// Reannounce torrent (API: torrent-reannounce)
+        ///// </summary>
+        ///// <param name="ids"></param>
+        //public void ReannounceTorrents(int[] ids)
+        //{
+        //    var arguments = new Dictionary<string, object>();
+        //    arguments.Add("ids", ids);
 
-            var request = new TransmissionRequest("torrent-reannounce", arguments);
-            var response = SendRequest(request);
-        }
+        //    var request = new TransmissionRequest("torrent-reannounce", arguments);
+        //    var response = SendRequest(request);
+        //}
 
         #endregion
 
