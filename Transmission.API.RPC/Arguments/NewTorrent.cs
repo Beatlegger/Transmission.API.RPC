@@ -59,30 +59,30 @@ namespace Transmission.API.RPC.Entity
         /// Indices of file(s) to download
         /// </summary>
         [JsonProperty("files-wanted")]
-        public string[] FilesWanted{ get; set; }
+        public int[] FilesWanted { get; set; }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
         [JsonProperty("files-unwanted")]
-        public string[] FilesUnwanted{ get; set; }
+        public int[] FilesUnwanted { get; set; }
 
         /// <summary>
         /// Indices of high-priority file(s)
         /// </summary>
         [JsonProperty("priority-high")]
-        public string[] PriorityHigh{ get; set; }
+        public int[] PriorityHigh { get; set; }
 
         /// <summary>
         /// Indices of low-priority file(s)
         /// </summary>
         [JsonProperty("priority-low")]
-        public string[] PriorityLow{ get; set; }
+        public int[] PriorityLow { get; set; }
 
         /// <summary>
         /// Indices of normal-priority file(s)
         /// </summary>
         [JsonProperty("priority-normal")]
-        public string[] PriorityNormal{ get; set; }
+        public int[] PriorityNormal{ get; set; }
     }
 }
