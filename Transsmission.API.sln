@@ -1,12 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC.Test", "Transmission.API.RPC.Test\Transmission.API.RPC.Test.csproj", "{837B8757-9D06-4807-9048-AE2DC364A7BE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4FC6A5A0-7A29-4429-9C05-BBADB3A74884}"
-	ProjectSection(SolutionItems) = preProject
-		Lib\Newtonsoft.Json.dll = Lib\Newtonsoft.Json.dll
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC", "Transmission.API.RPC\Transmission.API.RPC.csproj", "{3D33F97F-993A-4C48-ACDE-43F18EA7341E}"
 EndProject
