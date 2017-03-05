@@ -1,9 +1,7 @@
 Transmission-RPC-API-CSharp
 ===========================
 
-Transmission RPC API C# 
-
-[![Build Status](https://travis-ci.org/Beatlegger/Transmission.API.RPC.svg?branch=master)](https://travis-ci.org/Beatlegger/Transmission.API.RPC)
+Transmission RPC API C# [![Build Status](https://travis-ci.org/Beatlegger/Transmission.API.RPC.svg?branch=master)](https://travis-ci.org/Beatlegger/Transmission.API.RPC)
 
 C# implementation of the Transmission RPC API.
 
@@ -35,7 +33,11 @@ C# implementation of the Transmission RPC API.
 How to use
 -------------
 
+Install Nuget Package: `PM> Install-Package Transmission.API.RPC`
+
 ```C#
+//Add using Transmission.API.RPC;
+
 //Create Transsmission.API.RPC.Client (set host, optional session id,optional login and optional pass).
 Client client = new Client("HOST", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
 
