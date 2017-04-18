@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Transmission.API.RPC.Common
             var result = new Dictionary<string, object>();
 
             var type = this.GetType();
-            var properties = type.GetProperties();
+            var properties = type.GetRuntimeProperties();
 
             foreach (var prop in properties)
             {
@@ -31,7 +32,7 @@ namespace Transmission.API.RPC.Common
 
                 var propJsonAttrArg = propJsonAttr.ConstructorArguments.FirstOrDefault(arg => arg.Value != null);
 
-                if (propJsonAttrArg == null)
+                if (propJsonAttrArg.Value == null)
                     continue;
 
                 var argName = propJsonAttrArg.Value as String;
