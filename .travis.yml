@@ -1,2 +1,7 @@
 language: csharp
-solution: Transsmission.API.sln
+dist: trusty
+sudo: required
+mono: none
+dotnet: 1.0.1
+script:
+  - ./build.sh --quiet verify
