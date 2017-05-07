@@ -709,20 +709,24 @@ namespace Transmission.API.RPC
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
 
                 webRequest.ContentType = "application/json-rpc";
-                webRequest.Headers.Add("X-Transmission-Session-Id:" + SessionID);
+                webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
                 webRequest.Method = "POST";
-                webRequest.ContentLength = byteArray.Length;
                 
                 if (_needAuthorization)
-                    webRequest.Headers.Add("Authorization", _authorization);
+                    webRequest.Headers["Authorization"] = _authorization;
 
-                using (Stream dataStream = webRequest.GetRequestStream())
+                var requestTask = webRequest.GetRequestStreamAsync();
+                requestTask.WaitAndUnwrapException();
+                using (Stream dataStream = requestTask.Result)
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
                 }
 
+                var responseTask = webRequest.GetResponseAsync();
+                responseTask.WaitAndUnwrapException();
+                
                 //Send request and prepare response
-                using (var webResponse = webRequest.GetResponse())
+                using (var webResponse = responseTask.Result)
                 {
                     using (Stream responseStream = webResponse.GetResponseStream())
                     {
@@ -739,10 +743,10 @@ namespace Transmission.API.RPC
             {
                 if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Conflict)
                 {
-                    if (ex.Response.Headers.HasKeys())
+                    if (ex.Response.Headers.Count > 0)
                     {
                         //If session id expiried, try get session id and send request
-                        SessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+                        SessionID = ex.Response.Headers["X-Transmission-Session-Id"];
 
                         if (SessionID == null)
                             throw new Exception("Session ID Error");
@@ -772,12 +776,11 @@ namespace Transmission.API.RPC
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
 
                 webRequest.ContentType = "application/json-rpc";
-                webRequest.Headers.Add("X-Transmission-Session-Id:" + SessionID);
+                webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
                 webRequest.Method = "POST";
-                webRequest.ContentLength = byteArray.Length;
 
                 if (_needAuthorization)
-                    webRequest.Headers.Add("Authorization", _authorization);
+                    webRequest.Headers["Authorization"] = _authorization;
 
                 using (Stream dataStream = await webRequest.GetRequestStreamAsync())
                 {
@@ -785,7 +788,7 @@ namespace Transmission.API.RPC
                 }
 
                 //Send request and prepare response
-                using (var webResponse = webRequest.GetResponse())
+                using (var webResponse = await webRequest.GetResponseAsync())
                 {
                     using (Stream responseStream = webResponse.GetResponseStream())
                     {
@@ -802,10 +805,10 @@ namespace Transmission.API.RPC
             {
                 if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Conflict)
                 {
-                    if (ex.Response.Headers.HasKeys())
+                    if (ex.Response.Headers.Count > 0)
                     {
                         //If session id expiried, try get session id and send request
-                        SessionID = ex.Response.Headers.GetValues("X-Transmission-Session-Id").FirstOrDefault();
+                        SessionID = ex.Response.Headers["X-Transmission-Session-Id"];
 
                         if (SessionID == null)
                             throw new Exception("Session ID Error");
