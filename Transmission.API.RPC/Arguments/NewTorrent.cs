@@ -16,73 +16,61 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Pointer to a string of one or more cookies.
         /// </summary>
-        [JsonProperty("cookies")]
-        public string Cookies{ get; set; }
+        public string Cookies { get { return GetValue<string>("cookies"); } set { this["cookies"] = value; } }
 
         /// <summary>
         /// Path to download the torrent to
         /// </summary>
-        [JsonProperty("download-dir")]
-        public string DownloadDirectory{ get; set; }
+        public string DownloadDirectory { get { return GetValue<string>("download-dir"); } set { this["download-dir"] = value; } }
 
         /// <summary>
 		/// filename (relative to the server) or URL of the .torrent file (Priority than the metadata)
         /// </summary>
-        [JsonProperty("filename")]
-        public string Filename{ get; set; }
+        public string Filename { get { return GetValue<string>("filename"); } set { this["filename"] = value; } }
 
         /// <summary>
         /// base64-encoded .torrent content
         /// </summary>
-        [JsonProperty("metainfo")]
-        public string Metainfo{ get; set; }
+        public string Metainfo { get { return GetValue<string>("metainfo"); } set { this["metainfo"] = value; } }
 
         /// <summary>
         /// if true, don't start the torrent
         /// </summary>
-        [JsonProperty("paused")]
-        public bool Paused{ get; set; }
+        public bool Paused { get { return GetValue<bool>("metainfo"); } set { this["paused"] = value; } }
 
         /// <summary>
         /// maximum number of peers
         /// </summary>
-        [JsonProperty("peer-limit")]
-        public int? PeerLimit{ get; set; }
+        public int? PeerLimit { get { return GetValue<int?>("metainfo"); } set { this["peer-limit"] = value; } }
 
         /// <summary>
         /// Torrent's bandwidth priority
         /// </summary>
-        [JsonProperty("bandwidthPriority")]
-        public int? BandwidthPriority{ get; set; }
+        public int? BandwidthPriority { get { return GetValue<int?>("metainfo"); } set { this["bandwidthPriority"] = value; } }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
-        [JsonProperty("files-wanted")]
-        public int[] FilesWanted { get; set; }
+        public int[] FilesWanted { get { return GetValue<int[]>("metainfo"); } set { this["files-wanted"] = value; } }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
-        [JsonProperty("files-unwanted")]
-        public int[] FilesUnwanted { get; set; }
+        public int[] FilesUnwanted { get { return GetValue<int[]>("metainfo"); } set { this["files-unwanted"] = value; } }
 
         /// <summary>
         /// Indices of high-priority file(s)
         /// </summary>
-        [JsonProperty("priority-high")]
-        public int[] PriorityHigh { get; set; }
+        public int[] PriorityHigh { get { return GetValue<int[]>("metainfo"); } set { this["priority-high"] = value; } }
 
         /// <summary>
         /// Indices of low-priority file(s)
         /// </summary>
-        [JsonProperty("priority-low")]
-        public int[] PriorityLow { get; set; }
+        public int[] PriorityLow { get { return GetValue<int[]>("metainfo"); } set { this["priority-low"] = value; } }
 
         /// <summary>
         /// Indices of normal-priority file(s)
         /// </summary>
-        [JsonProperty("priority-normal")]
-        public int[] PriorityNormal{ get; set; }
+        public int[] PriorityNormal { get { return GetValue<int[]>("metainfo"); } set { this["priority-normal"] = value; } }
     }
 }

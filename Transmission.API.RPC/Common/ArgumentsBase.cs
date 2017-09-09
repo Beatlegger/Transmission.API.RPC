@@ -1,10 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Transmission.API.RPC.Common
 {
@@ -13,38 +7,22 @@ namespace Transmission.API.RPC.Common
     /// </summary>
     public abstract class ArgumentsBase
     {
-        public Dictionary<string, object> ToDictionary()
+        internal Dictionary<string, object> Data = new Dictionary<string, object>();
+
+        internal object this[string name]
         {
-            var result = new Dictionary<string, object>();
+            set { SetValue(name, value); }
+        }
 
-            var type = this.GetType();
-            var properties = type.GetRuntimeProperties();
+        private void SetValue(string name, object value)
+        {
+            if (this.Data.ContainsKey(name)) Data[name] = value;
+            else Data.Add(name, value);
+        }
 
-            foreach (var prop in properties)
-            {
-                var propType = prop.PropertyType;
-
-                var propJsonAttr = prop.CustomAttributes.FirstOrDefault(attr =>
-                    attr.AttributeType == typeof(JsonPropertyAttribute));
-
-                if (propJsonAttr == null)
-                    continue;
-
-                var propJsonAttrArg = propJsonAttr.ConstructorArguments.FirstOrDefault(arg => arg.Value != null);
-
-                if (propJsonAttrArg.Value == null)
-                    continue;
-
-                var argName = propJsonAttrArg.Value as String;
-                var argValue = prop.GetValue(this);
-
-                if (argValue == null)
-                    continue;
-
-                result.Add(argName, argValue);
-            }
-
-            return result;
+        internal T GetValue<T>(string name)
+        {
+            return this.Data.ContainsKey(name) ? (T)Data[name] : default(T);
         }
     }
 }

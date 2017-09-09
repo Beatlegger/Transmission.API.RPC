@@ -47,7 +47,22 @@ namespace Transmission.API.RPC.Test
 			Assert.IsTrue(newTorrentInfo.ID != 0);
         }
 
-		[TestMethod]
+        [TestMethod]
+        public void AddTorrent_Magnet_Test()
+        {
+            var torrent = new NewTorrent
+            {
+                Filename = "magnet:?xt=urn:btih:9e241c218299b1d813275e066f94dbe05bc25e53&dn=Rick.and.Morty.S03E03.720p.HDTV.x264-BATV%5Bettv%5D&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
+                Paused = false
+            };
+
+            var newTorrentInfo = client.TorrentAdd(torrent);
+
+            Assert.IsNotNull(newTorrentInfo);
+            Assert.IsTrue(newTorrentInfo.ID != 0);
+        }
+
+        [TestMethod]
 		public void GetTorrentInfo_Test()
 		{
 			var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
@@ -129,23 +144,20 @@ namespace Transmission.API.RPC.Test
 			//Save old speed limit up
 			var oldSpeedLimit = sessionInformation.SpeedLimitUp;
 
-            //Set new speed limit
-			sessionInformation.SpeedLimitUp = 200;
-
             //Set new session settings
-			client.SetSessionSettings(sessionInformation);
+			client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = 100 });
 
             //Get new session information
             var newSessionInformation = client.GetSessionInformation();
 
 			//Check new speed limit
-			Assert.AreEqual(newSessionInformation.SpeedLimitUp, 200);
+			Assert.AreEqual(newSessionInformation.SpeedLimitUp, 100);
             
 			//Restore speed limit
             newSessionInformation.SpeedLimitUp = oldSpeedLimit;
 
             //Set new session settinhs
-            client.SetSessionSettings(newSessionInformation);
+            client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = oldSpeedLimit });
         }
 
         #endregion

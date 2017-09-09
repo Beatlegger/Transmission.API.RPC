@@ -13,103 +13,89 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// This torrent's bandwidth tr_priority_t
         /// </summary>
-        [JsonProperty("bandwidthPriority")]
-        public int? BandwidthPriority { get; set; }
+        public int? BandwidthPriority { get { return GetValue<int?>("bandwidthPriority"); } set { this["bandwidthPriority"] = value; } }
 
         /// <summary>
         /// Maximum download speed (KBps)
         /// </summary>
-        [JsonProperty("downloadLimit")]
-        public int? DownloadLimit { get; set; }
+        public int? DownloadLimit { get { return GetValue<int?>("downloadLimit"); } set { this["downloadLimit"] = value; } }
 
         /// <summary>
         /// Download limit is honored
         /// </summary>
-        [JsonProperty("downloadLimited")]
-        public bool? DownloadLimited { get; set; }
+        public bool? DownloadLimited { get { return GetValue<bool?>("downloadLimited"); } set { this["downloadLimited"] = value; } }
 
         /// <summary>
         /// Session upload limits are honored
         /// </summary>
-        [JsonProperty("honorsSessionLimits")]
-        public bool? HonorsSessionLimits { get; set; }
+        public bool? HonorsSessionLimits { get { return GetValue<bool?>("honorsSessionLimits"); } set { this["honorsSessionLimits"] = value; } }
+
         /// <summary>
         /// Torrent id array
         /// </summary>
-        [JsonProperty("ids")]
-        public int[] IDs { get; set; }
+        public int[] IDs { get { return GetValue<int[]>("ids"); } set { this["ids"] = value; } }
 
         /// <summary>
         /// New location of the torrent's content
         /// </summary>
-        [JsonProperty("location")]
-        public string Location { get; set; }
+        public string Location { get { return GetValue<string>("location"); } set { this["location"] = value; } }
 
         /// <summary>
         /// Maximum number of peers
         /// </summary>
-        [JsonProperty("peer-limit")]
-        public int? PeerLimit { get; set; }
+        public int? PeerLimit { get { return GetValue<int?>("peer-limit"); } set { this["peer-limit"] = value; } }
 
         /// <summary>
         /// Position of this torrent in its queue [0...n)
         /// </summary>
-        [JsonProperty("queuePosition")]
-        public int? QueuePosition { get; set; }
+        public int? QueuePosition { get { return GetValue<int?>("queuePosition"); } set { this["queuePosition"] = value; } }
 
         /// <summary>
         /// Torrent-level number of minutes of seeding inactivity
         /// </summary>
-        [JsonProperty("seedIdleLimit")]
-        public int? SeedIdleLimit { get; set; }
+        public int? SeedIdleLimit { get { return GetValue<int?>("seedIdleLimit"); } set { this["seedIdleLimit"] = value; } }
 
         /// <summary>
         /// Which seeding inactivity to use
         /// </summary>
-        [JsonProperty("seedIdleMode")]
-        public int? SeedIdleMode { get; set; }
+        public int? SeedIdleMode { get { return GetValue<int?>("seedIdleMode"); } set { this["seedIdleMode"] = value; } }
 
         /// <summary>
         /// Torrent-level seeding ratio
         /// </summary>
-        [JsonProperty("seedRatioLimit")]
-        public double? SeedRatioLimit { get; set; }
+        public double? SeedRatioLimit { get { return GetValue<double?>("seedRatioLimit"); } set { this["seedRatioLimit"] = value; } }
 
         /// <summary>
         /// Which ratio to use. 
         /// </summary>
-        [JsonProperty("seedRatioMode")]
-        public int? SeedRatioMode { get; set; }
+        public int? SeedRatioMode { get { return GetValue<int?>("seedRatioMode"); } set { this["seedRatioMode"] = value; } }
 
         /// <summary>
         /// Maximum upload speed (KBps)
         /// </summary>
-        [JsonProperty("uploadLimit")]
-        public int? UploadLimit { get; set; }
+        public int? UploadLimit { get { return GetValue<int?>("uploadLimit"); } set { this["uploadLimit"] = value; } }
 
         /// <summary>
         /// Upload limit is honored
         /// </summary>
-        [JsonProperty("uploadLimited")]
-        public bool? UploadLimited { get; set; }
+        public bool? UploadLimited { get { return GetValue<bool?>("uploadLimited"); } set { this["uploadLimited"] = value; } }
 
+        /// <summary>
+        /// Strings of announce URLs to add
+        /// </summary>
+		public string[] TrackerAdd { get { return GetValue<string[]>("trackerAdd"); } set { this["trackerAdd"] = value; } }
+
+        /// <summary>
+        /// Ids of trackers to remove
+        /// </summary>
+		public int[] TrackerRemove { get { return GetValue<int[]>("trackerRemove"); } set { this["trackerRemove"] = value; } }
+
+        //TODO: Add Props
         //"files-wanted"        | array      indices of file(s) to download
         //public [] FilesWanted;
 
         //"files-unwanted"      | array      indices of file(s) to not download
         //public [] FilesUnwanted;
-
-		/// <summary>
-		/// Strings of announce URLs to add
-		/// </summary>
-		[JsonProperty("trackerAdd")]
-		public string[] TrackerAdd { get; set; }
-
-		/// <summary>
-		/// Ids of trackers to remove
-		/// </summary>
-		[JsonProperty("trackerRemove")]
-		public int[] TrackerRemove { get; set; }
 
         //"trackerReplace"      | array      pairs of <trackerId/new announce URLs>
         //public [] trackerReplace;
