@@ -33,7 +33,7 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// Torrent id array
         /// </summary>
-        public int[] IDs { get { return GetValue<int[]>("ids"); } set { this["ids"] = value; } }
+        public object[] IDs { get { return GetValue<object[]>("ids"); } set { this["ids"] = value; } }
 
         /// <summary>
         /// New location of the torrent's content
@@ -90,24 +90,34 @@ namespace Transmission.API.RPC.Arguments
         /// </summary>
 		public int[] TrackerRemove { get { return GetValue<int[]>("trackerRemove"); } set { this["trackerRemove"] = value; } }
 
-        //TODO: Add Props
-        //"files-wanted"        | array      indices of file(s) to download
-        //public [] FilesWanted;
+		/// <summary>
+		/// Files wanted
+		/// </summary>
+		public string[] FilesWanted { get { return GetValue<string[]>("files-wanted"); } set { this["files-wanted"] = value; } }
 
-        //"files-unwanted"      | array      indices of file(s) to not download
-        //public [] FilesUnwanted;
+		/// <summary>
+		/// Files unwanted
+		/// </summary>
+		public string[] FilesUnwanted { get { return GetValue<string[]>("files-unwanted"); } set { this["files-unwanted"] = value; } }
 
-        //"trackerReplace"      | array      pairs of <trackerId/new announce URLs>
-        //public [] trackerReplace;
+		/// <summary>
+		/// High priority files
+		/// </summary>
+		public string[] PriorityHigh { get { return GetValue<string[]>("priority-high"); } set { this["priority-high"] = value; } }
 
-        //"priority-high"       | array      indices of high-priority file(s)
-        //public [] PriorityHigh;
+		/// <summary>
+		/// Low priority files
+		/// </summary>
+		public string[] PriorityLow { get { return GetValue<string[]>("priority-low"); } set { this["priority-low"] = value; } }
 
-        //"priority-low"        | array      indices of low-priority file(s)
-        //public [] PriorityLow;
+		/// <summary>
+		/// Normal priority files
+		/// </summary>
+		public string[] PriorityNormal { get { return GetValue<string[]>("priority-normal"); } set { this["priority-normal"] = value; } }
 
-        //"priority-normal"     | array      indices of normal-priority file(s)
-        //public [] PriorityNormal;
+		//TODO: Add and test
+		//"trackerReplace"      | array      pairs of <trackerId/new announce URLs>
+		//public [] trackerReplace;
 
-    }
+	}
 }

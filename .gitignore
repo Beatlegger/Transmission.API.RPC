@@ -157,4 +157,4 @@ $RECYCLE.BIN/
 /packages/Newtonsoft.Json.8.0.2
 
 # VS Files
-/.vs/Transmission.API/v15/Server/sqlite3
+.vs

@@ -38,11 +38,11 @@ namespace Transmission.API.RPC.Test
             {
 				//Filename = filename,
                 Metainfo = encodedData,
-                Paused = false
+                Paused = true
             };
 
             var newTorrentInfo = client.TorrentAdd(torrent);
-
+			
 			Assert.IsNotNull(newTorrentInfo);
 			Assert.IsTrue(newTorrentInfo.ID != 0);
         }
@@ -84,7 +84,7 @@ namespace Transmission.API.RPC.Test
             var trackerCount = torrentInfo.Trackers.Length;
 			TorrentSettings settings = new TorrentSettings()
 			{
-				IDs = new int[] { torrentInfo.ID },
+				IDs = new object[] { torrentInfo.HashString },
 				TrackerRemove = new int[] { trackerInfo.ID }
 			};
 
