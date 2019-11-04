@@ -2,7 +2,7 @@ Transmission-RPC-API-CSharp
 ===========================
 
 Transmission RPC API C# [![Build Status](https://travis-ci.org/Beatlegger/Transmission.API.RPC.svg?branch=master)](https://travis-ci.org/Beatlegger/Transmission.API.RPC)
-
+[Official documentation of Transmission RPC specs](https://github.com/transmission/transmission/blob/master/extras/rpc-spec.txt) 
 C# implementation of the Transmission RPC API.
 
 | Command              | Not Implemented | Implemented|
@@ -36,12 +36,11 @@ How to use
 Install Nuget Package: `PM> Install-Package Transmission.API.RPC`
 
 ```C#
-//Add using Transmission.API.RPC;
+using Transmission.API.RPC.Entity;
 
-//Create Transsmission.API.RPC.Client (set host, optional session id,optional login and optional pass).
-Client client = new Client("HOST", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
+// URL might look like "schema://host:port/transmission/rpc" for example "https://website.com:9091/transmission/rpc"
+var client = new Client("URL", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
 
-//After initialization, client can call methods:
 var sessionInfo = client.GetSessionInformation();
 var allTorrents = client.TorrentsGetAll(TorrentFields.ALL_FIELDS);
 //<...>
