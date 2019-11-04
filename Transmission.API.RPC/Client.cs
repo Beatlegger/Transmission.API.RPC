@@ -14,7 +14,7 @@ namespace Transmission.API.RPC
 {
     public partial class Client
     {
-		public string Host
+		public string Url
 		{
 			get;
 			private set;
@@ -35,14 +35,19 @@ namespace Transmission.API.RPC
 
 		/// <summary>
 		/// Initialize client
+		/// <example>For example
+		/// <code>
+		///   ... new Transmission.API.RPC.Client("https://website.com:9091/transmission/rpc")
+		///</code>
+		/// </example>
 		/// </summary>
-		/// <param name="host">Host adresse</param>
+		/// <param name="url">URL to Transmission RPC API. Often it looks like schema://host:port/transmission/rpc </param>
 		/// <param name="sessionID">Session ID</param>
 		/// <param name="login">Login</param>
 		/// <param name="password">Password</param>
-		public Client(string host, string sessionID = null, string login = null, string password = null)
+		public Client(string url, string sessionID = null, string login = null, string password = null)
         {
-            this.Host = host;
+            this.Url = url;
             this.SessionID = sessionID;
 
 			if (!String.IsNullOrWhiteSpace(login))
@@ -419,7 +424,7 @@ namespace Transmission.API.RPC
                 byte[] byteArray = Encoding.UTF8.GetBytes(request.ToJson());
 
                 //Prepare http web request
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Url);
 
                 webRequest.ContentType = "application/json-rpc";
                 webRequest.Headers["X-Transmission-Session-Id"] = SessionID;

@@ -385,7 +385,7 @@ namespace Transmission.API.RPC
 				byte[] byteArray = Encoding.UTF8.GetBytes(request.ToJson());
 
 				//Prepare http web request
-				HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Host);
+				HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Url);
 
 				webRequest.ContentType = "application/json-rpc";
 				webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
