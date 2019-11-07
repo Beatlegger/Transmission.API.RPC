@@ -36,41 +36,41 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// if true, don't start the torrent
         /// </summary>
-        public bool Paused { get { return GetValue<bool>("metainfo"); } set { this["paused"] = value; } }
+        public bool Paused { get { return GetValue<bool>("paused"); } set { this["paused"] = value; } }
 
         /// <summary>
         /// maximum number of peers
         /// </summary>
-        public int? PeerLimit { get { return GetValue<int?>("metainfo"); } set { this["peer-limit"] = value; } }
+        public int? PeerLimit { get { return GetValue<int?>("peer-limit"); } set { this["peer-limit"] = value; } }
 
         /// <summary>
         /// Torrent's bandwidth priority
         /// </summary>
-        public int? BandwidthPriority { get { return GetValue<int?>("metainfo"); } set { this["bandwidthPriority"] = value; } }
+        public int? BandwidthPriority { get { return GetValue<int?>("bandwidthPriority"); } set { this["bandwidthPriority"] = value; } }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
-        public int[] FilesWanted { get { return GetValue<int[]>("metainfo"); } set { this["files-wanted"] = value; } }
+        public int[] FilesWanted { get { return GetValue<int[]>("files-wanted"); } set { this["files-wanted"] = value; } }
 
         /// <summary>
         /// Indices of file(s) to download
         /// </summary>
-        public int[] FilesUnwanted { get { return GetValue<int[]>("metainfo"); } set { this["files-unwanted"] = value; } }
+        public int[] FilesUnwanted { get { return GetValue<int[]>("files-unwanted"); } set { this["files-unwanted"] = value; } }
 
         /// <summary>
         /// Indices of high-priority file(s)
         /// </summary>
-        public int[] PriorityHigh { get { return GetValue<int[]>("metainfo"); } set { this["priority-high"] = value; } }
+        public int[] PriorityHigh { get { return GetValue<int[]>("priority-high"); } set { this["priority-high"] = value; } }
 
         /// <summary>
         /// Indices of low-priority file(s)
         /// </summary>
-        public int[] PriorityLow { get { return GetValue<int[]>("metainfo"); } set { this["priority-low"] = value; } }
+        public int[] PriorityLow { get { return GetValue<int[]>("priority-low"); } set { this["priority-low"] = value; } }
 
         /// <summary>
         /// Indices of normal-priority file(s)
         /// </summary>
-        public int[] PriorityNormal { get { return GetValue<int[]>("metainfo"); } set { this["priority-normal"] = value; } }
+        public int[] PriorityNormal { get { return GetValue<int[]>("priority-normal"); } set { this["priority-normal"] = value; } }
     }
 }
