@@ -44,6 +44,6 @@ using Transmission.API.RPC.Entity;
 var client = new Client("URL", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
 
 var sessionInfo = client.GetSessionInformation();
-var allTorrents = client.TorrentsGetAll(TorrentFields.ALL_FIELDS);
+var allTorrents = client.TorrentGet(TorrentFields.ALL_FIELDS);
 //<...>
 ```
