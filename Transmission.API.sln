@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC", "Transmission.API.RPC\Transmission.API.RPC.csproj", "{C0C59A86-4532-4B9E-A495-FE428BFEC827}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmission.API.RPC", "Transmission.API.RPC\Transmission.API.RPC.csproj", "{C0C59A86-4532-4B9E-A495-FE428BFEC827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transmission.API.RPC.Test", "Transmission.API.RPC.Test\Transmission.API.RPC.Test.csproj", "{63ABE095-72A2-436F-A591-BE979A572ECB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Transmission.API.RPC.Test", "Transmission.API.RPC.Test\Transmission.API.RPC.Test.csproj", "{63ABE095-72A2-436F-A591-BE979A572ECB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2F49D84-B8CB-4D4C-91A8-CF8DAEE32686}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {049D099C-0085-4891-9CFE-32B25EA6D573}
 	EndGlobalSection
 EndGlobal

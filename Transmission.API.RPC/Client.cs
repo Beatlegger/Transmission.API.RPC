@@ -12,52 +12,52 @@ using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC
 {
-    public partial class Client
+    public partial class Client : ITransmissionClient, ITransmissionClientAsync
     {
-		public string Url
-		{
-			get;
-			private set;
-		}
-		public string SessionID
-		{
-			get;
-			private set;
-		}
-		public int CurrentTag
-		{
-			get;
-			private set;
-		}
-  
+        public string Url
+        {
+            get;
+            private set;
+        }
+        public string SessionID
+        {
+            get;
+            private set;
+        }
+        public int CurrentTag
+        {
+            get;
+            private set;
+        }
+
         private string _authorization;
         private bool _needAuthorization;
 
-		/// <summary>
-		/// Initialize client
-		/// <example>For example
-		/// <code>
-		///   ... new Transmission.API.RPC.Client("https://website.com:9091/transmission/rpc")
-		///</code>
-		/// </example>
-		/// </summary>
-		/// <param name="url">URL to Transmission RPC API. Often it looks like schema://host:port/transmission/rpc </param>
-		/// <param name="sessionID">Session ID</param>
-		/// <param name="login">Login</param>
-		/// <param name="password">Password</param>
-		public Client(string url, string sessionID = null, string login = null, string password = null)
+        /// <summary>
+        /// Initialize client
+        /// <example>For example
+        /// <code>
+        ///   ... new Transmission.API.RPC.Client("https://website.com:9091/transmission/rpc")
+        ///</code>
+        /// </example>
+        /// </summary>
+        /// <param name="url">URL to Transmission RPC API. Often it looks like schema://host:port/transmission/rpc </param>
+        /// <param name="sessionID">Session ID</param>
+        /// <param name="login">Login</param>
+        /// <param name="password">Password</param>
+        public Client(string url, string sessionID = null, string login = null, string password = null)
         {
             this.Url = url;
             this.SessionID = sessionID;
 
-			if (!String.IsNullOrWhiteSpace(login))
-			{
-				var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
-				var encoded = Convert.ToBase64String(authBytes);
+            if (!String.IsNullOrWhiteSpace(login))
+            {
+                var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
+                var encoded = Convert.ToBase64String(authBytes);
 
-				this._authorization = "Basic " + encoded;
-				this._needAuthorization = true;
-			}
+                this._authorization = "Basic " + encoded;
+                this._needAuthorization = true;
+            }
         }
 
         #region Session methods
@@ -92,7 +92,7 @@ namespace Transmission.API.RPC
             var result = response.Deserialize<Statistic>();
             return result;
         }
-        
+
         /// <summary>
         /// Get information of current session (API: session-get)
         /// </summary>
@@ -184,98 +184,98 @@ namespace Transmission.API.RPC
             var response = SendRequest(request);
         }
 
-		#region Torrent Start
-		/// <summary>
-		/// Start torrents (API: torrent-start)
-		/// </summary>
-		/// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-		public void TorrentStart(object[] ids)
-		{
-			var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
-			var response = SendRequest(request);
-		}
+        #region Torrent Start
+        /// <summary>
+        /// Start torrents (API: torrent-start)
+        /// </summary>
+        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+        public void TorrentStart(object[] ids)
+        {
+            var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
+            var response = SendRequest(request);
+        }
 
-		/// <summary>
-		/// Start recently active torrents (API: torrent-start)
-		/// </summary>
-		public void TorrentStart()
-		{
-			var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", "recently-active" } });
-			var response = SendRequest(request);
-		}
-		#endregion
+        /// <summary>
+        /// Start recently active torrents (API: torrent-start)
+        /// </summary>
+        public void TorrentStart()
+        {
+            var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", "recently-active" } });
+            var response = SendRequest(request);
+        }
+        #endregion
 
-		#region Torrent Start Now
+        #region Torrent Start Now
 
-		/// <summary>
-		/// Start now torrents (API: torrent-start-now)
-		/// </summary>
-		/// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-		public void TorrentStartNow(object[] ids)
+        /// <summary>
+        /// Start now torrents (API: torrent-start-now)
+        /// </summary>
+        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+        public void TorrentStartNow(object[] ids)
         {
             var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", ids } });
             var response = SendRequest(request);
         }
 
-		/// <summary>
-		/// Start now recently active torrents (API: torrent-start-now)
-		/// </summary>
-		public void TorrentStartNow()
-		{
-			var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", "recently-active" } });
-			var response = SendRequest(request);
-		}
-		#endregion
+        /// <summary>
+        /// Start now recently active torrents (API: torrent-start-now)
+        /// </summary>
+        public void TorrentStartNow()
+        {
+            var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", "recently-active" } });
+            var response = SendRequest(request);
+        }
+        #endregion
 
-		#region Torrent Stop
-		/// <summary>
-		/// Stop torrents (API: torrent-stop)
-		/// </summary>
-		/// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-		public void TorrentStop(object[] ids)
+        #region Torrent Stop
+        /// <summary>
+        /// Stop torrents (API: torrent-stop)
+        /// </summary>
+        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+        public void TorrentStop(object[] ids)
         {
             var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", ids } });
             var response = SendRequest(request);
         }
 
-		/// <summary>
-		/// Stop recently active torrents (API: torrent-stop)
-		/// </summary>
-		/// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-		public void TorrentStop()
-		{
-			var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", "recently-active" } });
-			var response = SendRequest(request);
-		}
-		#endregion
+        /// <summary>
+        /// Stop recently active torrents (API: torrent-stop)
+        /// </summary>
+        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+        public void TorrentStop()
+        {
+            var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", "recently-active" } });
+            var response = SendRequest(request);
+        }
+        #endregion
 
-		#region Torrent Verify
-		/// <summary>
-		/// Verify torrents (API: torrent-verify)
-		/// </summary>
-		/// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-		public void TorrentVerify(object[] ids)
+        #region Torrent Verify
+        /// <summary>
+        /// Verify torrents (API: torrent-verify)
+        /// </summary>
+        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+        public void TorrentVerify(object[] ids)
         {
             var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", ids } });
             var response = SendRequest(request);
         }
 
-		/// <summary>
-		/// Verify recently active torrents (API: torrent-verify)
-		/// </summary>
-		/// <param name="ids">Torrents id</param>
-		public void TorrentVerify()
-		{
-			var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", "recently-active" } });
-			var response = SendRequest(request);
-		}
-		#endregion
+        /// <summary>
+        /// Verify recently active torrents (API: torrent-verify)
+        /// </summary>
+        /// <param name="ids">Torrents id</param>
+        public void TorrentVerify()
+        {
+            var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", "recently-active" } });
+            var response = SendRequest(request);
+        }
+        #endregion
 
-		/// <summary>
-		/// Move torrents in queue on top (API: queue-move-top)
-		/// </summary>
-		/// <param name="ids">Torrents id</param>
-		public void TorrentQueueMoveTop(int[] ids)
+        /// <summary>
+        /// Move torrents in queue on top (API: queue-move-top)
+        /// </summary>
+        /// <param name="ids">Torrents id</param>
+        public void TorrentQueueMoveTop(int[] ids)
         {
             var request = new TransmissionRequest("queue-move-top", new Dictionary<string, object> { { "ids", ids } });
             var response = SendRequest(request);
@@ -344,9 +344,9 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("torrent-rename-path", arguments);
             var response = SendRequest(request);
 
-			var result = response.Deserialize<RenameTorrentInfo>();
+            var result = response.Deserialize<RenameTorrentInfo>();
 
-			return result;
+            return result;
         }
 
         //method name not recognized
@@ -429,7 +429,7 @@ namespace Transmission.API.RPC
                 webRequest.ContentType = "application/json-rpc";
                 webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
                 webRequest.Method = "POST";
-                
+
                 if (_needAuthorization)
                     webRequest.Headers["Authorization"] = _authorization;
 
@@ -442,7 +442,7 @@ namespace Transmission.API.RPC
 
                 var responseTask = webRequest.GetResponseAsync();
                 responseTask.WaitAndUnwrapException();
-                
+
                 //Send request and prepare response
                 using (var webResponse = responseTask.Result)
                 {
