@@ -19,7 +19,7 @@ namespace Transmission.API.RPC.Entity
         public int ID { get; set; }
 
         [JsonProperty("addedDate")]
-        public int AddedDate { get; set; }
+        public long AddedDate { get; set; }
 
         [JsonProperty("bandwidthPriority")]
         public int BandwidthPriority { get; set; }
@@ -34,13 +34,13 @@ namespace Transmission.API.RPC.Entity
         public string Creator { get; set; }
 
         [JsonProperty("dateCreated")]
-        public int DateCreated { get; set; }
+        public long DateCreated { get; set; }
 
         [JsonProperty("desiredAvailable")]
         public long DesiredAvailable { get; set; }
 
         [JsonProperty("doneDate")]
-        public int DoneDate { get; set; }
+        public long DoneDate { get; set; }
 
         [JsonProperty("downloadDir")]
         public string DownloadDir { get; set; }
@@ -136,7 +136,7 @@ namespace Transmission.API.RPC.Entity
         public int PieceCount { get; set; }
 
         [JsonProperty("PieceSize")]
-        public int PieceSize { get; set; }
+        public long PieceSize { get; set; }
 
         [JsonProperty("priorities")]
         public int[] Priorities { get; set; }
@@ -175,7 +175,7 @@ namespace Transmission.API.RPC.Entity
         public long SizeWhenDone { get; set; }
 
         [JsonProperty("startDate")]
-        public int StartDate { get; set; }
+        public long StartDate { get; set; }
 
         [JsonProperty("Status")]
         public int Status { get; set; }
