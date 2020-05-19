@@ -27,4 +27,4 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release --no-build
     - name: Publish github
-      run: dotnet nuget push bin/Release/*.nupkg --skip-duplicate --no-symbols true
+      run: dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg --skip-duplicate --no-symbols true
