@@ -1,7 +1,7 @@
-Transmission-RPC-API-CSharp
+Transmission-RPC-API
 ===========================
 
-Transmission RPC API C# [![Build Status](https://travis-ci.org/Beatlegger/Transmission.API.RPC.svg?branch=master)](https://travis-ci.org/Beatlegger/Transmission.API.RPC)
+![.NET Core](https://github.com/Beatlegger/Transmission.API.RPC/workflows/.NET%20Core/badge.svg)
 
 [Official Transmission RPC specs](https://github.com/transmission/transmission/blob/master/extras/rpc-spec.txt) 
 
