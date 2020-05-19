@@ -21,3 +21,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Pack
+      need: Build
+      run: dotnet pack --configuration Release --no-build
+    - name: Publish github
+      need: Pack
+      run: dotnet nuget push "bin/Release/Transmission.API.RPC.2.1.1.nupkg" --source "github"
