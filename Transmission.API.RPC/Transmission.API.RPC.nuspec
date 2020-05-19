@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>Transmission.API.RPC</id>
+        <version>2.1.1</version>
+        <authors>Beatlegger, FatihBAKIR, Andreschort, svonidze</authors>
+        <owners>Beatlegger</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Client for Transmission API</description>
+        <copyright>Copyright 2019</copyright>
+        <tags>Transmission RPC</tags>
+        <repository type="Github" url="http://github.com/Beatlegger/Transmission.API.RPC" />
+        <dependencies>
+            <group targetFramework=".NETStandard2.0">
+                <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+                <dependency id="System.Net.Http" version="4.3.3" exclude="Build,Analyzers" />
+                <dependency id="System.Net.Requests" version="4.3.0" exclude="Build,Analyzers" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Debug\netstandard2.0\*.dll" target="lib\netstandard2.0/"/>
+    </files>
+</package>

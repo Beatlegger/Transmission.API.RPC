@@ -14,6 +14,9 @@ namespace Transmission.API.RPC
 {
     public partial class Client : ITransmissionClient, ITransmissionClientAsync
     {
+        private readonly string _authorization;
+        private readonly bool _needAuthorization;
+
         public string Url
         {
             get;
@@ -29,9 +32,6 @@ namespace Transmission.API.RPC
             get;
             private set;
         }
-
-        private string _authorization;
-        private bool _needAuthorization;
 
         /// <summary>
         /// Initialize client
