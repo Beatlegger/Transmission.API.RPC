@@ -28,3 +28,8 @@ jobs:
       run: dotnet pack --configuration Release --no-build
     - name: Publish github
       run: dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg --skip-duplicate --no-symbols true
+    - name: Publish nuget
+      run: dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg 
+           --api-key ${{secrets.NUGET_KEY}}
+           --source https://api.nuget.org/v3/index.json
+           --skip-duplicate --no-symbols true
