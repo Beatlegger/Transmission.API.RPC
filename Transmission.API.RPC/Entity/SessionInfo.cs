@@ -9,6 +9,9 @@ using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC.Entity
 {
+    /// <summary>
+    /// Session information
+    /// </summary>
     public class SessionInfo
     {
         /// <summary>
@@ -257,6 +260,9 @@ namespace Transmission.API.RPC.Entity
         [JsonProperty("trash-original-torrent-files")]
         public bool? TrashOriginalTorrentFiles { get; set; }
 
+        /// <summary>
+        /// Units
+        /// </summary>
         [JsonProperty("units")]
         public Units Units { get; set; }
 

@@ -91,11 +91,11 @@ namespace Transmission.API.RPC
 			return result;
 		}
 
-		/// <summary>
-		/// Set torrent params (API: torrent-set)
-		/// </summary>
-		/// <param name="torrentSet">New torrent params</param>
-		public async void TorrentSetAsync(TorrentSettings settings)
+        /// <summary>
+        /// Set torrent params (API: torrent-set)
+        /// </summary>
+        /// <param name="settings">Torrent settings</param>
+        public async void TorrentSetAsync(TorrentSettings settings)
 		{
 			var request = new TransmissionRequest("torrent-set", settings);
 			var response = await SendRequestAsync(request);
@@ -123,12 +123,12 @@ namespace Transmission.API.RPC
 			return result;
 		}
 
-		/// <summary>
-		/// Remove torrents
-		/// </summary>
-		/// <param name="ids">Torrents id</param>
-		/// <param name="deleteLocalData">Remove local data</param>
-		public async void TorrentRemoveAsync(int[] ids, bool deleteData = false)
+        /// <summary>
+        /// Remove torrents
+        /// </summary>
+        /// <param name="ids">Torrents id</param>
+        /// <param name="deleteData">Remove data</param>
+        public async void TorrentRemoveAsync(int[] ids, bool deleteData = false)
 		{
 			var arguments = new Dictionary<string, object>();
 
@@ -290,7 +290,7 @@ namespace Transmission.API.RPC
 		/// <summary>
 		/// Rename a file or directory in a torrent (API: torrent-rename-path)
 		/// </summary>
-		/// <param name="ids">The torrent whose path will be renamed</param>
+		/// <param name="id">The torrent whose path will be renamed</param>
 		/// <param name="path">The path to the file or folder that will be renamed</param>
 		/// <param name="name">The file or folder's new name</param>
 		public async Task<RenameTorrentInfo> TorrentRenamePathAsync(int id, string path, string name)

@@ -9,6 +9,9 @@ using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC.Arguments
 {
+    /// <summary>
+    /// Settings
+    /// </summary>
     public class SessionSettings : ArgumentsBase
     {
         /// <summary>
@@ -216,6 +219,9 @@ namespace Transmission.API.RPC.Arguments
         /// </summary>
         public bool? TrashOriginalTorrentFiles { get { return GetValue<bool?>("trash-original-torrent-files"); } set { this["trash-original-torrent-files"] = value; } }
 
+        /// <summary>
+        /// Units
+        /// </summary>
         public Units Units { get { return GetValue<Units>("units"); } set { this["units"] = value; } }
 
         /// <summary>

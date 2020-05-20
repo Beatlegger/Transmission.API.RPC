@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Entity
 {
+    /// <summary>
+    /// Torrent fields
+    /// </summary>
     public sealed class TorrentFields
     {
         private TorrentFields() { }
@@ -345,6 +348,9 @@ namespace Transmission.API.RPC.Entity
         /// </summary>
         public const string WEB_SEEDS_SENDING_TO_US = "webseedsSendingToUs";
 
+        /// <summary>
+        /// All fields
+        /// </summary>
         public static string[] ALL_FIELDS
         {
             get

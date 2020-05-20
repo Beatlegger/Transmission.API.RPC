@@ -8,6 +8,9 @@ using Transmission.API.RPC.Common;
 
 namespace Transmission.API.RPC.Arguments
 {
+    /// <summary>
+    /// Torrent settings
+    /// </summary>
     public class TorrentSettings : ArgumentsBase
     {
         /// <summary>

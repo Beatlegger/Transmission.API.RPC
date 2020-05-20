@@ -18,17 +18,31 @@ namespace Transmission.API.RPC.Common
 		[JsonProperty("method")]
 		public string Method;
 
+        /// <summary>
+        /// Initialize request
+        /// </summary>
+        /// <param name="method">Method name</param>
         public TransmissionRequest(string method)
         {
             this.Method = method;
         }
 
+        /// <summary>
+        /// Initialize request 
+        /// </summary>
+        /// <param name="method">Method name</param>
+        /// <param name="arguments">Arguments</param>
 		public TransmissionRequest(string method, ArgumentsBase arguments)
 		{
 			this.Method = method;
 			this.Arguments = arguments.Data;
 		}
 
+        /// <summary>
+        /// Initialize request 
+        /// </summary>
+        /// <param name="method">Method name</param>
+        /// <param name="arguments">Arguments</param>
         public TransmissionRequest(string method, Dictionary<string, object> arguments)
         {
             this.Method = method;

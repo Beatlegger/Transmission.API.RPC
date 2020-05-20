@@ -12,18 +12,32 @@ using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC
 {
+    /// <summary>
+    /// Transmission client
+    /// </summary>
     public partial class Client : ITransmissionClient, ITransmissionClientAsync
     {
+        /// <summary>
+        /// Url to service
+        /// </summary>
         public string Url
         {
             get;
             private set;
         }
+
+        /// <summary>
+        /// Session ID
+        /// </summary>
         public string SessionID
         {
             get;
             private set;
         }
+
+        /// <summary>
+        /// Current Tag
+        /// </summary>
         public int CurrentTag
         {
             get;
@@ -37,8 +51,8 @@ namespace Transmission.API.RPC
         /// Initialize client
         /// <example>For example
         /// <code>
-        ///   ... new Transmission.API.RPC.Client("https://website.com:9091/transmission/rpc")
-        ///</code>
+        /// new Transmission.API.RPC.Client("https://website.com:9091/transmission/rpc")
+        /// </code>
         /// </example>
         /// </summary>
         /// <param name="url">URL to Transmission RPC API. Often it looks like schema://host:port/transmission/rpc </param>
@@ -139,7 +153,7 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Set torrent params (API: torrent-set)
         /// </summary>
-        /// <param name="torrentSet">New torrent params</param>
+        /// <param name="settings">Torrent settings</param>
         public void TorrentSet(TorrentSettings settings)
         {
             var request = new TransmissionRequest("torrent-set", settings);
@@ -172,7 +186,7 @@ namespace Transmission.API.RPC
         /// Remove torrents (API: torrent-remove)
         /// </summary>
         /// <param name="ids">Torrents id</param>
-        /// <param name="deleteLocalData">Remove local data</param>
+        /// <param name="deleteData">Remove data</param>
         public void TorrentRemove(int[] ids, bool deleteData = false)
         {
             var arguments = new Dictionary<string, object>();
@@ -241,7 +255,6 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Stop recently active torrents (API: torrent-stop)
         /// </summary>
-        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         public void TorrentStop()
         {
             var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", "recently-active" } });
@@ -263,7 +276,6 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Verify recently active torrents (API: torrent-verify)
         /// </summary>
-        /// <param name="ids">Torrents id</param>
         public void TorrentVerify()
         {
             var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", "recently-active" } });
@@ -331,7 +343,7 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Rename a file or directory in a torrent (API: torrent-rename-path)
         /// </summary>
-        /// <param name="ids">The torrent whose path will be renamed</param>
+        /// <param name="id">The torrent whose path will be renamed</param>
         /// <param name="path">The path to the file or folder that will be renamed</param>
         /// <param name="name">The file or folder's new name</param>
 		public RenameTorrentInfo TorrentRenamePath(int id, string path, string name)

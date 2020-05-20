@@ -4,6 +4,9 @@ using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC
 {
+    /// <summary>
+    /// Interface for async transmission client
+    /// </summary>
     public interface ITransmissionClientAsync
     {
 
@@ -90,13 +93,13 @@ namespace Transmission.API.RPC
         /// Remove torrents
         /// </summary>
         /// <param name="ids">Torrents id</param>
-        /// <param name="deleteLocalData">Remove local data</param>
+        /// <param name="deleteData">Remove local data</param>
         void TorrentRemoveAsync(int[] ids, bool deleteData = false);
 
         /// <summary>
         /// Rename a file or directory in a torrent (API: torrent-rename-path)
         /// </summary>
-        /// <param name="ids">The torrent whose path will be renamed</param>
+        /// <param name="id">The torrent whose path will be renamed</param>
         /// <param name="path">The path to the file or folder that will be renamed</param>
         /// <param name="name">The file or folder's new name</param>
         Task<RenameTorrentInfo> TorrentRenamePathAsync(int id, string path, string name);
@@ -104,7 +107,7 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Set torrent params (API: torrent-set)
         /// </summary>
-        /// <param name="torrentSet">New torrent params</param>
+        /// <param name="settings">Torrent settings</param>
         void TorrentSetAsync(TorrentSettings settings);
 
         /// <summary>

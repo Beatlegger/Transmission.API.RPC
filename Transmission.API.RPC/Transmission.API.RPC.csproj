@@ -8,6 +8,14 @@
     <StartupObject />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>D:\Workspace\Github\Transmission.API.RPC\Transmission.API.RPC\bin\Debug\netstandard2.0\Transmission.API.RPC.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>D:\Workspace\Github\Transmission.API.RPC\Transmission.API.RPC\bin\Release\netstandard2.0\Transmission.API.RPC.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
     <Reference Include="System.Collections.Concurrent" />
     <Reference Include="System" />

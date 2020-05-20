@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Common
 {
+    /// <summary>
+    /// Base class for request/response
+    /// </summary>
     public abstract class CommunicateBase
     {
         /// <summary>

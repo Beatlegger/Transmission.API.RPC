@@ -3,10 +3,24 @@ using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC
 {
+    /// <summary>
+    /// Interface for transmission client
+    /// </summary>
     public interface ITransmissionClient
     {
+        /// <summary>
+        /// Current tag
+        /// </summary>
         int CurrentTag { get; }
+
+        /// <summary>
+        /// Session ID
+        /// </summary>
         string SessionID { get; }
+
+        /// <summary>
+        /// Host url
+        /// </summary>
         string Url { get; }
 
         /// <summary>
@@ -92,13 +106,13 @@ namespace Transmission.API.RPC
         /// Remove torrents (API: torrent-remove)
         /// </summary>
         /// <param name="ids">Torrents id</param>
-        /// <param name="deleteLocalData">Remove local data</param>
+        /// <param name="deleteData">Remove local data</param>
         void TorrentRemove(int[] ids, bool deleteData = false);
 
         /// <summary>
         /// Rename a file or directory in a torrent (API: torrent-rename-path)
         /// </summary>
-        /// <param name="ids">The torrent whose path will be renamed</param>
+        /// <param name="id">The torrent whose path will be renamed</param>
         /// <param name="path">The path to the file or folder that will be renamed</param>
         /// <param name="name">The file or folder's new name</param>
         RenameTorrentInfo TorrentRenamePath(int id, string path, string name);
@@ -106,7 +120,7 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Set torrent params (API: torrent-set)
         /// </summary>
-        /// <param name="torrentSet">New torrent params</param>
+        /// <param name="settings">Torrent settings</param>
         void TorrentSet(TorrentSettings settings);
 
         /// <summary>
@@ -142,7 +156,6 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Stop recently active torrents (API: torrent-stop)
         /// </summary>
-        /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         void TorrentStop();
 
         /// <summary>
@@ -154,7 +167,6 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Verify recently active torrents (API: torrent-verify)
         /// </summary>
-        /// <param name="ids">Torrents id</param>
         void TorrentVerify();
 
         /// <summary>
