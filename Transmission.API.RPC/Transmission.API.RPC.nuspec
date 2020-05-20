@@ -9,6 +9,7 @@
         <description>Client for Transmission API</description>
         <copyright>Copyright 2019</copyright>
         <tags>Transmission RPC</tags>
+        <iconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Transmission_Icon.svg/2000px-Transmission_Icon.svg.png</iconUrl>
         <repository type="Github" url="http://github.com/Beatlegger/Transmission.API.RPC" />
         <dependencies>
             <group targetFramework=".NETStandard2.0">
