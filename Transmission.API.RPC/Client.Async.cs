@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -371,68 +372,54 @@ namespace Transmission.API.RPC
 			return result;
 		}
 
-		#endregion
+        #endregion
 
-		private async Task<TransmissionResponse> SendRequestAsync(TransmissionRequest request)
-		{
-			TransmissionResponse result = new TransmissionResponse();
+        private async Task<TransmissionResponse> SendRequestAsync(TransmissionRequest request)
+        {
+            TransmissionResponse result = new TransmissionResponse();
 
-			request.Tag = ++CurrentTag;
+            request.Tag = ++CurrentTag;
 
-			try
-			{
+            //Prepare http web request
+            HttpClient httpClient = new HttpClient();
 
-				byte[] byteArray = Encoding.UTF8.GetBytes(request.ToJson());
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, Url);
+            httpRequest.Headers.Add("X-Transmission-Session-Id", SessionID);
 
-				//Prepare http web request
-				HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Url);
+            if (_needAuthorization)
+                httpRequest.Headers.Add("Authorization", _authorization);
 
-				webRequest.ContentType = "application/json-rpc";
-				webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
-				webRequest.Method = "POST";
+            httpRequest.Content = new StringContent(request.ToJson(), Encoding.UTF8, "application/json-rpc");
 
-				if (_needAuthorization)
-					webRequest.Headers["Authorization"] = _authorization;
+            //Send request and prepare response
+            using (var httpResponse = await httpClient.SendAsync(httpRequest))
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseString = await httpResponse.Content.ReadAsStringAsync();
+                    result = JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
 
-				using (Stream dataStream = await webRequest.GetRequestStreamAsync())
-				{
-					dataStream.Write(byteArray, 0, byteArray.Length);
-				}
+                    if (result.Result != "success")
+                        throw new Exception(result.Result);
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.Conflict)
+                {
+                    if (httpResponse.Headers.Count() > 0)
+                    {
+                        //If session id expired, try get session id and send request
+                        if (httpResponse.Headers.TryGetValues("X-Transmission-Session-Id", out var values))
+                            SessionID = values.First();
+                        else
+                            throw new Exception("Session ID Error");
 
-				//Send request and prepare response
-				using (var webResponse = await webRequest.GetResponseAsync())
-				{
-					using (Stream responseStream = webResponse.GetResponseStream())
-					{
-						var reader = new StreamReader(responseStream, Encoding.UTF8);
-						var responseString = reader.ReadToEnd();
-						result = JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
+                        result = await SendRequestAsync(request);
+                    }
+                }
+                else
+                    throw new HttpRequestException();
+            }
 
-						if (result.Result != "success")
-							throw new Exception(result.Result);
-					}
-				}
-			}
-			catch (WebException ex)
-			{
-				if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Conflict)
-				{
-					if (ex.Response.Headers.Count > 0)
-					{
-						//If session id expiried, try get session id and send request
-						SessionID = ex.Response.Headers["X-Transmission-Session-Id"];
-
-						if (SessionID == null)
-							throw new Exception("Session ID Error");
-
-						result = await SendRequestAsync(request);
-					}
-				}
-				else
-					throw ex;
-			}
-
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }
