@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Transmission.API.RPC.Entity;
-using Newtonsoft.Json.Linq;
-using Transmission.API.RPC.Common;
 using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC
@@ -81,8 +74,7 @@ namespace Transmission.API.RPC
         /// </summary>
         public void CloseSession()
         {
-            var request = new TransmissionRequest("session-close");
-            var response = SendRequest(request);
+            CloseSessionAsync().WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -91,8 +83,7 @@ namespace Transmission.API.RPC
         /// <param name="settings">New session settings</param>
         public void SetSessionSettings(SessionSettings settings)
         {
-            var request = new TransmissionRequest("session-set", settings);
-            var response = SendRequest(request);
+            SetSessionSettingsAsync(settings).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -101,10 +92,9 @@ namespace Transmission.API.RPC
         /// <returns>Session stat</returns>
         public Statistic GetSessionStatistic()
         {
-            var request = new TransmissionRequest("session-stats");
-            var response = SendRequest(request);
-            var result = response.Deserialize<Statistic>();
-            return result;
+            var task = GetSessionStatisticAsync();
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         /// <summary>
@@ -113,10 +103,9 @@ namespace Transmission.API.RPC
         /// <returns>Session information</returns>
         public SessionInfo GetSessionInformation()
         {
-            var request = new TransmissionRequest("session-get");
-            var response = SendRequest(request);
-            var result = response.Deserialize<SessionInfo>();
-            return result;
+            var task = GetSessionInformationAsync();
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         #endregion
@@ -129,25 +118,9 @@ namespace Transmission.API.RPC
         /// <returns>Torrent info (ID, Name and HashString)</returns>
 		public NewTorrentInfo TorrentAdd(NewTorrent torrent)
         {
-            if (String.IsNullOrWhiteSpace(torrent.Metainfo) && String.IsNullOrWhiteSpace(torrent.Filename))
-                throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
-
-            var request = new TransmissionRequest("torrent-add", torrent);
-            var response = SendRequest(request);
-            var jObject = response.Deserialize<JObject>();
-
-            if (jObject == null || jObject.First == null)
-                return null;
-
-            NewTorrentInfo result = null;
-            JToken value = null;
-
-            if (jObject.TryGetValue("torrent-duplicate", out value))
-                result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
-            else if (jObject.TryGetValue("torrent-added", out value))
-                result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
-
-            return result;
+            var task = TorrentAddAsync(torrent);
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         /// <summary>
@@ -156,8 +129,7 @@ namespace Transmission.API.RPC
         /// <param name="settings">Torrent settings</param>
         public void TorrentSet(TorrentSettings settings)
         {
-            var request = new TransmissionRequest("torrent-set", settings);
-            var response = SendRequest(request);
+            TorrentSetAsync(settings).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -168,18 +140,9 @@ namespace Transmission.API.RPC
         /// <returns>Torrents info</returns>
         public TransmissionTorrents TorrentGet(string[] fields, params int[] ids)
         {
-            var arguments = new Dictionary<string, object>();
-            arguments.Add("fields", fields);
-
-            if (ids != null && ids.Length > 0)
-                arguments.Add("ids", ids);
-
-            var request = new TransmissionRequest("torrent-get", arguments);
-
-            var response = SendRequest(request);
-            var result = response.Deserialize<TransmissionTorrents>();
-
-            return result;
+            var task = TorrentGetAsync(fields, ids);
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         /// <summary>
@@ -189,13 +152,7 @@ namespace Transmission.API.RPC
         /// <param name="deleteData">Remove data</param>
         public void TorrentRemove(int[] ids, bool deleteData = false)
         {
-            var arguments = new Dictionary<string, object>();
-
-            arguments.Add("ids", ids);
-            arguments.Add("delete-local-data", deleteData);
-
-            var request = new TransmissionRequest("torrent-remove", arguments);
-            var response = SendRequest(request);
+            TorrentRemoveAsync(ids, deleteData).WaitAndUnwrapException();
         }
 
         #region Torrent Start
@@ -205,8 +162,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         public void TorrentStart(object[] ids)
         {
-            var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentStartAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -214,8 +170,7 @@ namespace Transmission.API.RPC
         /// </summary>
         public void TorrentStart()
         {
-            var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", "recently-active" } });
-            var response = SendRequest(request);
+            TorrentStartAsync().WaitAndUnwrapException();
         }
         #endregion
 
@@ -227,8 +182,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         public void TorrentStartNow(object[] ids)
         {
-            var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentStartNowAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -236,8 +190,7 @@ namespace Transmission.API.RPC
         /// </summary>
         public void TorrentStartNow()
         {
-            var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", "recently-active" } });
-            var response = SendRequest(request);
+            TorrentStartNowAsync().WaitAndUnwrapException();
         }
         #endregion
 
@@ -248,8 +201,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         public void TorrentStop(object[] ids)
         {
-            var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentStopAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -257,8 +209,7 @@ namespace Transmission.API.RPC
         /// </summary>
         public void TorrentStop()
         {
-            var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", "recently-active" } });
-            var response = SendRequest(request);
+            TorrentStopAsync().WaitAndUnwrapException();
         }
         #endregion
 
@@ -269,8 +220,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
         public void TorrentVerify(object[] ids)
         {
-            var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentVerifyAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -278,8 +228,7 @@ namespace Transmission.API.RPC
         /// </summary>
         public void TorrentVerify()
         {
-            var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", "recently-active" } });
-            var response = SendRequest(request);
+            TorrentVerifyAsync().WaitAndUnwrapException();
         }
         #endregion
 
@@ -289,8 +238,7 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrents id</param>
         public void TorrentQueueMoveTop(int[] ids)
         {
-            var request = new TransmissionRequest("queue-move-top", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentQueueMoveTopAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -299,8 +247,7 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentQueueMoveUp(int[] ids)
         {
-            var request = new TransmissionRequest("queue-move-up", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentQueueMoveUpAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -309,8 +256,7 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentQueueMoveDown(int[] ids)
         {
-            var request = new TransmissionRequest("queue-move-down", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentQueueMoveDownAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -319,8 +265,7 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public void TorrentQueueMoveBottom(int[] ids)
         {
-            var request = new TransmissionRequest("queue-move-bottom", new Dictionary<string, object> { { "ids", ids } });
-            var response = SendRequest(request);
+            TorrentQueueMoveBottomAsync(ids).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -331,13 +276,7 @@ namespace Transmission.API.RPC
         /// <param name="move">Move from previous location</param>
         public void TorrentSetLocation(int[] ids, string location, bool move)
         {
-            var arguments = new Dictionary<string, object>();
-            arguments.Add("ids", ids);
-            arguments.Add("location", location);
-            arguments.Add("move", move);
-
-            var request = new TransmissionRequest("torrent-set-location", arguments);
-            var response = SendRequest(request);
+            TorrentSetLocationAsync(ids, location, move).WaitAndUnwrapException();
         }
 
         /// <summary>
@@ -348,17 +287,9 @@ namespace Transmission.API.RPC
         /// <param name="name">The file or folder's new name</param>
 		public RenameTorrentInfo TorrentRenamePath(int id, string path, string name)
         {
-            var arguments = new Dictionary<string, object>();
-            arguments.Add("ids", new int[] { id });
-            arguments.Add("path", path);
-            arguments.Add("name", name);
-
-            var request = new TransmissionRequest("torrent-rename-path", arguments);
-            var response = SendRequest(request);
-
-            var result = response.Deserialize<RenameTorrentInfo>();
-
-            return result;
+            var task = TorrentRenamePathAsync(id, path, name);
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         //method name not recognized
@@ -368,11 +299,7 @@ namespace Transmission.API.RPC
         ///// <param name="ids"></param>
         //public void ReannounceTorrents(object[] ids)
         //{
-        //    var arguments = new Dictionary<string, object>();
-        //    arguments.Add("ids", ids);
-
-        //    var request = new TransmissionRequest("torrent-reannounce", arguments);
-        //    var response = SendRequest(request);
+        //    ReannounceTorrentsAsync(ids).WaitAndUnwrapException();
         //}
 
         #endregion
@@ -384,12 +311,9 @@ namespace Transmission.API.RPC
         /// <returns>Accessible state</returns>
         public bool PortTest()
         {
-            var request = new TransmissionRequest("port-test");
-            var response = SendRequest(request);
-
-            var data = response.Deserialize<JObject>();
-            var result = (bool)data.GetValue("port-is-open");
-            return result;
+            var task = PortTestAsync();
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         /// <summary>
@@ -398,12 +322,9 @@ namespace Transmission.API.RPC
         /// <returns>Blocklist size</returns>
         public int BlocklistUpdate()
         {
-            var request = new TransmissionRequest("blocklist-update");
-            var response = SendRequest(request);
-
-            var data = response.Deserialize<JObject>();
-            var result = (int)data.GetValue("blocklist-size");
-            return result;
+            var task = BlocklistUpdateAsync();
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
 
         /// <summary>
@@ -412,83 +333,10 @@ namespace Transmission.API.RPC
         /// <param name="path">The directory to query</param>
         public long FreeSpace(string path)
         {
-            var arguments = new Dictionary<string, object>();
-            arguments.Add("path", path);
-
-            var request = new TransmissionRequest("free-space", arguments);
-            var response = SendRequest(request);
-
-            var data = response.Deserialize<JObject>();
-            var result = (long)data.GetValue("size-bytes");
-            return result;
+            var task = FreeSpaceAsync(path);
+            task.WaitAndUnwrapException();
+            return task.Result;
         }
         #endregion
-
-        private TransmissionResponse SendRequest(TransmissionRequest request)
-        {
-            TransmissionResponse result = new TransmissionResponse();
-
-            request.Tag = ++CurrentTag;
-
-            try
-            {
-
-                byte[] byteArray = Encoding.UTF8.GetBytes(request.ToJson());
-
-                //Prepare http web request
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Url);
-
-                webRequest.ContentType = "application/json-rpc";
-                webRequest.Headers["X-Transmission-Session-Id"] = SessionID;
-                webRequest.Method = "POST";
-
-                if (_needAuthorization)
-                    webRequest.Headers["Authorization"] = _authorization;
-
-                var requestTask = webRequest.GetRequestStreamAsync();
-                requestTask.WaitAndUnwrapException();
-                using (Stream dataStream = requestTask.Result)
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                }
-
-                var responseTask = webRequest.GetResponseAsync();
-                responseTask.WaitAndUnwrapException();
-
-                //Send request and prepare response
-                using (var webResponse = responseTask.Result)
-                {
-                    using (Stream responseStream = webResponse.GetResponseStream())
-                    {
-                        var reader = new StreamReader(responseStream, Encoding.UTF8);
-                        var responseString = reader.ReadToEnd();
-                        result = JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
-
-                        if (result.Result != "success")
-                            throw new Exception(result.Result);
-                    }
-                }
-            }
-            catch (WebException ex)
-            {
-                if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.Conflict)
-                {
-                    if (ex.Response.Headers.Count > 0)
-                    {
-                        //If session id expiried, try get session id and send request
-                        SessionID = ex.Response.Headers["X-Transmission-Session-Id"];
-
-                        if (SessionID == null)
-                            throw new Exception("Session ID Error");
-
-                        result = SendRequest(request);
-                    }
-                }
-                else
-                    throw ex;
-            }
-
-            return result;
-        }
     }
 }
