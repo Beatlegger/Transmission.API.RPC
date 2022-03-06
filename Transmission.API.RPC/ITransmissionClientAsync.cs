@@ -19,7 +19,7 @@ namespace Transmission.API.RPC
         /// <summary>
         /// Close current session (API: session-close)
         /// </summary>
-        void CloseSessionAsync();
+        Task CloseSessionAsync();
 
         /// <summary>
         /// Get free space is available in a client-specified folder.
@@ -49,7 +49,7 @@ namespace Transmission.API.RPC
         /// Set information to current session (API: session-set)
         /// </summary>
         /// <param name="settings">New session settings</param>
-        void SetSessionSettingsAsync(SessionSettings settings);
+        Task SetSessionSettingsAsync(SessionSettings settings);
 
         /// <summary>
         /// Add torrent (API: torrent-add)
@@ -69,32 +69,32 @@ namespace Transmission.API.RPC
         /// Move torrents to bottom in queue  (API: queue-move-bottom)
         /// </summary>
         /// <param name="ids"></param>
-        void TorrentQueueMoveBottomAsync(int[] ids);
+        Task TorrentQueueMoveBottomAsync(int[] ids);
 
         /// <summary>
         /// Move down torrents in queue (API: queue-move-down)
         /// </summary>
         /// <param name="ids"></param>
-        void TorrentQueueMoveDownAsync(int[] ids);
+        Task TorrentQueueMoveDownAsync(int[] ids);
 
         /// <summary>
         /// Move torrents in queue on top (API: queue-move-top)
         /// </summary>
         /// <param name="ids">Torrents id</param>
-        void TorrentQueueMoveTopAsync(int[] ids);
+        Task TorrentQueueMoveTopAsync(int[] ids);
 
         /// <summary>
         /// Move up torrents in queue (API: queue-move-up)
         /// </summary>
         /// <param name="ids"></param>
-        void TorrentQueueMoveUpAsync(int[] ids);
+        Task TorrentQueueMoveUpAsync(int[] ids);
 
         /// <summary>
         /// Remove torrents
         /// </summary>
         /// <param name="ids">Torrents id</param>
         /// <param name="deleteData">Remove local data</param>
-        void TorrentRemoveAsync(int[] ids, bool deleteData = false);
+        Task TorrentRemoveAsync(int[] ids, bool deleteData = false);
 
         /// <summary>
         /// Rename a file or directory in a torrent (API: torrent-rename-path)
@@ -108,7 +108,7 @@ namespace Transmission.API.RPC
         /// Set torrent params (API: torrent-set)
         /// </summary>
         /// <param name="settings">Torrent settings</param>
-        void TorrentSetAsync(TorrentSettings settings);
+        Task TorrentSetAsync(TorrentSettings settings);
 
         /// <summary>
         /// Set new location for torrents files (API: torrent-set-location)
@@ -116,50 +116,50 @@ namespace Transmission.API.RPC
         /// <param name="ids">Torrent ids</param>
         /// <param name="location">The new torrent location</param>
         /// <param name="move">Move from previous location</param>
-        void TorrentSetLocationAsync(int[] ids, string location, bool move);
+        Task TorrentSetLocationAsync(int[] ids, string location, bool move);
 
         /// <summary>
         /// Start recently active torrents (API: torrent-start)
         /// </summary>
-        void TorrentStartAsync();
+        Task TorrentStartAsync();
 
         /// <summary>
         /// Start torrents (API: torrent-start)
         /// </summary>
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-        void TorrentStartAsync(object[] ids);
+        Task TorrentStartAsync(object[] ids);
 
         /// <summary>
         /// Start now recently active torrents (API: torrent-start-now)
         /// </summary>
-        void TorrentStartNowAsync();
+        Task TorrentStartNowAsync();
 
         /// <summary>
         /// Start now torrents (API: torrent-start-now)
         /// </summary>
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-        void TorrentStartNowAsync(object[] ids);
+        Task TorrentStartNowAsync(object[] ids);
 
         /// <summary>
         /// Stop recently active torrents (API: torrent-stop)
         /// </summary>
-        void TorrentStopAsync();
+        Task TorrentStopAsync();
 
         /// <summary>
         /// Stop torrents (API: torrent-stop)
         /// </summary>
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-        void TorrentStopAsync(object[] ids);
+        Task TorrentStopAsync(object[] ids);
 
         /// <summary>
         /// Verify recently active torrents (API: torrent-verify)
         /// </summary>
-        void TorrentVerifyAsync();
+        Task TorrentVerifyAsync();
 
         /// <summary>
         /// Verify torrents (API: torrent-verify)
         /// </summary>
         /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-        void TorrentVerifyAsync(object[] ids);
+        Task TorrentVerifyAsync(object[] ids);
     }
 }
