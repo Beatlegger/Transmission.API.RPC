@@ -79,6 +79,11 @@ namespace Transmission.API.RPC.Entity
         public const string DOWNLOAD_LIMITED = "downloadLimited";
 
         /// <summary>
+        /// editDate
+        /// </summary>
+        public const string EDIT_DATE = "editDate";
+
+        /// <summary>
         /// error
         /// </summary>
         public const string ERROR = "error";
@@ -97,6 +102,11 @@ namespace Transmission.API.RPC.Entity
         /// etaIdle
         /// </summary>
         public const string ETA_IDLE = "etaIdle";
+
+        /// <summary>
+        /// file-count
+        /// </summary>
+        public const string FILE_COUNT = "file-count";
 
         /// <summary>
         /// files
@@ -147,6 +157,11 @@ namespace Transmission.API.RPC.Entity
         /// isStalled
         /// </summary>
         public const string IS_STALLED = "isStalled";
+
+        /// <summary>
+        /// labels
+        /// </summary>
+        public const string LABELS = "labels";
 
         /// <summary>
         /// leftUntilDone
@@ -209,6 +224,11 @@ namespace Transmission.API.RPC.Entity
         public const string PEERS_SENDING_TO_US = "peersSendingToUs";
 
         /// <summary>
+        /// percentComplete
+        /// </summary>
+        public const string PERCENT_COMPLETE = "percentComplete";
+
+        /// <summary>
         /// percentDone
         /// </summary>
         public const string PERCENT_DONE = "percentDone";
@@ -234,6 +254,11 @@ namespace Transmission.API.RPC.Entity
         public const string PRIORITIES = "priorities";
 
         /// <summary>
+        /// primary-mime-type
+        /// </summary>
+        public const string PRIMARY_MIME_TYPE = "primary-mime-type";
+
+        /// <summary>
         /// queuePosition
         /// </summary>
         public const string QUEUE_POSITION = "queuePosition";
@@ -247,6 +272,11 @@ namespace Transmission.API.RPC.Entity
         /// rateUpload
         /// </summary>
         public const string RATE_UPLOAD = "rateUpload";
+
+        /// <summary>
+        /// recheckProgress
+        /// </summary>
+        public const string RECHECK_PROGRESS = "recheckProgress";
 
         /// <summary>
         /// secondsDownloading
@@ -284,7 +314,7 @@ namespace Transmission.API.RPC.Entity
         public const string SIZE_WHEN_DONE = "sizeWhenDone";
 
         /// <summary>
-        /// seedRatioLimit
+        /// startDate
         /// </summary>
         public const string START_DATE = "startDate";
 
@@ -299,7 +329,12 @@ namespace Transmission.API.RPC.Entity
         public const string TRACKERS = "trackers";
 
         /// <summary>
-        /// seedRatioLimit
+        /// trackerList
+        /// </summary>
+        public const string TRACKER_LIST = "trackerList";
+
+        /// <summary>
+        /// trackerStats
         /// </summary>
         public const string TRACKER_STATS = "trackerStats";
 
@@ -360,68 +395,75 @@ namespace Transmission.API.RPC.Entity
                     #region ALL FIELDS
                     ACTIVITY_DATE,
                     ADDED_DATE,
-                    BANDWIDTH_PRIORITY,         
+                    BANDWIDTH_PRIORITY,
                     COMMENT,
-                    CORRUPT_EVER,         
+                    CORRUPT_EVER,
                     CREATOR,
-                    DATE_CREATED,   
-                    DESIRED_AVAILABLE,        
+                    DATE_CREATED,
+                    DESIRED_AVAILABLE,
                     DONE_DATE,
-                    DOWNLOAD_DIR, 
-                    DOWNLOADED_EVER,  
+                    DOWNLOAD_DIR,
+                    DOWNLOADED_EVER,
                     DOWNLOAD_LIMIT,
                     DOWNLOAD_LIMITED,
+                    EDIT_DATE,
                     ERROR,
-                    ERROR_STRING,    
+                    ERROR_STRING,
                     ETA,
-                    ETA_IDLE,  
+                    ETA_IDLE,
+                    FILE_COUNT,
                     FILES,
                     FILE_STATS,
-                    HASH_STRING,         
-                    HAVE_UNCHECKED,         
-                    HAVE_VALID,   
-                    HONORS_SESSION_LIMITS,      
+                    HASH_STRING,
+                    HAVE_UNCHECKED,
+                    HAVE_VALID,
+                    HONORS_SESSION_LIMITS,
                     ID,
-                    IS_FINISHED,    
-                    IS_PRIVATE, 
-                    IS_STALLED  ,
-                    LEFT_UNTIL_DONE,  
+                    IS_FINISHED,
+                    IS_PRIVATE,
+                    IS_STALLED,
+                    LABELS,
+                    LEFT_UNTIL_DONE,
                     MAGNET_LINK,
-                    MANUAL_ANNOUNCE_TIME, 
+                    MANUAL_ANNOUNCE_TIME,
                     MAX_CONNECTED_PEERS,
                     METADATA_PERCENT_COMPLETE,
                     NAME,
                     PEER_LIMIT,
                     PEERS,
-                    PEERS_CONNECTED,          
+                    PEERS_CONNECTED,
                     PEERS_FROM,
-                    PEERS_GETTING_FROM_US,           
-                    PEERS_SENDING_TO_US,       
-                    PERCENT_DONE,         
+                    PEERS_GETTING_FROM_US,
+                    PEERS_SENDING_TO_US,
+                    PERCENT_COMPLETE,
+                    PERCENT_DONE,
                     PIECES,
-                    PIECE_COUNT,        
-                    PIECE_SIZE,       
+                    PIECE_COUNT,
+                    PIECE_SIZE,
                     PRIORITIES,
-                    QUEUE_POSITION,    
-                    RATE_DOWNLOAD,   
+                    PRIMARY_MIME_TYPE,
+                    QUEUE_POSITION,
+                    RATE_DOWNLOAD,
                     RATE_UPLOAD,
-                    SECONDS_DOWNLOADING,      
-                    SECONDS_SEEDING,  
-                    SEED_IDLE_LIMIT, 
+                    RECHECK_PROGRESS,
+                    SECONDS_DOWNLOADING,
+                    SECONDS_SEEDING,
+                    SEED_IDLE_LIMIT,
                     SEED_IDLE_MODE,
-                    SEED_RATIO_LIMIT,  
-                    SEED_RATIO_MODE, 
-                    SIZE_WHEN_DONE, 
+                    SEED_RATIO_LIMIT,
+                    SEED_RATIO_MODE,
+                    SIZE_WHEN_DONE,
                     START_DATE,
                     STATUS,
                     TRACKERS,
+                    TRACKER_LIST,
                     TRACKER_STATS,
-                    TOTAL_SIZE,  
-                    TORRENT_FILE,    
-                    UPLOADED_EVER,     
-                    UPLOAD_LIMIT,    
-                    UPLOAD_LIMITED,     
-                    UPLOAD_RATIO,     
+                    TOTAL_SIZE,
+                    TORRENT_FILE,
+                    UPLOADED_EVER,
+                    UPLOAD_LIMIT,
+                    UPLOAD_LIMITED,
+                    UPLOAD_RATIO,
                     WANTED,
                     WEB_SEEDS,
                     WEB_SEEDS_SENDING_TO_US,
