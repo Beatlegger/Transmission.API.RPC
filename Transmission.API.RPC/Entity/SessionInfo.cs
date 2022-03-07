@@ -81,6 +81,13 @@ namespace Transmission.API.RPC.Entity
         public string DownloadDirectory { get; set; }
 
         /// <summary>
+        /// Free space in download dir
+        /// </summary>
+        [JsonProperty("download-dir-free-space")]
+        [Obsolete("Obsolete since Transmission 4.0.0. Use the free-space method instead.")]
+        public string DownloadDirectoryFreeSpace { get; set; }
+
+        /// <summary>
         /// Max number of torrents to download at once (see download-queue-enabled)
         /// </summary>
         [JsonProperty("download-queue-size")]
@@ -187,6 +194,12 @@ namespace Transmission.API.RPC.Entity
         /// </summary>
         [JsonProperty("rename-partial-files")]
         public bool? RenamePartialFiles { get; set; }
+
+        /// <summary>
+        /// Session ID
+        /// </summary>
+        [JsonProperty("session-id")]
+        public string SessionID { get; set; }
 
         /// <summary>
         /// Filename of the script to run
