@@ -19,6 +19,12 @@ namespace Transmission.API.RPC.Entity
         public int ID { get; set; }
 
         /// <summary>
+        /// Activity date
+        /// </summary>
+        [JsonProperty("activityDate")]
+        public long ActivityDate { get; set; }
+
+        /// <summary>
         /// Added date
         /// </summary>
         [JsonProperty("addedDate")]
@@ -91,6 +97,12 @@ namespace Transmission.API.RPC.Entity
         public string DownloadLimited { get; set; }
 
         /// <summary>
+        /// Edit date
+        /// </summary>
+        [JsonProperty("editDate")]
+        public long EditDate { get; set; }
+
+        /// <summary>
         /// Error
         /// </summary>
         [JsonProperty("error")]
@@ -99,7 +111,7 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Error string
         /// </summary>
-        [JsonProperty("ErrorString")]
+        [JsonProperty("errorString")]
         public string ErrorString { get; set; }
 
         /// <summary>
@@ -113,6 +125,12 @@ namespace Transmission.API.RPC.Entity
         /// </summary>
         [JsonProperty("etaIdle")]
         public int ETAIdle { get; set; }
+
+        /// <summary>
+        /// File count
+        /// </summary>
+        [JsonProperty("file-count")]
+        public int FileCount { get; set; }
 
         /// <summary>
         /// Files
@@ -133,7 +151,7 @@ namespace Transmission.API.RPC.Entity
         public string HashString { get; set; }
 
         /// <summary>
-        /// Have uncheked
+        /// Have unchecked
         /// </summary>
         [JsonProperty("haveUnchecked")]
         public int HaveUnchecked { get; set; }
@@ -169,6 +187,12 @@ namespace Transmission.API.RPC.Entity
         public bool IsStalled { get; set; }
 
         /// <summary>
+        /// Labels
+        /// </summary>
+        [JsonProperty("labels")]
+        public string[] Labels { get; set; }
+
+        /// <summary>
         /// Left until done
         /// </summary>
         [JsonProperty("leftUntilDone")]
@@ -177,7 +201,7 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Magnet link
         /// </summary>
-        [JsonProperty("MagnetLink")]
+        [JsonProperty("magnetLink")]
         public string MagnetLink { get; set; }
 
         /// <summary>
@@ -229,10 +253,22 @@ namespace Transmission.API.RPC.Entity
         public TransmissionTorrentPeersFrom PeersFrom { get; set; }
 
         /// <summary>
+        /// Peers getting from us
+        /// </summary>
+        [JsonProperty("peersGettingFromUs")]
+        public int PeersGettingFromUs { get; set; }
+
+        /// <summary>
         /// Peers sending to us
         /// </summary>
         [JsonProperty("peersSendingToUs")]
         public int PeersSendingToUs { get; set; }
+
+        /// <summary>
+        /// Percent complete
+        /// </summary>
+        [JsonProperty("percentComplete")]
+        public double PercentComplete { get; set; }
 
         /// <summary>
         /// Percent done
@@ -255,7 +291,7 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Piece size
         /// </summary>
-        [JsonProperty("PieceSize")]
+        [JsonProperty("pieceSize")]
         public long PieceSize { get; set; }
 
         /// <summary>
@@ -263,6 +299,12 @@ namespace Transmission.API.RPC.Entity
         /// </summary>
         [JsonProperty("priorities")]
         public int[] Priorities { get; set; }
+
+        /// <summary>
+        /// Primary mime type
+        /// </summary>
+        [JsonProperty("primary-mime-type")]
+        public string PrimaryMimeType { get; set; }
 
         /// <summary>
         /// Queue position
@@ -309,25 +351,25 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Seed idle mode
         /// </summary>
-        [JsonProperty("SeedIdleMode")]
+        [JsonProperty("seedIdleMode")]
         public int SeedIdleMode { get; set; }
 
         /// <summary>
-        /// Seed ration limit
+        /// Seed ratio limit
         /// </summary>
         [JsonProperty("seedRatioLimit")]
         public double SeedRatioLimit { get; set; }
 
         /// <summary>
-        /// Seed ration mode
+        /// Seed ratio mode
         /// </summary>
-        [JsonProperty("SeedRatioMode")]
+        [JsonProperty("seedRatioMode")]
         public int SeedRatioMode { get; set; }
 
         /// <summary>
         /// Size when done
         /// </summary>
-        [JsonProperty("SizeWhenDone")]
+        [JsonProperty("sizeWhenDone")]
         public long SizeWhenDone { get; set; }
 
         /// <summary>
@@ -339,20 +381,28 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Status
         /// </summary>
-        [JsonProperty("Status")]
+        [JsonProperty("status")]
         public int Status { get; set; }
 
         /// <summary>
         /// Trackers
         /// </summary>
-		[JsonProperty("trackers")]
+        [JsonProperty("trackers")]
         public TransmissionTorrentTrackers[] Trackers { get; set; }
+
+        /// <summary>
+        /// Tracker list:
+        /// A string of announce URLs, one per line, with a blank
+        /// line between tiers
+        /// </summary>
+        [JsonProperty("trackerList")]
+        public string TrackerList { get; set; }
 
         /// <summary>
         /// Tracker stats
         /// </summary>
         [JsonProperty("trackerStats")]
-        TransmissionTorrentTrackerStats[] TrackerStats { get; set; }
+        public TransmissionTorrentTrackerStats[] TrackerStats { get; set; }
 
         /// <summary>
         /// Total size
@@ -367,7 +417,7 @@ namespace Transmission.API.RPC.Entity
         public string TorrentFile { get; set; }
 
         /// <summary>
-        /// Upload ever
+        /// Uploaded ever
         /// </summary>
         [JsonProperty("uploadedEver")]
         public long UploadedEver { get; set; }

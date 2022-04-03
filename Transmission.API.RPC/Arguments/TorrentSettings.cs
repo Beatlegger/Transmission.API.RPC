@@ -86,12 +86,19 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// Strings of announce URLs to add
         /// </summary>
+        [Obsolete("TrackerAdd is obsolete since Transmission 4.0.0, use TrackerList instead.")]
 		public string[] TrackerAdd { get { return GetValue<string[]>("trackerAdd"); } set { this["trackerAdd"] = value; } }
 
         /// <summary>
         /// Ids of trackers to remove
         /// </summary>
+        [Obsolete("TrackerRemove is obsolete since Transmission 4.0.0, use TrackerList instead.")]
 		public int[] TrackerRemove { get { return GetValue<int[]>("trackerRemove"); } set { this["trackerRemove"] = value; } }
+
+        /// <summary>
+        /// String of announce URLs, one per line, with a blank line between tiers
+        /// </summary>
+        public string[] TrackerList { get { return GetValue<string[]>("trackerList"); } set { this["trackerAdd"] = value; } }
 
 		/// <summary>
 		/// Files wanted

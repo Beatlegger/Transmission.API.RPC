@@ -49,11 +49,12 @@ namespace Transmission.API.RPC
 			return result;
 		}
 
-		/// <summary>
-		/// Get information of current session (API: session-get)
-		/// </summary>
-		/// <returns>Session information</returns>
-		public async Task<SessionInfo> GetSessionInformationAsync()
+        /// <summary>
+        /// Get information of current session (API: session-get)
+        /// </summary>
+        /// <returns>Session information</returns>
+        //TODO: support optional "fields" argument
+        public async Task<SessionInfo> GetSessionInformationAsync()
 		{
 			var request = new TransmissionRequest("session-get");
 			var response = await SendRequestAsync(request);
