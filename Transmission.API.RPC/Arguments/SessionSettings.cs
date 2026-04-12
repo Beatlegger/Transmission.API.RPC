@@ -32,7 +32,7 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// True means the scheduled on/off times are used
         /// </summary>
-        public bool? AlternativeSpeedTimeEnabled { get { return GetValue<bool?>("alt-speed-time-enabled"); } set { this["bandwidthPriority"] = value; } }
+        public bool? AlternativeSpeedTimeEnabled { get { return GetValue<bool?>("alt-speed-time-enabled"); } set { this["alt-speed-time-enabled"] = value; } }
 
         /// <summary>
         /// When to turn off alt speeds
@@ -172,7 +172,7 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// The default seed ratio for torrents to use
         /// </summary>
-        public double? SeedRatioLimit { get { return GetValue<int?>("seedRatioLimit"); } set { this["seedRatioLimit"] = value; } }
+        public double? SeedRatioLimit { get { return GetValue<double?>("seedRatioLimit"); } set { this["seedRatioLimit"] = value; } }
 
         /// <summary>
         /// True if seedRatioLimit is honored by default

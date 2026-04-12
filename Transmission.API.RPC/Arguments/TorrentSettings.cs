@@ -98,7 +98,7 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// String of announce URLs, one per line, with a blank line between tiers
         /// </summary>
-        public string[] TrackerList { get { return GetValue<string[]>("trackerList"); } set { this["trackerAdd"] = value; } }
+        public string[] TrackerList { get { return GetValue<string[]>("trackerList"); } set { this["trackerList"] = value; } }
 
 		/// <summary>
 		/// Files wanted
