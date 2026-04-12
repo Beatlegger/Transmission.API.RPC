@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Net.Http;
 using System.Text;
-using Transmission.API.RPC.Entity;
 using Transmission.API.RPC.Arguments;
+using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC
 {
@@ -10,35 +11,36 @@ namespace Transmission.API.RPC
     /// </summary>
     public partial class Client : ITransmissionClient, ITransmissionClientAsync
     {
+        /// <summary>
+        /// Authorization header value for requests
+        /// </summary>
         private readonly string _authorization;
+
+        /// <summary>
+        /// Need authorization for requests
+        /// </summary>
         private readonly bool _needAuthorization;
+
+        //TODO: Temp. https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/http/httpclient-guidelines
+        /// <summary>
+        /// Static HttpClient instance for making HTTP requests
+        /// </summary>
+        private static readonly HttpClient _httpClient = new HttpClient();
 
         /// <summary>
         /// Url to service
         /// </summary>
-        public string Url
-        {
-            get;
-            private set;
-        }
+        public string Url { get; private set; }
 
         /// <summary>
         /// Session ID
         /// </summary>
-        public string SessionID
-        {
-            get;
-            private set;
-        }
-
+        public string SessionID { get; private set; }
+        
         /// <summary>
         /// Current Tag
         /// </summary>
-        public int CurrentTag
-        {
-            get;
-            private set;
-        }
+        public int CurrentTag { get; private set; }
 
         /// <summary>
         /// Initialize client
