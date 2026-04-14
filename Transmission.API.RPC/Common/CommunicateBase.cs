@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Transmission.API.RPC.Common
 {
@@ -12,17 +9,22 @@ namespace Transmission.API.RPC.Common
     /// </summary>
     public abstract class CommunicateBase
     {
+        private static readonly JsonSerializerOptions _indentedOptions = new()
+        {
+            WriteIndented = true
+        };
+
         /// <summary>
         /// Data
         /// </summary>
-        [JsonProperty("arguments")]
-        public Dictionary<string, object> Arguments;
+        [JsonPropertyName("arguments")]
+        public Dictionary<string, object> Arguments { get; set; }
 
         /// <summary>
         /// Number (id)
         /// </summary>
-        [JsonProperty("tag")]
-        public int Tag;
+        [JsonPropertyName("tag")]
+        public int Tag { get; set; }
 
         /// <summary>
         /// Convert to JSON string
@@ -30,7 +32,7 @@ namespace Transmission.API.RPC.Common
         /// <returns></returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonSerializer.Serialize(this, GetType(), _indentedOptions);
         }
 
         /// <summary>
@@ -39,8 +41,8 @@ namespace Transmission.API.RPC.Common
         /// <returns></returns>
         public T Deserialize<T>()
         {
-            var argumentsString = JsonConvert.SerializeObject(this.Arguments);
-            return JsonConvert.DeserializeObject<T>(argumentsString);
+            var argumentsString = JsonSerializer.Serialize(Arguments);
+            return JsonSerializer.Deserialize<T>(argumentsString);
         }
     }
 }

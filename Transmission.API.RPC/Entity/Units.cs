@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,37 +15,37 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Speed units
         /// </summary>
-        [JsonProperty("speed-units")]
+        [JsonPropertyName("speed-units")]
         public string[] SpeedUnits { get; set; }
 
         /// <summary>
         /// Speed bytes
         /// </summary>
-        [JsonProperty("speed-bytes")]
+        [JsonPropertyName("speed-bytes")]
         public int? SpeedBytes { get; set; }
 
         /// <summary>
         /// Size units
         /// </summary>
-        [JsonProperty("size-units")]
+        [JsonPropertyName("size-units")]
         public string[] SizeUnits { get; set; }
 
         /// <summary>
         /// Size bytes
         /// </summary>
-        [JsonProperty("size-bytes")]
+        [JsonPropertyName("size-bytes")]
         public int? SizeBytes { get; set; }
 
         /// <summary>
         /// Memory units
         /// </summary>
-        [JsonProperty("memory-units")]
+        [JsonPropertyName("memory-units")]
         public string[] MemoryUnits { get; set; }
 
         /// <summary>
         /// Memory bytes
         /// </summary>
-        [JsonProperty("memory-bytes")]
+        [JsonPropertyName("memory-bytes")]
         public int? MemoryBytes { get; set; }
     }
 }

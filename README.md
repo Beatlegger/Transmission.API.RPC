@@ -4,9 +4,9 @@ Transmission-RPC-API
 ![.NET Core](https://github.com/Beatlegger/Transmission.API.RPC/workflows/.NET%20Core/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/Transmission.API.RPC)
 
-[Official Transmission RPC specs](https://github.com/transmission/transmission/blob/master/extras/rpc-spec.txt) 
+[Official Transmission RPC specs](https://github.com/transmission/transmission/blob/main/docs/rpc-spec.md) 
 
-C# implementation of the Transmission RPC API.
+C# async client library for the Transmission BitTorrent RPC API. Targets .NET 10.0.
 
 | Command              | Not Implemented | Implemented|
 | -------------------- |:-:|:-:|
@@ -39,12 +39,43 @@ How to use
 Install Nuget Package: `PM> Install-Package Transmission.API.RPC`
 
 ```C#
+using Transmission.API.RPC;
 using Transmission.API.RPC.Entity;
+using Transmission.API.RPC.Arguments;
 
-// URL might look like "schema://host:port/transmission/rpc" for example "https://website.com:9091/transmission/rpc"
-var client = new Client("URL", "PARAM_SESSION_ID", "PARAM_LOGIN", "PARAM_PASS");
+// URL might look like "schema://host:port/transmission/rpc"
+// for example "https://website.com:9091/transmission/rpc"
+var client = new Client("URL", sessionID: "PARAM_SESSION_ID", login: "PARAM_LOGIN", password: "PARAM_PASS");
 
-var sessionInfo = client.GetSessionInformation();
-var allTorrents = client.TorrentGet(TorrentFields.ALL_FIELDS);
-//<...>
+// All methods are async
+var sessionInfo = await client.GetSessionInformationAsync();
+var allTorrents = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+
+// Add torrent from file
+var fileBytes = File.ReadAllBytes("path/to/file.torrent");
+var torrent = new NewTorrent
+{
+    Metainfo = Convert.ToBase64String(fileBytes),
+    Paused = true
+};
+var added = await client.TorrentAddAsync(torrent);
+
+// Add torrent from magnet link
+var magnetTorrent = new NewTorrent
+{
+    Filename = "magnet:?xt=urn:btih:..."
+};
+var magnetAdded = await client.TorrentAddAsync(magnetTorrent);
+
+// Manage torrents
+await client.TorrentStartAsync(new object[] { added.ID });
+await client.TorrentStopAsync(new object[] { added.ID });
+await client.TorrentRemoveAsync(new int[] { added.ID }, deleteData: false);
+```
+
+You can also inject a custom `HttpClient` instance:
+
+```C#
+var httpClient = new HttpClient();
+var client = new Client("URL", httpClient, login: "PARAM_LOGIN", password: "PARAM_PASS");
 ```

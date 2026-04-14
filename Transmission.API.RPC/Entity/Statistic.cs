@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,43 +15,43 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Active torrent count
         /// </summary>
-        [JsonProperty("activeTorrentCount")]
+        [JsonPropertyName("activeTorrentCount")]
         public int ActiveTorrentCount { get; set; }
 
         /// <summary>
         /// Download speed
         /// </summary>
-        [JsonProperty("downloadSpeed")]
+        [JsonPropertyName("downloadSpeed")]
         public int downloadSpeed{ get; set; }
 
         /// <summary>
         /// Paused torrent count
         /// </summary>
-        [JsonProperty("pausedTorrentCount")]
+        [JsonPropertyName("pausedTorrentCount")]
         public int pausedTorrentCount{ get; set; }
 
         /// <summary>
         /// Torrent count
         /// </summary>
-        [JsonProperty("torrentCount")]
+        [JsonPropertyName("torrentCount")]
         public int torrentCount{ get; set; }
 
         /// <summary>
         /// Upload speed
         /// </summary>
-        [JsonProperty("uploadSpeed")]
+        [JsonPropertyName("uploadSpeed")]
         public int uploadSpeed{ get; set; }
    
         /// <summary>
         /// Cumulative stats
         /// </summary>
-        [JsonProperty("cumulative-stats")]
+        [JsonPropertyName("cumulative-stats")]
         public CommonStatistic CumulativeStats { get; set; }
  
         /// <summary>
         /// Current stats
         /// </summary>
-        [JsonProperty("current-stats")]
+        [JsonPropertyName("current-stats")]
         public CommonStatistic CurrentStats { get; set; }
     }
 
@@ -63,31 +63,31 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Uploaded bytes
         /// </summary>
-        [JsonProperty("uploadedBytes")]
+        [JsonPropertyName("uploadedBytes")]
         public double uploadedBytes{ get; set; }
         
         /// <summary>
         /// Downloaded bytes
         /// </summary>
-        [JsonProperty("downloadedBytes")]
+        [JsonPropertyName("downloadedBytes")]
         public double DownloadedBytes{ get; set; }
 
         /// <summary>
         /// Files added
         /// </summary>
-        [JsonProperty("filesAdded")]
+        [JsonPropertyName("filesAdded")]
         public int FilesAdded{ get; set; }
 
         /// <summary>
         /// Session count
         /// </summary>
-        [JsonProperty("SessionCount")]
+        [JsonPropertyName("SessionCount")]
         public int SessionCount{ get; set; }
 
         /// <summary>
         /// Seconds active
         /// </summary>
-        [JsonProperty("SecondsActive")]
+        [JsonPropertyName("SecondsActive")]
         public int SecondsActive{ get; set; }
     }
 }

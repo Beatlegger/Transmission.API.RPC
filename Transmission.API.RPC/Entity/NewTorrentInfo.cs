@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +15,19 @@ namespace Transmission.API.RPC.Entity
 		/// <summary>
 		/// Torrent ID
 		/// </summary>
-		[JsonProperty("id")]
+		[JsonPropertyName("id")]
 		public int ID { get; set; }
 
 		/// <summary>
 		/// Torrent name
 		/// </summary>
-		[JsonProperty("name")]
+		[JsonPropertyName("name")]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Torrent Hash
 		/// </summary>
-		[JsonProperty("hashString")]
+		[JsonPropertyName("hashString")]
 		public string HashString { get; set; }
 
 	}

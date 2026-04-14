@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,379 +15,379 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// The torrent's unique Id.
         /// </summary>
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int ID { get; set; }
 
         /// <summary>
         /// Activity date
         /// </summary>
-        [JsonProperty("activityDate")]
+        [JsonPropertyName("activityDate")]
         public long ActivityDate { get; set; }
 
         /// <summary>
         /// Added date
         /// </summary>
-        [JsonProperty("addedDate")]
+        [JsonPropertyName("addedDate")]
         public long AddedDate { get; set; }
 
         /// <summary>
         /// Torrents bandwidth priority
         /// </summary>
-        [JsonProperty("bandwidthPriority")]
+        [JsonPropertyName("bandwidthPriority")]
         public int BandwidthPriority { get; set; }
 
         /// <summary>
         /// Comment
         /// </summary>
-        [JsonProperty("comment")]
+        [JsonPropertyName("comment")]
         public string Comment { get; set; }
 
         /// <summary>
         /// Corrupt ever
         /// </summary>
-        [JsonProperty("corruptEver")]
+        [JsonPropertyName("corruptEver")]
         public int CorruptEver { get; set; }
 
         /// <summary>
         /// Creator
         /// </summary>
-        [JsonProperty("creator")]
+        [JsonPropertyName("creator")]
         public string Creator { get; set; }
 
         /// <summary>
         /// Date created
         /// </summary>
-        [JsonProperty("dateCreated")]
+        [JsonPropertyName("dateCreated")]
         public long DateCreated { get; set; }
 
         /// <summary>
         /// Desired available
         /// </summary>
-        [JsonProperty("desiredAvailable")]
+        [JsonPropertyName("desiredAvailable")]
         public long DesiredAvailable { get; set; }
 
         /// <summary>
         /// Done date
         /// </summary>
-        [JsonProperty("doneDate")]
+        [JsonPropertyName("doneDate")]
         public long DoneDate { get; set; }
 
         /// <summary>
         /// Download directory
         /// </summary>
-        [JsonProperty("downloadDir")]
+        [JsonPropertyName("downloadDir")]
         public string DownloadDir { get; set; }
 
         /// <summary>
-        /// Downloaded ever
+        /// Downloaded ever (bytes)
         /// </summary>
-        [JsonProperty("downloadedEver")]
-        public string DownloadedEver { get; set; }
+        [JsonPropertyName("downloadedEver")]
+        public long DownloadedEver { get; set; }
 
         /// <summary>
-        /// Download limit
+        /// Maximum download speed (KBps)
         /// </summary>
-        [JsonProperty("downloadLimit")]
-        public string DownloadLimit { get; set; }
+        [JsonPropertyName("downloadLimit")]
+        public int DownloadLimit { get; set; }
 
         /// <summary>
-        /// Download limited
+        /// True if download limit is honored
         /// </summary>
-        [JsonProperty("downloadLimited")]
-        public string DownloadLimited { get; set; }
+        [JsonPropertyName("downloadLimited")]
+        public bool DownloadLimited { get; set; }
 
         /// <summary>
         /// Edit date
         /// </summary>
-        [JsonProperty("editDate")]
+        [JsonPropertyName("editDate")]
         public long EditDate { get; set; }
 
         /// <summary>
         /// Error
         /// </summary>
-        [JsonProperty("error")]
+        [JsonPropertyName("error")]
         public int Error { get; set; }
 
         /// <summary>
         /// Error string
         /// </summary>
-        [JsonProperty("errorString")]
+        [JsonPropertyName("errorString")]
         public string ErrorString { get; set; }
 
         /// <summary>
         /// ETA
         /// </summary>
-        [JsonProperty("eta")]
+        [JsonPropertyName("eta")]
         public int ETA { get; set; }
 
         /// <summary>
         /// ETA idle
         /// </summary>
-        [JsonProperty("etaIdle")]
+        [JsonPropertyName("etaIdle")]
         public int ETAIdle { get; set; }
 
         /// <summary>
         /// File count
         /// </summary>
-        [JsonProperty("file-count")]
+        [JsonPropertyName("file-count")]
         public int FileCount { get; set; }
 
         /// <summary>
         /// Files
         /// </summary>
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public TransmissionTorrentFiles[] Files { get; set; }
 
         /// <summary>
         /// File stats
         /// </summary>
-        [JsonProperty("fileStats")]
+        [JsonPropertyName("fileStats")]
         public TransmissionTorrentFileStats[] FileStats { get; set; }
 
         /// <summary>
         /// Hash string
         /// </summary>
-        [JsonProperty("hashString")]
+        [JsonPropertyName("hashString")]
         public string HashString { get; set; }
 
         /// <summary>
         /// Have unchecked
         /// </summary>
-        [JsonProperty("haveUnchecked")]
+        [JsonPropertyName("haveUnchecked")]
         public int HaveUnchecked { get; set; }
 
         /// <summary>
         /// Have valid
         /// </summary>
-        [JsonProperty("haveValid")]
+        [JsonPropertyName("haveValid")]
         public long HaveValid { get; set; }
 
         /// <summary>
         /// Honors session limits
         /// </summary>
-        [JsonProperty("honorsSessionLimits")]
+        [JsonPropertyName("honorsSessionLimits")]
         public bool HonorsSessionLimits { get; set; }
 
         /// <summary>
         /// Is finished
         /// </summary>
-        [JsonProperty("isFinished")]
+        [JsonPropertyName("isFinished")]
         public bool IsFinished { get; set; }
 
         /// <summary>
         /// Is private
         /// </summary>
-        [JsonProperty("isPrivate")]
+        [JsonPropertyName("isPrivate")]
         public bool IsPrivate { get; set; }
 
         /// <summary>
         /// Is stalled
         /// </summary>
-        [JsonProperty("isStalled")]
+        [JsonPropertyName("isStalled")]
         public bool IsStalled { get; set; }
 
         /// <summary>
         /// Labels
         /// </summary>
-        [JsonProperty("labels")]
+        [JsonPropertyName("labels")]
         public string[] Labels { get; set; }
 
         /// <summary>
         /// Left until done
         /// </summary>
-        [JsonProperty("leftUntilDone")]
+        [JsonPropertyName("leftUntilDone")]
         public long LeftUntilDone { get; set; }
 
         /// <summary>
         /// Magnet link
         /// </summary>
-        [JsonProperty("magnetLink")]
+        [JsonPropertyName("magnetLink")]
         public string MagnetLink { get; set; }
 
         /// <summary>
         /// Manual announce time
         /// </summary>
-        [JsonProperty("manualAnnounceTime")]
+        [JsonPropertyName("manualAnnounceTime")]
         public int ManualAnnounceTime { get; set; }
 
         /// <summary>
         /// Max connected peers
         /// </summary>
-        [JsonProperty("maxConnectedPeers")]
+        [JsonPropertyName("maxConnectedPeers")]
         public int MaxConnectedPeers { get; set; }
 
         /// <summary>
         /// Metadata percent complete
         /// </summary>
-        [JsonProperty("metadataPercentComplete")]
+        [JsonPropertyName("metadataPercentComplete")]
         public double MetadataPercentComplete { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Peer limit
         /// </summary>
-        [JsonProperty("peer-limit")]
+        [JsonPropertyName("peer-limit")]
         public int PeerLimit { get; set; }
 
         /// <summary>
         /// Peers
         /// </summary>
-        [JsonProperty("peers")]
+        [JsonPropertyName("peers")]
         public TransmissionTorrentPeers[] Peers { get; set; }
 
         /// <summary>
         /// Peers connected
         /// </summary>
-        [JsonProperty("peersConnected")]
+        [JsonPropertyName("peersConnected")]
         public int PeersConnected { get; set; }
 
         /// <summary>
         /// Peers from
         /// </summary>
-        [JsonProperty("peersFrom")]
+        [JsonPropertyName("peersFrom")]
         public TransmissionTorrentPeersFrom PeersFrom { get; set; }
 
         /// <summary>
         /// Peers getting from us
         /// </summary>
-        [JsonProperty("peersGettingFromUs")]
+        [JsonPropertyName("peersGettingFromUs")]
         public int PeersGettingFromUs { get; set; }
 
         /// <summary>
         /// Peers sending to us
         /// </summary>
-        [JsonProperty("peersSendingToUs")]
+        [JsonPropertyName("peersSendingToUs")]
         public int PeersSendingToUs { get; set; }
 
         /// <summary>
         /// Percent complete
         /// </summary>
-        [JsonProperty("percentComplete")]
+        [JsonPropertyName("percentComplete")]
         public double PercentComplete { get; set; }
 
         /// <summary>
         /// Percent done
         /// </summary>
-        [JsonProperty("percentDone")]
+        [JsonPropertyName("percentDone")]
         public double PercentDone { get; set; }
 
         /// <summary>
         /// Pieces
         /// </summary>
-        [JsonProperty("pieces")]
+        [JsonPropertyName("pieces")]
         public string Pieces { get; set; }
 
         /// <summary>
         /// Piece count
         /// </summary>
-        [JsonProperty("pieceCount")]
+        [JsonPropertyName("pieceCount")]
         public int PieceCount { get; set; }
 
         /// <summary>
         /// Piece size
         /// </summary>
-        [JsonProperty("pieceSize")]
+        [JsonPropertyName("pieceSize")]
         public long PieceSize { get; set; }
 
         /// <summary>
         /// Priorities
         /// </summary>
-        [JsonProperty("priorities")]
+        [JsonPropertyName("priorities")]
         public int[] Priorities { get; set; }
 
         /// <summary>
         /// Primary mime type
         /// </summary>
-        [JsonProperty("primary-mime-type")]
+        [JsonPropertyName("primary-mime-type")]
         public string PrimaryMimeType { get; set; }
 
         /// <summary>
         /// Queue position
         /// </summary>
-        [JsonProperty("queuePosition")]
+        [JsonPropertyName("queuePosition")]
         public int QueuePosition { get; set; }
 
         /// <summary>
         /// Rate download
         /// </summary>
-        [JsonProperty("rateDownload")]
+        [JsonPropertyName("rateDownload")]
         public int RateDownload { get; set; }
 
         /// <summary>
         /// Rate upload
         /// </summary>
-        [JsonProperty("rateUpload")]
+        [JsonPropertyName("rateUpload")]
         public int RateUpload { get; set; }
 
         /// <summary>
         /// Recheck progress
         /// </summary>
-        [JsonProperty("recheckProgress")]
+        [JsonPropertyName("recheckProgress")]
         public double RecheckProgress { get; set; }
 
         /// <summary>
         /// Seconds downloading
         /// </summary>
-        [JsonProperty("secondsDownloading")]
+        [JsonPropertyName("secondsDownloading")]
         public int SecondsDownloading { get; set; }
 
         /// <summary>
         /// Seconds seeding
         /// </summary>
-        [JsonProperty("secondsSeeding")]
+        [JsonPropertyName("secondsSeeding")]
         public int SecondsSeeding { get; set; }
 
         /// <summary>
         /// Seed idle limit
         /// </summary>
-        [JsonProperty("seedIdleLimit")]
+        [JsonPropertyName("seedIdleLimit")]
         public int SeedIdleLimit { get; set; }
 
         /// <summary>
         /// Seed idle mode
         /// </summary>
-        [JsonProperty("seedIdleMode")]
+        [JsonPropertyName("seedIdleMode")]
         public int SeedIdleMode { get; set; }
 
         /// <summary>
         /// Seed ratio limit
         /// </summary>
-        [JsonProperty("seedRatioLimit")]
+        [JsonPropertyName("seedRatioLimit")]
         public double SeedRatioLimit { get; set; }
 
         /// <summary>
         /// Seed ratio mode
         /// </summary>
-        [JsonProperty("seedRatioMode")]
+        [JsonPropertyName("seedRatioMode")]
         public int SeedRatioMode { get; set; }
 
         /// <summary>
         /// Size when done
         /// </summary>
-        [JsonProperty("sizeWhenDone")]
+        [JsonPropertyName("sizeWhenDone")]
         public long SizeWhenDone { get; set; }
 
         /// <summary>
         /// Start date
         /// </summary>
-        [JsonProperty("startDate")]
+        [JsonPropertyName("startDate")]
         public long StartDate { get; set; }
 
         /// <summary>
         /// Status
         /// </summary>
-        [JsonProperty("status")]
+        [JsonPropertyName("status")]
         public int Status { get; set; }
 
         /// <summary>
         /// Trackers
         /// </summary>
-        [JsonProperty("trackers")]
+        [JsonPropertyName("trackers")]
         public TransmissionTorrentTrackers[] Trackers { get; set; }
 
         /// <summary>
@@ -395,67 +395,68 @@ namespace Transmission.API.RPC.Entity
         /// A string of announce URLs, one per line, with a blank
         /// line between tiers
         /// </summary>
-        [JsonProperty("trackerList")]
+        [JsonPropertyName("trackerList")]
         public string TrackerList { get; set; }
 
         /// <summary>
         /// Tracker stats
         /// </summary>
-        [JsonProperty("trackerStats")]
+        [JsonPropertyName("trackerStats")]
         public TransmissionTorrentTrackerStats[] TrackerStats { get; set; }
 
         /// <summary>
         /// Total size
         /// </summary>
-        [JsonProperty("totalSize")]
+        [JsonPropertyName("totalSize")]
         public long TotalSize { get; set; }
 
         /// <summary>
         /// Torrent file
         /// </summary>
-        [JsonProperty("torrentFile")]
+        [JsonPropertyName("torrentFile")]
         public string TorrentFile { get; set; }
 
         /// <summary>
         /// Uploaded ever
         /// </summary>
-        [JsonProperty("uploadedEver")]
+        [JsonPropertyName("uploadedEver")]
         public long UploadedEver { get; set; }
 
         /// <summary>
         /// Upload limit
         /// </summary>
-        [JsonProperty("uploadLimit")]
+        [JsonPropertyName("uploadLimit")]
         public int UploadLimit { get; set; }
 
         /// <summary>
         /// Upload limited
         /// </summary>
-        [JsonProperty("uploadLimited")]
+        [JsonPropertyName("uploadLimited")]
         public bool UploadLimited { get; set; }
 
         /// <summary>
         /// Upload ratio
         /// </summary>
-        [JsonProperty("uploadRatio")]
+        [JsonPropertyName("uploadRatio")]
         public double uploadRatio { get; set; }
 
         /// <summary>
-        /// Wanted
+        /// Wanted — array of 0/1 per file (Transmission 4.0.2+ restored this
+        /// representation from the 3.x bespoke API; treat as boolean).
         /// </summary>
-        [JsonProperty("wanted")]
-        public bool[] Wanted { get; set; }
+        [JsonPropertyName("wanted")]
+        public int[] Wanted { get; set; }
 
         /// <summary>
         /// Web seeds
         /// </summary>
-        [JsonProperty("webseeds")]
+        [JsonPropertyName("webseeds")]
         public string[] Webseeds { get; set; }
 
         /// <summary>
         /// Web seeds sending to us
         /// </summary>
-        [JsonProperty("webseedsSendingToUs")]
+        [JsonPropertyName("webseedsSendingToUs")]
         public int WebseedsSendingToUs { get; set; }
     }
 
@@ -467,19 +468,19 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Bytes completed
         /// </summary>
-        [JsonProperty("bytesCompleted")]
+        [JsonPropertyName("bytesCompleted")]
         public double BytesCompleted{ get; set; }
 
         /// <summary>
         /// Length
         /// </summary>
-        [JsonProperty("length")]
+        [JsonPropertyName("length")]
         public double Length{ get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name{ get; set; }
     }
 
@@ -491,19 +492,19 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Bytes completed
         /// </summary>
-        [JsonProperty("bytesCompleted")]
+        [JsonPropertyName("bytesCompleted")]
         public double BytesCompleted{ get; set; }
 
         /// <summary>
         /// Wanted
         /// </summary>
-        [JsonProperty("wanted")]
+        [JsonPropertyName("wanted")]
         public bool Wanted{ get; set; }
 
         /// <summary>
         /// Priority
         /// </summary>
-        [JsonProperty("priority")]
+        [JsonPropertyName("priority")]
         public int Priority{ get; set; }
     }
 
@@ -515,91 +516,91 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Address
         /// </summary>
-        [JsonProperty("address")]
+        [JsonPropertyName("address")]
         public string Address{ get; set; }
 
         /// <summary>
         /// Client name
         /// </summary>
-        [JsonProperty("clientName")]
+        [JsonPropertyName("clientName")]
         public string ClientName{ get; set; }
 
         /// <summary>
         /// Client is choked
         /// </summary>
-        [JsonProperty("clientIsChoked")]
+        [JsonPropertyName("clientIsChoked")]
         public bool ClientIsChoked{ get; set; }
 
         /// <summary>
         /// Client is interested
         /// </summary>
-        [JsonProperty("clientIsInterested")]
+        [JsonPropertyName("clientIsInterested")]
         public bool ClientIsInterested{ get; set; }
 
         /// <summary>
         /// Flag string
         /// </summary>
-        [JsonProperty("flagStr")]
+        [JsonPropertyName("flagStr")]
         public string FlagStr{ get; set; }
 
         /// <summary>
         /// Is downloading from
         /// </summary>
-        [JsonProperty("isDownloadingFrom")]
+        [JsonPropertyName("isDownloadingFrom")]
         public bool IsDownloadingFrom{ get; set; }
 
         /// <summary>
         /// Is encrypted
         /// </summary>
-        [JsonProperty("isEncrypted")]
+        [JsonPropertyName("isEncrypted")]
         public bool IsEncrypted{ get; set; }
 
         /// <summary>
         /// Is uploading to
         /// </summary>
-        [JsonProperty("isUploadingTo")]
+        [JsonPropertyName("isUploadingTo")]
         public bool IsUploadingTo{ get; set; }
 
         /// <summary>
         /// Is UTP
         /// </summary>
-        [JsonProperty("isUTP")]
+        [JsonPropertyName("isUTP")]
         public bool IsUTP{ get; set; }
 
         /// <summary>
         /// Peer is choked
         /// </summary>
-        [JsonProperty("peerIsChoked")]
+        [JsonPropertyName("peerIsChoked")]
         public bool PeerIsChoked{ get; set; }
 
         /// <summary>
         /// Peer is interested
         /// </summary>
-        [JsonProperty("peerIsInterested")]
+        [JsonPropertyName("peerIsInterested")]
         public bool PeerIsInterested{ get; set; }
 
         /// <summary>
         /// Port
         /// </summary>
-        [JsonProperty("port")]
+        [JsonPropertyName("port")]
         public int Port{ get; set; }
 
         /// <summary>
         /// Progress
         /// </summary>
-        [JsonProperty("progress")]
+        [JsonPropertyName("progress")]
         public double Progress{ get; set; }
 
         /// <summary>
         /// Rate to client
         /// </summary>
-        [JsonProperty("rateToClient")]
+        [JsonPropertyName("rateToClient")]
         public int RateToClient{ get; set; }
 
         /// <summary>
         /// Rate to peer
         /// </summary>
-        [JsonProperty("rateToPeer")]
+        [JsonPropertyName("rateToPeer")]
         public int RateToPeer{ get; set; }
     }
 
@@ -611,37 +612,37 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// From DHT
         /// </summary>
-        [JsonProperty("fromDht")]
+        [JsonPropertyName("fromDht")]
         public int FromDHT{ get; set; }
 
         /// <summary>
         /// From incoming
         /// </summary>
-        [JsonProperty("fromIncoming")]
+        [JsonPropertyName("fromIncoming")]
         public int FromIncoming{ get; set; }
 
         /// <summary>
         /// From LPD
         /// </summary>
-        [JsonProperty("fromLpd")]
+        [JsonPropertyName("fromLpd")]
         public int FromLPD{ get; set; }
 
         /// <summary>
         /// From LTEP
         /// </summary>
-        [JsonProperty("fromLtep")]
+        [JsonPropertyName("fromLtep")]
         public int FromLTEP{ get; set; }
 
         /// <summary>
         /// From PEX
         /// </summary>
-        [JsonProperty("fromPex")]
+        [JsonPropertyName("fromPex")]
         public int FromPEX{ get; set; }
 
         /// <summary>
         /// From tracker
         /// </summary>
-        [JsonProperty("fromTracker")]
+        [JsonPropertyName("fromTracker")]
         public int FromTracker{ get; set; }
     }
 
@@ -653,25 +654,25 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Announce
         /// </summary>
-        [JsonProperty("announce")]
+        [JsonPropertyName("announce")]
         public string announce{ get; set; }
 
         /// <summary>
         /// Id
         /// </summary>
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int ID{ get; set; }
 
         /// <summary>
         /// Scrape
         /// </summary>
-        [JsonProperty("scrape")]
+        [JsonPropertyName("scrape")]
         public string Scrape{ get; set; }
 
         /// <summary>
         /// Tier
         /// </summary>
-        [JsonProperty("tier")]
+        [JsonPropertyName("tier")]
         public int Tier{ get; set; }
     }
 
@@ -683,157 +684,157 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Announce
         /// </summary>
-        [JsonProperty("announce")]
+        [JsonPropertyName("announce")]
         public string announce{ get; set; }
 
         /// <summary>
         /// Announce state
         /// </summary>
-        [JsonProperty("announceState")]
+        [JsonPropertyName("announceState")]
         public int AnnounceState{ get; set; }
 
         /// <summary>
         /// Download count
         /// </summary>
-        [JsonProperty("downloadCount")]
+        [JsonPropertyName("downloadCount")]
         public int DownloadCount{ get; set; }
 
         /// <summary>
         /// Has announced
         /// </summary>
-        [JsonProperty("hasAnnounced")]
+        [JsonPropertyName("hasAnnounced")]
         public bool HasAnnounced{ get; set; }
 
         /// <summary>
         /// Has scraped
         /// </summary>
-        [JsonProperty("hasScraped")]
+        [JsonPropertyName("hasScraped")]
         public bool HasScraped{ get; set; }
 
         /// <summary>
         /// Host
         /// </summary>
-        [JsonProperty("host")]
+        [JsonPropertyName("host")]
         public string Host{ get; set; }
 
         /// <summary>
         /// Is backup
         /// </summary>
-        [JsonProperty("isBackup")]
+        [JsonPropertyName("isBackup")]
         public bool IsBackup{ get; set; }
 
         /// <summary>
         /// Last announce peer count
         /// </summary>
-        [JsonProperty("lastAnnouncePeerCount")]
+        [JsonPropertyName("lastAnnouncePeerCount")]
         public int LastAnnouncePeerCount{ get; set; }
 
         /// <summary>
         /// Id
         /// </summary>
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int ID{ get; set; }
 
         /// <summary>
         /// Last announce result 
         /// </summary>
-        [JsonProperty("lastAnnounceResult")]
+        [JsonPropertyName("lastAnnounceResult")]
         public string LastAnnounceResult{ get; set; }
 
         /// <summary>
         /// Last announce succeeded
         /// </summary>
-        [JsonProperty("lastAnnounceSucceeded")]
+        [JsonPropertyName("lastAnnounceSucceeded")]
         public bool LastAnnounceSucceeded{ get; set; }
 
         /// <summary>
         /// Last announce start time
         /// </summary>
-        [JsonProperty("lastAnnounceStartTime")]
+        [JsonPropertyName("lastAnnounceStartTime")]
         public int LastAnnounceStartTime{ get; set; }
 
         /// <summary>
         /// Last scrape result
         /// </summary>
-        [JsonProperty("lastScrapeResult")]
+        [JsonPropertyName("lastScrapeResult")]
         public string LastScrapeResult{ get; set; }
 
         /// <summary>
         /// Last announce timed out
         /// </summary>
-        [JsonProperty("lastAnnounceTimedOut")]
+        [JsonPropertyName("lastAnnounceTimedOut")]
         public bool LastAnnounceTimedOut{ get; set; }
 
         /// <summary>
         /// Last announce time
         /// </summary>
-        [JsonProperty("lastAnnounceTime")]
+        [JsonPropertyName("lastAnnounceTime")]
         public int LastAnnounceTime{ get; set; }
 
         /// <summary>
         /// Last scrape scceeded
         /// </summary>
-        [JsonProperty("lastScrapeSucceeded")]
+        [JsonPropertyName("lastScrapeSucceeded")]
         public bool LastScrapeSucceeded{ get; set; }
 
         /// <summary>
         /// Last scrape start time
         /// </summary>
-        [JsonProperty("lastScrapeStartTime")]
+        [JsonPropertyName("lastScrapeStartTime")]
         public int LastScrapeStartTime{ get; set; }
 
         /// <summary>
         /// Last scrape timed out
         /// </summary>
-        [JsonProperty("lastScrapeTimedOut")]
+        [JsonPropertyName("lastScrapeTimedOut")]
         public bool LastScrapeTimedOut{ get; set; }
 
         /// <summary>
         /// Last scrape time
         /// </summary>
-        [JsonProperty("lastScrapeTime")]
+        [JsonPropertyName("lastScrapeTime")]
         public int LastScrapeTime{ get; set; }
 
         /// <summary>
         /// Scrape
         /// </summary>
-        [JsonProperty("scrape")]
+        [JsonPropertyName("scrape")]
         public string Scrape{ get; set; }
 
         /// <summary>
         /// Tier
         /// </summary>
-        [JsonProperty("tier")]
+        [JsonPropertyName("tier")]
         public int Tier{ get; set; }
 
         /// <summary>
         /// Leecher count
         /// </summary>
-        [JsonProperty("leecherCount")]
+        [JsonPropertyName("leecherCount")]
         public int LeecherCount{ get; set; }
 
         /// <summary>
         /// Next announce time
         /// </summary>
-        [JsonProperty("nextAnnounceTime")]
+        [JsonPropertyName("nextAnnounceTime")]
         public int NextAnnounceTime{ get; set; }
 
         /// <summary>
         /// Next scrape time
         /// </summary>
-        [JsonProperty("nextScrapeTime")]
+        [JsonPropertyName("nextScrapeTime")]
         public int NextScrapeTime{ get; set; }
 
         /// <summary>
         /// Scrape state
         /// </summary>
-        [JsonProperty("scrapeState")]
+        [JsonPropertyName("scrapeState")]
         public int ScrapeState{ get; set; }
 
         /// <summary>
         /// Seeder count
         /// </summary>
-        [JsonProperty("seederCount")]
+        [JsonPropertyName("seederCount")]
         public int SeederCount{ get; set; }
     }
 
@@ -845,13 +846,13 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// Array of torrents
         /// </summary>
-        [JsonProperty("torrents")]
+        [JsonPropertyName("torrents")]
         public TorrentInfo[] Torrents{ get; set; }
 
         /// <summary>
         /// Array of torrent-id numbers of recently-removed torrents
         /// </summary>
-        [JsonProperty("removed")]
+        [JsonPropertyName("removed")]
         public TorrentInfo[] Removed{ get; set; }
     }
 }

@@ -18,14 +18,4 @@
     <DocumentationFile>D:\Workspace\Github\Transmission.API.RPC\Transmission.API.RPC\bin\Release\netstandard2.0\Transmission.API.RPC.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' != 'netstandard2.0' ">
-    <Reference Include="System.Collections.Concurrent" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-  </ItemGroup>
-
 </Project>

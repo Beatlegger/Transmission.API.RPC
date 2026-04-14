@@ -1,22 +1,18 @@
-﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Transmission.API.RPC.Common
 {
 	/// <summary>
-	/// Transmission request 
+	/// Transmission request
 	/// </summary>
 	public class TransmissionRequest : CommunicateBase
 	{
 		/// <summary>
 		/// Name of the method to invoke
 		/// </summary>
-		[JsonProperty("method")]
-		public string Method;
+		[JsonPropertyName("method")]
+		public string Method { get; set; }
 
         /// <summary>
         /// Initialize request
@@ -28,7 +24,7 @@ namespace Transmission.API.RPC.Common
         }
 
         /// <summary>
-        /// Initialize request 
+        /// Initialize request
         /// </summary>
         /// <param name="method">Method name</param>
         /// <param name="arguments">Arguments</param>
@@ -39,7 +35,7 @@ namespace Transmission.API.RPC.Common
 		}
 
         /// <summary>
-        /// Initialize request 
+        /// Initialize request
         /// </summary>
         /// <param name="method">Method name</param>
         /// <param name="arguments">Arguments</param>

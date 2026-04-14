@@ -1,160 +1,363 @@
-﻿using Transmission.API.RPC.Entity;
+using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Transmission.API.RPC.Entity;
 using Transmission.API.RPC.Arguments;
 
 namespace Transmission.API.RPC.Test
 {
     /// <summary>
-    /// Tests
+    /// Shared fixture that ensures a test torrent exists for the duration of the test class.
     /// </summary>
-    public class MethodsTest
+    public class TransmissionFixture : IAsyncLifetime
     {
         const string FILE_PATH = "./Data/ubuntu-10.04.4-server-amd64.iso.torrent";
         const string HOST = "http://localhost:9091/transmission/rpc";
-        const string SESSION_ID = "";
 
-        Client client = new Client(HOST, SESSION_ID);
+        public Client Client { get; }
+        public int TorrentId { get; private set; }
+        public string TorrentHashString { get; private set; }
 
-        #region Torrent Test
+        public TransmissionFixture()
+        {
+            // Use Client's default HttpClient (zero pooled-connection lifetime).
+            // Transmission closes keep-alive connections aggressively — especially
+            // after session-close — so a persistent pool would hand out stale
+            // sockets that fail with HttpIOException: ResponseEnded, or return
+            // empty query results tied to an invalidated server-side session.
+            Client = new Client(HOST);
+        }
 
-        [Fact]
-        public void AddTorrent_Test()
+        public async Task InitializeAsync()
         {
             if (!File.Exists(FILE_PATH))
-                throw new Exception("Torrent file not found");
+                throw new FileNotFoundException("Torrent file not found", FILE_PATH);
 
-            var fstream = File.OpenRead(FILE_PATH);
+            using var fstream = File.OpenRead(FILE_PATH);
             byte[] filebytes = new byte[fstream.Length];
             fstream.ReadExactly(filebytes, 0, Convert.ToInt32(fstream.Length));
-            
-			string encodedData = Convert.ToBase64String(filebytes);
-
-			//The path relative to the server (priority than the metadata)
-			//string filename = "/DataVolume/shares/Public/Transmission/torrents/ubuntu-10.04.4-server-amd64.iso.torrent";
+            string encodedData = Convert.ToBase64String(filebytes);
 
             var torrent = new NewTorrent
             {
-				//Filename = filename,
                 Metainfo = encodedData,
                 Paused = true
             };
 
-            var newTorrentInfo = client.TorrentAdd(torrent);
-			
-			Assert.NotNull(newTorrentInfo);
-			Assert.True(newTorrentInfo.ID != 0);
+            var info = await Client.TorrentAddAsync(torrent);
+            TorrentId = info.ID;
+            TorrentHashString = info.HashString;
         }
 
-        [Fact]
-        public void AddTorrent_Magnet_Test()
+        public async Task DisposeAsync()
         {
-            var torrent = new NewTorrent
+            try
             {
-                Filename = "magnet:?xt=urn:btih:9e241c218299b1d813275e066f94dbe05bc25e53&dn=Rick.and.Morty.S03E03.720p.HDTV.x264-BATV%5Bettv%5D&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
-                Paused = false
-            };
+                await Client.TorrentRemoveAsync(new int[] { TorrentId }, deleteData: true);
+            }
+            catch
+            {
+                // Best-effort cleanup
+            }
+        }
+    }
 
-            var newTorrentInfo = client.TorrentAdd(torrent);
+    [CollectionDefinition("Integration", DisableParallelization = true)]
+    public class IntegrationCollection : ICollectionFixture<TransmissionFixture> { }
 
-            Assert.NotNull(newTorrentInfo);
-            Assert.True(newTorrentInfo.ID != 0);
+    /// <summary>
+    /// Integration tests — require a running Transmission daemon at localhost:9091.
+    /// </summary>
+    [Collection("Integration")]
+    public class MethodsTest
+    {
+        private readonly TransmissionFixture _fixture;
+        private Client Client => _fixture.Client;
+
+        public MethodsTest(TransmissionFixture fixture)
+        {
+            _fixture = fixture;
+        }
+
+        #region Torrent Tests
+
+        [Fact]
+        public void AddTorrent_Test()
+        {
+            Assert.True(_fixture.TorrentId != 0);
+            Assert.NotNull(_fixture.TorrentHashString);
         }
 
         [Fact]
-		public void GetTorrentInfo_Test()
-		{
-			var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
+        public async Task GetTorrentInfo_Test()
+        {
+            var torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
 
-			Assert.NotNull(torrentsInfo);
-			Assert.NotNull(torrentsInfo.Torrents);
-			Assert.True(torrentsInfo.Torrents.Any());
-		}
-
-		[Fact]
-		public void SetTorrentSettings_Test()
-		{
-			var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
-			var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
-			Assert.NotNull(torrentInfo);
-
-			var trackerInfo = torrentInfo.Trackers.FirstOrDefault();
-			Assert.NotNull(trackerInfo);
-            var trackerCount = torrentInfo.Trackers.Length;
-			TorrentSettings settings = new TorrentSettings()
-			{
-				IDs = new object[] { torrentInfo.HashString },
-				TrackerRemove = new int[] { trackerInfo.ID }
-			};
-
-			client.TorrentSet(settings);
-
-			torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS, torrentInfo.ID);
-			torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
-
-			Assert.False(trackerCount == torrentInfo.Trackers.Length);
-		}
+            Assert.NotNull(torrentsInfo);
+            Assert.NotNull(torrentsInfo.Torrents);
+            Assert.NotEmpty(torrentsInfo.Torrents);
+        }
 
         [Fact]
-        public void RenamePathTorrent_Test()
+        public async Task GetTorrentById_Test()
         {
-            var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
+            var torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS, _fixture.TorrentId);
+
+            Assert.NotNull(torrentsInfo);
+            Assert.NotEmpty(torrentsInfo.Torrents);
+            Assert.Equal(_fixture.TorrentId, torrentsInfo.Torrents[0].ID);
+        }
+
+        [Fact]
+        public async Task SetTorrentSettings_Test()
+        {
+            var torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS, _fixture.TorrentId);
             var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
             Assert.NotNull(torrentInfo);
 
-            var result = client.TorrentRenamePath(torrentInfo.ID, torrentInfo.Files[0].Name, "test_" + torrentInfo.Files[0].Name);
+            var trackerInfo = torrentInfo.Trackers.FirstOrDefault();
+            Assert.NotNull(trackerInfo);
+            var trackerCount = torrentInfo.Trackers.Length;
 
-            Assert.NotNull(result);
-            Assert.True(result.ID != 0);
+            TorrentSettings settings = new TorrentSettings()
+            {
+                IDs = new object[] { torrentInfo.HashString },
+                TrackerRemove = new int[] { trackerInfo.ID }
+            };
+
+            await Client.TorrentSetAsync(settings);
+
+            torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS, torrentInfo.ID);
+            torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+
+            Assert.NotEqual(trackerCount, torrentInfo.Trackers.Length);
         }
 
         [Fact]
-		public void RemoveTorrent_Test()
-		{
-			var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
-			var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
-			Assert.NotNull(torrentInfo);
+        public async Task RenamePathTorrent_Test()
+        {
+            var torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS, _fixture.TorrentId);
+            var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+            Assert.NotNull(torrentInfo);
 
-			client.TorrentRemove(new int[] { torrentInfo.ID });
+            var originalName = torrentInfo.Files[0].Name;
+            var newName = "test_" + originalName;
 
-			torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
+            var result = await Client.TorrentRenamePathAsync(torrentInfo.ID, originalName, newName);
+            Assert.NotNull(result);
+            Assert.True(result.ID != 0);
 
-			Assert.False(torrentsInfo.Torrents.Any(t => t.ID == torrentInfo.ID));
-		}
+            // Restore original name
+            await Client.TorrentRenamePathAsync(torrentInfo.ID, newName, originalName);
+        }
+
+        [Fact]
+        public async Task RemoveTorrent_Test()
+        {
+            // Add a distinct torrent via a random-hash magnet link so we don't
+            // collide with the fixture torrent (Transmission would otherwise
+            // return torrent-duplicate with the fixture's ID, and removing it
+            // would corrupt state for the rest of the test class).
+            var randomHash = Convert.ToHexString(System.Security.Cryptography.RandomNumberGenerator.GetBytes(20));
+            var torrent = new NewTorrent
+            {
+                Filename = $"magnet:?xt=urn:btih:{randomHash}&dn=removal-test",
+                Paused = true
+            };
+
+            var addedTorrent = await Client.TorrentAddAsync(torrent);
+            Assert.NotNull(addedTorrent);
+            Assert.NotEqual(_fixture.TorrentId, addedTorrent.ID);
+
+            await Client.TorrentRemoveAsync(new int[] { addedTorrent.ID });
+
+            var torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+            Assert.DoesNotContain(torrentsInfo.Torrents, t => t.ID == addedTorrent.ID);
+        }
 
         #endregion
 
-        #region Session Test
+        #region Session Tests
 
-		[Fact]
-		public void SessionGetTest()
-		{
-			var info = client.GetSessionInformation();
-			Assert.NotNull(info);
-			Assert.NotNull(info.Version);
-		}
-		
-		[Fact]
-        public void ChangeSessionTest()
+        [Fact]
+        public async Task SessionGet_Test()
         {
-            //Get current session information
-            var sessionInformation = client.GetSessionInformation();
+            var info = await Client.GetSessionInformationAsync();
+            Assert.NotNull(info);
+            Assert.NotNull(info.Version);
+        }
 
-			//Save old speed limit up
-			var oldSpeedLimit = sessionInformation.SpeedLimitUp;
+        [Fact]
+        public async Task ChangeSession_Test()
+        {
+            var sessionInformation = await Client.GetSessionInformationAsync();
+            var oldSpeedLimit = sessionInformation.SpeedLimitUp;
 
-            //Set new session settings
-			client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = 100 });
+            await Client.SetSessionSettingsAsync(new SessionSettings() { SpeedLimitUp = 100 });
 
-            //Get new session information
-            var newSessionInformation = client.GetSessionInformation();
+            var newSessionInformation = await Client.GetSessionInformationAsync();
+            Assert.Equal(100, newSessionInformation.SpeedLimitUp);
 
-			//Check new speed limit
-			Assert.Equal(newSessionInformation.SpeedLimitUp, 100);
-            
-			//Restore speed limit
-            newSessionInformation.SpeedLimitUp = oldSpeedLimit;
+            // Restore original value
+            await Client.SetSessionSettingsAsync(new SessionSettings() { SpeedLimitUp = oldSpeedLimit });
+        }
 
-            //Set new session settinhs
-            client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = oldSpeedLimit });
+        [Fact]
+        public async Task GetSessionStatistic_Test()
+        {
+            var stats = await Client.GetSessionStatisticAsync();
+            Assert.NotNull(stats);
+            Assert.True(stats.ActiveTorrentCount >= 0);
+            Assert.True(stats.downloadSpeed >= 0);
+            Assert.True(stats.uploadSpeed >= 0);
+        }
+
+        [Fact]
+        public async Task BlocklistUpdate_Test()
+        {
+            const string validBlocklistUrl =
+                "http://list.iblocklist.com/?list=bt_level1&fileformat=p2p&archiveformat=gz";
+
+            var sessionInfo = await Client.GetSessionInformationAsync();
+            var originalUrl = sessionInfo.BlocklistURL;
+            var originalEnabled = sessionInfo.BlocklistEnabled;
+
+            try
+            {
+                await Client.SetSessionSettingsAsync(new SessionSettings
+                {
+                    BlocklistURL = validBlocklistUrl,
+                    BlocklistEnabled = true
+                });
+
+                var result = await Client.BlocklistUpdateAsync();
+                Assert.True(result >= 0);
+            }
+            finally
+            {
+                await Client.SetSessionSettingsAsync(new SessionSettings
+                {
+                    BlocklistURL = originalUrl,
+                    BlocklistEnabled = originalEnabled
+                });
+            }
+        }
+
+        [Fact]
+        public async Task FreeSpace_Test()
+        {
+            var result = await Client.FreeSpaceAsync("/");
+            Assert.True(result >= 0);
+        }
+
+        [Fact]
+        public async Task PortTest_Test()
+        {
+            var result = await Client.PortTestAsync();
+            Assert.IsType<bool>(result);
+        }
+
+        // NOTE: session-close is intentionally not covered here. Empirically on
+        // Transmission 4.1.1 the RPC does not shut down the daemon, but it DOES
+        // invalidate server-side session state in a way that makes subsequent
+        // torrent-get-by-id queries in the same shared fixture sporadically
+        // return empty results. Running it in this collection corrupts every
+        // test that executes afterwards. A unit-test project (with a mocked
+        // HttpMessageHandler) is the right home for verifying that
+        // CloseSessionAsync sends the session-close RPC.
+
+        #endregion
+
+        #region Queue Tests
+
+        [Fact]
+        public async Task TorrentQueueMoveBottom_Test()
+        {
+            await Client.TorrentQueueMoveBottomAsync(new int[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentQueueMoveDown_Test()
+        {
+            await Client.TorrentQueueMoveDownAsync(new int[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentQueueMoveTop_Test()
+        {
+            await Client.TorrentQueueMoveTopAsync(new int[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentQueueMoveUp_Test()
+        {
+            await Client.TorrentQueueMoveUpAsync(new int[] { _fixture.TorrentId });
+        }
+
+        #endregion
+
+        #region Torrent Management Tests
+
+        [Fact]
+        public async Task TorrentSetLocation_Test()
+        {
+            // Transmission requires an absolute path; reuse current download-dir
+            // with move=false so nothing is actually relocated.
+            var sessionInfo = await Client.GetSessionInformationAsync();
+            await Client.TorrentSetLocationAsync(
+                new int[] { _fixture.TorrentId },
+                sessionInfo.DownloadDirectory,
+                false);
+        }
+
+        [Fact]
+        public async Task TorrentStart_Test()
+        {
+            await Client.TorrentStartAsync(new object[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentStartNow_Test()
+        {
+            await Client.TorrentStartNowAsync(new object[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentStop_Test()
+        {
+            await Client.TorrentStopAsync(new object[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentVerify_Test()
+        {
+            await Client.TorrentVerifyAsync(new object[] { _fixture.TorrentId });
+        }
+
+        [Fact]
+        public async Task TorrentStartAll_Test()
+        {
+            await Client.TorrentStartAsync();
+        }
+
+        [Fact]
+        public async Task TorrentStartNowAll_Test()
+        {
+            await Client.TorrentStartNowAsync();
+        }
+
+        [Fact]
+        public async Task TorrentStopAll_Test()
+        {
+            await Client.TorrentStopAsync();
+        }
+
+        [Fact]
+        public async Task TorrentVerifyAll_Test()
+        {
+            await Client.TorrentVerifyAsync();
         }
 
         #endregion
