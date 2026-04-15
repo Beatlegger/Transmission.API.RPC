@@ -18,7 +18,7 @@ namespace Transmission.API.RPC.Test
 
         public Client Client { get; }
         public int TorrentId { get; private set; }
-        public string TorrentHashString { get; private set; }
+        public string? TorrentHashString { get; private set; }
 
         public TransmissionFixture()
         {
@@ -132,7 +132,7 @@ namespace Transmission.API.RPC.Test
             torrentsInfo = await Client.TorrentGetAsync(TorrentFields.ALL_FIELDS, torrentInfo.ID);
             torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
 
-            Assert.NotEqual(trackerCount, torrentInfo.Trackers.Length);
+            Assert.NotEqual(trackerCount, torrentInfo?.Trackers.Length);
         }
 
         [Fact]

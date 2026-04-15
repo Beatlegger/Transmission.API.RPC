@@ -1,21 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0</TargetFrameworks>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <ApplicationIcon />
-        <OutputType>Library</OutputType>
-        <StartupObject />
-        <NuspecFile>Transmission.API.RPC.nuspec</NuspecFile>
-        <PackageIcon>https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Transmission_Icon.svg/2000px-Transmission_Icon.svg.png</PackageIcon>
+        <TargetFramework>net10.0</TargetFramework>
+
+        <!-- NuGet package metadata -->
+        <PackageId>Transmission.API.RPC</PackageId>
+        <Version>4.0.0</Version>
+        <Authors>Beatlegger, FatihBAKIR, Andreschort, svonidze</Authors>
+        <Company>Beatlegger</Company>
+        <Description>Async client for Transmission BitTorrent RPC API. Targets .NET 10.</Description>
+        <PackageTags>Transmission;RPC;BitTorrent;Torrent</PackageTags>
+        <Copyright>Copyright © 2026</Copyright>
+
+        <RepositoryUrl>https://github.com/Beatlegger/Transmission.API.RPC</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageProjectUrl>https://github.com/Beatlegger/Transmission.API.RPC</PackageProjectUrl>
+        <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+        <!-- Build quality -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+        <!-- Source Link -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <Deterministic>true</Deterministic>
     </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>D:\Workspace\Github\Transmission.API.RPC\Transmission.API.RPC\bin\Debug\netstandard2.0\Transmission.API.RPC.xml</DocumentationFile>
-  </PropertyGroup>
+    <ItemGroup>
+        <None Include="README.nuget.md" Pack="true" PackagePath="\" />
+        <None Include="icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>D:\Workspace\Github\Transmission.API.RPC\Transmission.API.RPC\bin\Release\netstandard2.0\Transmission.API.RPC.xml</DocumentationFile>
-  </PropertyGroup>
 
 </Project>

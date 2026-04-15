@@ -1,33 +1,51 @@
-name: .NET Core
+name: Publish NuGet
 
 on:
   push:
-    branches: [ master ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (e.g. 4.0.0). Leave empty to use csproj default.'
+        required: false
+        default: ''
 
 jobs:
-  build:
-
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-        source-url: https://nuget.pkg.github.com/beatlegger/index.json
-      env: 
-        NUGET_AUTH_TOKEN: ${{secrets.PCKG_PUBLISH}}
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Pack
-      run: dotnet pack --configuration Release --no-build
-    - name: Publish github
-      run: dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg --skip-duplicate --no-symbols true
-    - name: Publish nuget
-      run: dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg 
-           --api-key ${{secrets.NUGET_KEY}}
-           --source https://api.nuget.org/v3/index.json
-           --skip-duplicate --no-symbols true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "value=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          elif [[ -n "${{ github.event.inputs.version }}" ]]; then
+            echo "value=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Restore
+        run: dotnet restore Transmission.API.RPC/Transmission.API.RPC.csproj
+
+      - name: Build
+        run: dotnet build Transmission.API.RPC/Transmission.API.RPC.csproj -c Release --no-restore ${{ steps.version.outputs.value && format('-p:Version={0}', steps.version.outputs.value) || '' }}
+
+      - name: Pack
+        run: dotnet pack Transmission.API.RPC/Transmission.API.RPC.csproj -c Release --no-build ${{ steps.version.outputs.value && format('-p:Version={0}', steps.version.outputs.value) || '' }}
+
+      - name: Push to nuget.org
+        run: >
+          dotnet nuget push Transmission.API.RPC/bin/Release/*.nupkg
+          --api-key ${{ secrets.NUGET_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
