@@ -19,17 +19,6 @@ namespace Transmission.API.RPC
     public partial class Client : ITransmissionClient
     {
         /// <summary>
-        /// Provides default JSON serialization options with case-insensitive property name matching.
-        /// </summary>
-        /// <remarks>These options configure the JSON serializer to ignore case when matching property
-        /// names during serialization and deserialization. This can improve compatibility when working with JSON data
-        /// that may use different casing conventions.</remarks>
-        private static readonly JsonSerializerOptions _jsonOptions = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        /// <summary>
         /// Authorization header value for requests
         /// </summary>
         private readonly string _authorization;
@@ -192,7 +181,7 @@ namespace Transmission.API.RPC
         {
             var request = new TransmissionRequest("session-stats");
             var response = await SendRequestAsync(request);
-            var result = response.Deserialize<Statistic>();
+            var result = response.Deserialize(TransmissionJsonArgumentsContext.Default.Statistic);
             return result;
         }
 
@@ -205,7 +194,7 @@ namespace Transmission.API.RPC
         {
             var request = new TransmissionRequest("session-get");
             var response = await SendRequestAsync(request);
-            var result = response.Deserialize<SessionInfo>();
+            var result = response.Deserialize(TransmissionJsonArgumentsContext.Default.SessionInfo);
             return result;
         }
 
@@ -228,16 +217,16 @@ namespace Transmission.API.RPC
             if (response.Arguments == null)
                 return null;
 
-            var json = JsonSerializer.Serialize(response.Arguments);
+            var json = JsonSerializer.Serialize(response.Arguments, TransmissionJsonArgumentsContext.Default.DictionaryStringObject);
             using var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
 
             NewTorrentInfo result = null;
 
             if (root.TryGetProperty("torrent-duplicate", out var dupValue))
-                result = JsonSerializer.Deserialize<NewTorrentInfo>(dupValue.GetRawText());
+                result = JsonSerializer.Deserialize(dupValue.GetRawText(), TransmissionJsonArgumentsContext.Default.NewTorrentInfo);
             else if (root.TryGetProperty("torrent-added", out var addValue))
-                result = JsonSerializer.Deserialize<NewTorrentInfo>(addValue.GetRawText());
+                result = JsonSerializer.Deserialize(addValue.GetRawText(), TransmissionJsonArgumentsContext.Default.NewTorrentInfo);
 
             return result;
         }
@@ -269,7 +258,7 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("torrent-get", arguments);
 
             var response = await SendRequestAsync(request);
-            var result = response.Deserialize<TransmissionTorrents>();
+            var result = response.Deserialize(TransmissionJsonArgumentsContext.Default.TransmissionTorrents);
 
             return result;
         }
@@ -454,7 +443,7 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("torrent-rename-path", arguments);
             var response = await SendRequestAsync(request);
 
-            var result = response.Deserialize<RenameTorrentInfo>();
+            var result = response.Deserialize(TransmissionJsonArgumentsContext.Default.RenameTorrentInfo);
 
             return result;
         }
@@ -472,7 +461,7 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("port-test");
             var response = await SendRequestAsync(request);
 
-            var json = JsonSerializer.Serialize(response.Arguments);
+            var json = JsonSerializer.Serialize(response.Arguments, TransmissionJsonArgumentsContext.Default.DictionaryStringObject);
             using var doc = JsonDocument.Parse(json);
             return doc.RootElement.GetProperty("port-is-open").GetBoolean();
         }
@@ -486,7 +475,7 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("blocklist-update");
             var response = await SendRequestAsync(request);
 
-            var json = JsonSerializer.Serialize(response.Arguments);
+            var json = JsonSerializer.Serialize(response.Arguments, TransmissionJsonArgumentsContext.Default.DictionaryStringObject);
             using var doc = JsonDocument.Parse(json);
             return doc.RootElement.GetProperty("blocklist-size").GetInt32();
         }
@@ -503,7 +492,7 @@ namespace Transmission.API.RPC
             var request = new TransmissionRequest("free-space", arguments);
             var response = await SendRequestAsync(request);
 
-            var json = JsonSerializer.Serialize(response.Arguments);
+            var json = JsonSerializer.Serialize(response.Arguments, TransmissionJsonArgumentsContext.Default.DictionaryStringObject);
             using var doc = JsonDocument.Parse(json);
             return doc.RootElement.GetProperty("size-bytes").GetInt64();
         }
@@ -547,14 +536,14 @@ namespace Transmission.API.RPC
                         if (_needAuthorization)
                             httpRequest.Headers.Add("Authorization", _authorization);
 
-                        httpRequest.Content = new StringContent(request.ToJson(), Encoding.UTF8, "application/json-rpc");
+                        httpRequest.Content = new StringContent(request.ToRpcJson(), Encoding.UTF8, "application/json-rpc");
 
                         using (var httpResponse = await _httpClient.SendAsync(httpRequest))
                         {
                             if (httpResponse.IsSuccessStatusCode)
                             {
                                 var responseString = await httpResponse.Content.ReadAsStringAsync();
-                                var result = JsonSerializer.Deserialize<TransmissionResponse>(responseString, _jsonOptions);
+                                var result = JsonSerializer.Deserialize(responseString, TransmissionJsonResponseContext.Default.TransmissionResponse);
 
                                 if (result.Result != "success")
                                     throw new Exception(result.Result);
