@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Transmission.API.RPC.Common
@@ -18,9 +19,14 @@ namespace Transmission.API.RPC.Common
         /// Initialize request
         /// </summary>
         /// <param name="method">Method name</param>
-        public TransmissionRequest(string method)
+		public TransmissionRequest(string method)
+		{
+			this.Method = method;
+		}
+
+        internal string ToRpcJson()
         {
-            this.Method = method;
+            return JsonSerializer.Serialize(this, TransmissionJsonWriteContext.Default.TransmissionRequest);
         }
 
         /// <summary>
